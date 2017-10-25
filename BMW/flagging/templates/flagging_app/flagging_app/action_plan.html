@@ -1,0 +1,139 @@
+
+<div class="container-fluid" >
+    <div class="row">
+        <div class="col-sm-12 ">
+<div class="clearfix bg_wht FlaggingFilterForm">
+
+	<div class="form-inline pad-10">
+    	<div class="form-group">
+    		
+        	<input type="search" class="form-control" id="search" placeholder="Search RO #" value="{{ roNumber}}">
+  		</div>
+        <div class="form-group">
+        	<button type="submit" id="searchB" class="btn btn-link"><i class="fa fa-search fa-lg text_grey"></i></button>
+  		</div>
+        {% include "flagging_app/partial/ro_details.html"%}		
+  		
+	</div>
+</div></div></div>
+<div class="clear pad-15"></div>
+<div class="container-fluid" id="printable">	
+    <!-- <div class="row">
+    	<div class="col-sm-6"><h4 class="mt-0">Month, Day, Year</h4></div>
+        <div class="col-sm-6 text-right">
+        	2012 BMW X3 &nbsp; Engine Type: 3.0L 6 DOHC (MFI) &nbsp; Mileage: 59.536 &nbsp; Service Advisor: &lt; First, Last Name &gt;
+        </div>
+    </div> -->
+    <div class="clear pad-10"></div>
+	<div class="row">
+    	<div class="col-lg-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  				<div class="panel panel-default">
+                	<div class="panel-heading gry-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">ORIGNAL CUSTOMER REQUEST<i class="fa text_blue pull-right fa-plus-circle"></i><i class="fa text_blue pull-right fa-minus-circle"></i></a>
+                        </h4>
+                    </div>
+    				<div id="collapseOne" class="panel-collapse collapse {% if not service == None %} in {% endif %}" role="tabpanel" aria-labelledby="headingOne">
+      					<div class="panel-body">
+                        	<div class="table-responsive"> 
+                            	<table class="table table-bordered">
+                                    <tbody> 
+                                {% include "flagging_app/partial/service_request.html" %}
+                                        
+                                    </tbody> 
+                                </table> 
+                            </div>
+      					</div>
+    				</div>
+  				</div>
+                <div class="panel panel-default">
+    				<div class="panel-heading gry-heading" role="tab" id="heading2">
+      					<h4 class="panel-title">
+        					<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false" aria-controls="collapse2">INSPECTION RESULT SUMMARY<i class="fa text_blue pull-right fa-plus-circle"></i><i class="fa text_blue pull-right fa-minus-circle"></i></a>
+      					</h4>
+    				</div>
+    				<div id="collapse2" class="panel-collapse collapse {% if not print == None %} in {% endif %} " role="tabpanel" aria-labelledby="heading2">
+      					<div class="panel-body">
+        				{% include "flagging_app/result_summary.html"%}
+      					</div>
+    				</div>
+  				</div>
+                <div class="panel panel-default">
+                	<div class="panel-heading gry-heading" role="tab" id="heading3">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">RECOMMENDED SERVICES<i class="fa text_blue pull-right fa-plus-circle"></i><i class="fa text_blue pull-right fa-minus-circle"></i></a>
+                        </h4>
+                    </div>
+    				<div id="collapse3" class="panel-collapse collapse {% if not print == None %} in {% endif %}" role="tabpanel" aria-labelledby="heading3">
+      					<div class="panel-body">
+                        	<div class="table-responsive"> 
+                            	{% include "flagging_app/partial/recommendation.html" %}
+                            </div>
+							<p>For more information on these services please visit WikiPedia and Google</p>
+							<div class="RecomendedServicesLogo">
+							  <a href="http://www.wikipedia.org" target="_blank"><img class="RecSerGoogle" width="48" src="/static/images/wikipedia.png">
+							  </a>
+							 <a href="http://www.google.com" target="_blank"> <img class="RecSerWiki" width="48" src="/static/images/google.png"></a>
+							</div>
+      					</div>
+    				</div>
+  				</div>
+			</div>
+        </div>
+    </div>
+</div>
+<div class="clear pad-5"></div>
+<script>
+
+$(function(){
+	new ActionPlan().bindEvents();
+	
+});
+function ActionPlan(){
+	
+	
+	this.bindEvents = function(){
+		
+		$("#search").keydown(function(e){
+			
+			  if(e.which == 10 || e.which == 13) {
+				
+				  clickActionPlan($(this).val());
+				  
+				 /*  ajaxRequest(url,"GET",function(response){
+					  
+					  $("#shop_notes_div").html(response); 
+				 },data); */
+			 
+	       }
+		});
+		$("#viewPdf").click(function(){
+			
+		var loc = location.origin;
+		var uri = "{% url 'flagging:generatepdf' %}?ro_number="+"{{roNumber}}&url="+loc;
+		 var win = window.open(loc+uri, '_blank');
+		 win.focus();
+						
+		});
+		$("#email").click(function(){
+			var data ={"url" : location.origin,"ro_number" : "{{roNumber}}"};
+			var url = "{% url 'flagging:email_action_plan' %}";
+			ajaxRequest(url,"GET",function(result){
+				if(result != 200){
+					alert("Email not sent");			
+				}
+				else {
+					alert("Email sent Succefully");
+				}
+				
+			},data);
+		});
+		$("#searchB").off("click").on("click",function(){
+			clickActionPlan($("#search").val()); 	
+		});
+	}	
+}
+
+
+</script>

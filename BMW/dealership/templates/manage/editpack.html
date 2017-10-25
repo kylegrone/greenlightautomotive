@@ -1,0 +1,14 @@
+{%if pack%}
+<div class="row">
+        <div class="form-group">
+        <label for="NewInspTitle" class="col-sm-3 control-label">Package Title</label>
+        <input type="text" required="" placeholder="New Package Title" name="pack_name" id="id_pack_edit_name" class="form-control" value="{{pack.package}}">
+        </div>
+ </div>
+<div class="row">
+ 	<div class="text-right mr-20">
+	       <button type="button" class="btn btn-success saveeditpack">Save</button> &nbsp; 
+	      <!--  <button type="button" class="btn btn-danger deletepack">Delete Package</button> -->
+	   </div>
+</div>
+{%endif%}

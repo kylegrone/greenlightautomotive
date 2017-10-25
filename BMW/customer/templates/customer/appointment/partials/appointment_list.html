@@ -1,0 +1,103 @@
+{% load staticfiles %}            	
+          <div class="col-sm-4" style="padding-top:10px;">
+                    	<div class="bg_wht pad-15">
+                            <div class="row">
+                            	<div class="col-xs-6 text-center">
+                            			<a href="#">
+                            				<img src="{{appointment.vehicle.vehicle.mainimage.url}}" width="100">
+                            			</a>
+                            	</div>
+                            	 <div class="col-xs-6">
+			                                	<div class="media"> 
+					                            	  		{%if appointment.advisor %}
+								                                    	<div class="media-left">
+								                                        	<a href="#">
+								                                        			{%if appointment.advisor.userprofile.avatar  %}
+								                                        				<img src="{{appointment.advisor.userprofile.avatar.url}}" width="75" class="media-object img-thumbnail">
+								                                        			{%else%}
+								                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+								                                        			{%endif%}
+								                                        	</a>
+								                                        </div>
+									                                        <div class="media-body">
+									                                        	<p>Advisor:<br>{{appointment.advisor.userprofile.first_name}} {{appointment.advisor.userprofile.last_name}}</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment = {{appointment.id}} data-advisor = "{{appointment.advisor.id}}" >Edit</a>
+									                                        </div> 
+									                         {%else%}
+									                         			<div class="media-left">
+								                                        	<a href="#">
+								                                        			<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+								                                        	</a>
+								                                        </div> 
+								                                       
+									                                       <div class="media-body">
+									                                        	<p>Advisor:<br>None</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment = {{appointment.id}} data-advisor = {{appointment.advisor.id}}>Add</a>
+									                                        </div> 
+							                             {%endif%}        
+			                                    </div>
+			                           </div>
+                               
+                            </div>
+                            <div class="clear pad-5"></div>
+                            <div class="row">
+                            	<div class="col-xs-6">
+                                	<p><strong>{{appointment.vehicle.vehicle.make.name}}</strong></p>
+                                    <p>
+                                    	Make: &nbsp; {{appointment.vehicle.vehicle.make.name}}<br>
+                                        Model: &nbsp;  {{appointment.vehicle.vehicle.model.name}}<br>
+                                        
+                                        Mileage: &nbsp; {{appointment.vehicle.milage}}
+                                    </p>
+                                </div>
+                                <div class="col-xs-6">
+                                	<p>
+                                    	<strong>VIN #:</strong> &nbsp;  {{appointment.vehicle.vin_number}}<br>
+                                        <strong>License #:</strong> &nbsp; {{appointment.vehicle.lisence_number}}
+                                    </p>
+                                </div>
+                            </div>
+                            <h4>Service Appointment</h4>
+                             {%if appointment  %}
+		                            
+		                            <p><strong>Confirmation Code: &nbsp; {{appointment.code}}</strong></p>
+		                            <p><strong></strong></p>
+		                            <p>	<a href="#" class="text_blck"><span class="glyphicon glyphicon-calendar text_blue"></span> 
+		                            		Sync with Calendar
+		                            		</a></p>
+		                            <div class="row">
+		                            	<div class="col-xs-6">
+		                                	<a href="{%url 'customer:service_selection_appointment'%}?appointment_id={{appointment.id}}" class="btn btn-default  btn-block">Edit Appointment</a>
+		                                </div>
+		                                <div class="col-xs-6">
+		                                	<a data-href="{%url 'customer:cancel_appointment'%}?appointment_id={{appointment.id}}&dealer_code={{dealer_code}}&referer={{ request.get_full_path|urlencode }}" class="btn btn-danger btn-block" data-toggle="modal" data-target="#confirm-cancel-appointment">Cancel Appointment</a>
+		                                </div>
+		                            </div>
+		                      {%else%}
+		                      	    <div class="row">
+		                            	<div class="col-xs-6">
+		                                	<a href="{%url 'customer:schedule_appointment'%}?appointment.vehicle.vehicle_id={{appointment.vehicle.vehicle.vehicle.id}}" class="btn btn-default btn-success btn-block">Schedule Appointment</a>
+		                                </div>
+		                                
+		                            </div>
+		                      {%endif%}
+                            <div class="clear pad-5"></div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                	<a href="#" class="btn btn-default btn-block">View Service History</a>
+                                </div>
+                            </div>
+                            <div class="clear pad-5"></div>
+                            <div class="well well-sm">
+                            	<h5 class="mt-0">Notifications</h5>
+                                This vehicle is due to XXX service
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                      
+
+             

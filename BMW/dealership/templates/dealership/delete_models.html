@@ -1,0 +1,46 @@
+{% extends 'dealership/subbase.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="clear pad-10"></div>
+<div class="container-fluid">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    	
+        <div class="panel panel-default" style="padding:30px;">
+        <h4>Select Year
+		        <select id="select_year" name="year">
+		    	{%for y in years%}
+		    			
+		    			<option value="{{y.name}}"
+		    			{%if year.strip == y.name.strip %}
+		    				selected="selected"
+		    			{%endif%}
+		    			>{{y.name}}</option>
+		    	{%endfor%}
+		    	</select>
+        
+        </h4> 
+	<form action="{% url 'customer:delete_models'  %}?dealer_code={{dealer_code}}&year={{year}}" method="post">
+                                		{% csrf_token %}
+                                            {%for dvehicle in dvs%}
+                                            		
+                                            		<h4>
+                                            			<input type="checkbox" name="models" value="{{dvehicle.id}}">
+                                            			{{dvehicle.vehicle.model.name}}--{{dvehicle.vehicle.year.name}}
+                                            		</h4>
+                                            {%endfor%}
+                                           
+                                            <input type="submit" name="submit" value="Submit"/>
+    </form>
+    </div>
+   </div>
+  </div>
+  <script>
+  $(document).ready(function(){
+	  $("#select_year").change(function(){
+		  window.location="{% url 'dealership:delete_models'  %}?dealer_code={{dealer_code}}&year="+$(this).val();
+		  
+	  })
+	  
+  })
+  </script>
+{%endblock%}

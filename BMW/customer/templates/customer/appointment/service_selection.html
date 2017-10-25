@@ -1,0 +1,259 @@
+{% extends "customer/layouts/appointment_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+	{%if appointment %}
+	<ul id="myTabs" class="service_menu "> 
+	        	<li role="dropdown" class="dropdown dropdown-hover ">
+		            	<a href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="vehicles-tab">Vehicles</a>
+		            	<ul class="dropdown-menu" style="display: none;width:100%">
+		           			 <li>
+		           			 		{%if appointment.vehicle%}
+		           			 			{{appointment.vehicle.vehicle.make.name}} {{appointment.vehicle.vehicle.model.name}} 
+		           			 		{%else%}
+		           			 			Please select a vehcile
+		           			 		{%endif%}
+		           			 </li>
+		     		   </ul>
+          		  </li> 
+          		  
+	            <li role="dropdown"  class="dropdown dropdown-hover active">
+	          	  
+	            	  <a href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Service and Repair </a>
+            		<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+		           			 		{%if services_list  %}
+	            							Services and Repairs Added
+	            						{%else%}
+	            							No Service or Repair Added
+	            						{%endif%}
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            
+	            <li role="dropdown" class="dropdown dropdown-hover">
+	            	
+	            	 <a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Appointment</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+		           			 		Complete Previous Steps
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            <li role="dropdown" class="dropdown dropdown-hover">
+	            	
+	            	 <a href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Review and Book</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+		           			 		Complete Previous Steps
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	</ul>
+	<div class="pad-10"></div>
+	 	<ul class="pager">
+    		
+    		
+    				<li class="previous pointer">
+    					 <a data-href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" >
+    						<span aria-hidden="true">←</span> Previous</a>
+    					</li>
+		    		<li class="next pointer" id="submit_btn">
+		    				<a data-href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">
+		    				
+		    				Next/Skip <span aria-hidden="true">→</span></a>
+		    		</li>
+  			</ul>
+{%endif%}
+	<div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+			
+				 {%include 'customer/appointment/partials/service_selection.html'%}
+				 {%include 'customer/appointment/partials/repair_selection.html'%}
+				  {%include 'customer/appointment/partials/not_sure_form.html'%}
+    </div>
+
+
+
+
+     <!--  <div id="myTabContent" class="tab-content">
+      		<div role="tabpanel" class="tab-pane fade  active in " aria-labelledby="account-tab">
+          		   
+          		   	<div class="well collaps_main_container">
+	                	<h5 class="mt-0">
+	                			<a href="#" class="text_blck">
+	                			<i class="fa fa-minus-square-o fa-lg mr-10 collapse_button"></i></a> Service
+	                	</h5>
+						<div class="collapsable_div">
+							<div class="row" id="service-appointment">
+							</div>
+							<nav class="text-center"> 
+			     			   <ul id="service_pagination" class="pagination">
+			     			   </ul>
+	     					</nav>
+						</div>   
+			         	
+     			   </div>
+     			   	<div class="well collaps_main_container">
+	                	<h5 class="mt-0">
+	                			<a href="#" class="text_blck">
+	                			<i class="fa fa-minus-square-o fa-lg mr-10 collapse_button"></i></a> Repair
+	                	</h5>
+						<div class="collapsable_div">
+							<div class="row" id="repair-appointment">
+							</div>
+							<nav class="text-center"> 
+			     			   <ul id="repair_pagination" class="pagination">
+			     			   </ul>
+	     					</nav>
+						</div>   
+			         	
+     			   </div>
+     			   
+     			   
+          	</div>
+          
+  		
+      </div> -->
+      	<ul class="pager">
+    		
+    		
+    				<li class="previous pointer">
+    					 <a data-href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" >
+    						<span aria-hidden="true">←</span> Previous</a>
+    					</li>
+		    		<li class="next pointer" id="submit_btn">
+		    				<a data-href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">
+		    				
+		    				Next/Skip <span aria-hidden="true">→</span></a>
+		    		</li>
+  			</ul>
+
+ 
+{% endblock %}
+{% block js %}
+{{block.super}}
+ 
+		<script src="{% static "customer/js/settings.js" %}"></script>
+		<script src="{% static "customer/js/ServiceSelection.js" %}"></script>
+		
+		
+		<script src="{% static "customer/js/bootstrap_dialog.js" %}"></script>
+		<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+		<script>
+		$(document).ready(function(){
+				var service_selection  = new ServiceSelection();
+				service_selection.panel = "#service-appointment";
+				service_selection.pagination_container = "#service_pagination"
+				service_selection.service_fetch_url = "{% url 'customer:get_all_services_ajax'%}"
+				service_selection.dealer_code = "{{dealer_code}}"
+				service_selection.search_box ="#search_box_services";
+				/* service_selection.select_listener = service_selection.showDesriptionModal; */
+				 service_selection.select_listener = service_selection.selectService
+				service_selection.type = "s"
+				service_selection.appointment_id = "{{appointment.id}}"
+				service_selection.service_save_url = "{% url 'customer:save_appointment_services_ajax'%}"	
+				service_selection.not_sure_listener = openNotsureForm
+				service_selection.select_text ="Add To Cart";
+				service_selection.unselect_text ="Delete";
+				
+				service_selection.initiate();
+				service_selection.jquery_conflict = false;
+				
+			 	var repair_selection  = new ServiceSelection();
+			 	repair_selection.search_box ="#search_box_repairs";
+				repair_selection.panel = "#repair-appointment";
+				repair_selection.pagination_container = "#repair_pagination"
+				repair_selection.service_fetch_url = "{% url 'customer:get_all_services_ajax'%}"
+				repair_selection.dealer_code = "{{dealer_code}}"
+				//repair_selection.select_listener = repair_selection.showDesriptionModal;
+					repair_selection.select_listener = 	repair_selection.selectService
+				repair_selection.type = "r"
+				repair_selection.appointment_id = "{{appointment.id}}"
+				repair_selection.service_save_url = "{% url 'customer:save_appointment_services_ajax'%}"	
+				repair_selection.not_sure_listener = openNotsureForm
+				repair_selection.select_text ="Add To Cart";
+				repair_selection.unselect_text="Delete";
+				repair_selection.initiate(); 
+				repair_selection.jquery_conflict = false;
+				console.info(window.cart)
+				if(typeof window.cart !="undefined"){
+					//$("#service_repair_top_bar").html("No Service or Repair added");
+					service_selection.after_save_fn = function(){
+						$("#service_repair_top_bar").html("No Service or Repair added");
+							 window.cart.fillCart()
+							 if (service_selection.selected_services_id.length >0 || repair_selection.selected_services_id.length>0){
+								 $("#service_repair_top_bar").html("Service and Repair added");
+							 }
+						 }  //window.cart.fillCart
+					 repair_selection.after_save_fn = function(){
+						 $("#service_repair_top_bar").html("No Service or Repair added");
+						 window.cart.fillCart()
+						 if (service_selection.selected_services_id.length >0 || repair_selection.selected_services_id.length>0){
+							 $("#service_repair_top_bar").html("Service and Repair added");
+						 }
+					 } 
+				}
+			});
+			$(document).ready(function(){
+				var accordion = "{{accordion}}"
+				if(accordion=="services" || accordion ==""){
+					openContainer($("#vehicle_service_form"));
+				}
+				else if(accordion == "repairs"){
+					openContainer($("#vehicle_repair_form"));
+				}
+				$("body").on("click",".next",function(){
+					if($("#vehicle_service_form").find(".collapsable_div").css("display")=="block"){
+						openContainer($("#vehicle_repair_form"));
+					}else if($("#vehicle_repair_form").find(".collapsable_div").css("display")=="block"){
+						openContainer($("#vehicle_not_sure_form"));
+					}else{
+						window.location = $(this).find("a").data("href");
+							
+					}
+				});
+				$("body").on("click",".previous",function(){
+					if($("#vehicle_not_sure_form").find(".collapsable_div").css("display")=="block"){
+						openContainer($("#vehicle_repair_form"));
+					}
+					else if($("#vehicle_repair_form").find(".collapsable_div").css("display")=="block"){
+						openContainer($("#vehicle_service_form"));
+					}else {
+						window.location = $(this).find("a").data("href");
+					}
+				});
+				$("body").on("click",".not_sure",function(){
+					openNotsureForm();		
+				})
+			});
+			function openNotsureForm(){
+				openContainer($("#vehicle_not_sure_form"));
+				
+			}
+			
+			
+			
+			
+	
+			
+			
+	</script>
+	{% endblock%}
+	{% block extra %}
+<style>
+ .servicedtlabels{
+display:none;
+}
+.service_class .opd_code,.service_class .duration,.service_class .price_val{
+	display:none;
+} 
+.service_class .service_name{
+font-weight:bold;}
+</style>		
+{%endblock%}
+

@@ -1,0 +1,59 @@
+{%if appointment%}
+	<button class="btn btn-default btn-sm" id="cart" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									            	<span class="glyphicon glyphicon-shopping-cart"></span> {{cart_count}}
+									  			</button>
+									            <ul class="dropdown-menu text-left" aria-labelledby="cart" style="width:300px;max-height:250px;overflow:scroll">
+									            	{%if appointment.vehicle%}
+										                <li class="pad-5">
+										                	<div class="media">
+										                        <div class="media-left">
+										                            <a href="#" class=''><img src="{{appointment.vehicle.vehicle.mainimage.url}}" height="100px" width="100px" class="imgpopup media-object img-thumbnail" ></a>
+										                        </div>
+										                        <div class="media-body">
+										                            {{appointment.vehicle.vehicle.make.name }} {{appointment.vehicle.vehicle.model.name }} {{appointment.vehicle.vehicle.year.name }}
+										                            {%if appointment.vehicle.mileage%}
+										                            
+										                            	<br>
+										                         	   approx mileage {{appointment.vehicle.vehicle.model.name }}
+										                           {%endif%} 
+										                        </div>    
+										                    </div>
+										                </li>
+									                {%endif%}
+									                {%for service in services%}
+										                <li class="pad-5">
+										                	<div class="media">
+										                        <div class="media-left ">
+										                        		{%if service.service.image%}
+										                        				<img src="{{service.service.image.url}}" height="40px" width="40px">
+										                        		{%endif%}
+										                        </div>
+										                        <div class="media-body " style='margin-left:5px'>
+										                            <h5 class="font_regular">{{service.service.name}}</h5>
+										                        </div>    
+										                    </div>
+									                	</li>
+									                {%endfor%}
+									                 {%for repair in repairs%}
+										                <li class="pad-5">
+										                	<div class="media">
+										                        <div class="media-left">
+										                        		{%if repair.service.image%}
+										                        			<img src="{{repair.service.image.url}}" height="40px" width="40px">
+										                        		{%endif%}
+										                        </div>
+										                        <div class="media-body" style='margin-left:5px'>
+										                            <h5 class="font_regular">{{repair.service.name}}</h5>
+										                        </div>    
+										                    </div>
+									                	</li>
+									                {%endfor%}
+									                
+									                <li class="pad-5">
+									                	<a href="#"> {{cart_count}} Item(s)</a>
+									                </li>
+									            </ul>
+									            
+									            
+	<!-- Creates the bootstrap modal where the image will appear -->
+{%endif%}					     

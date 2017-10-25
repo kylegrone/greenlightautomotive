@@ -1,0 +1,21 @@
+{% if appt.ro.flag3.id == appt.dealer.servicecomplete_flag_id %}
+<div class="text_red" style="font-size:larger;">Your Auto Service is complete. </div>
+{% endif %}
+{% if appt.ro.flag3.id == appt.dealer.workingonvehicle_flag_id %}
+<div class="text_red" style="font-size:larger;">Your Auto Service is In Progress. </div>
+{% endif %}
+{% if appt.ro.flag3.id == appt.dealer.pickup_flag_id %}
+<div class="text_red" style="font-size:larger;">Your Auto is ready to pick-up.</div>
+{% endif %}
+{% if appt.ro.flag3.id == appt.dealer.queue_flag_id %}
+<div class="text_red" style="font-size:larger;">Your Auto Service is in queue. </div>
+{% endif %}
+<div class="clear pad-10"></div>
+<div style="font-size:larger">
+<strong>Addtional Notes:</strong><br>
+{% if appt.ro.shop_notes %}
+{{appt.ro.shop_notes}}
+{% else %}
+No Notes Available
+{% endif %}
+</div>

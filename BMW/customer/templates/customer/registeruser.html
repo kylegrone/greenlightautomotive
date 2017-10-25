@@ -1,0 +1,30 @@
+{% extends "customer/layouts/base.html" %}
+{% load staticfiles i18n %}
+{% block main%}
+		<div class="container-fluid">
+          				
+          	{%if profile %}		
+				{%if profile.user == None %}
+					{%include 'customer/appointment/partials/create_user.html'%}
+				{%else%}
+					User already created for this profile
+				{%endif%}
+			{%else%}	
+				Profile doesnot exist
+			{%endif%}	 			
+		 </div>
+{% endblock %}
+{% block js %}
+{{block.super}}
+ 
+		
+	<script src="{% static "customer/js/bootstrap_dialog.js" %}"></script>
+	<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+
+	<script src="{% static "customer/js/create_user.js" %}"></script>
+	
+
+	{% endblock%}
+	{% block extra %}
+	
+{%endblock%}

@@ -1,0 +1,286 @@
+{% load staticfiles %}
+{% load flagging_tags %}
+
+<link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+<link href="{% static "customer/css/custom.css" %}" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="{% static "css/style.css" %}" rel="stylesheet">
+<link href="{% static "flagging/custom.css" %}" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static "css/font-awesome.css" %}" />
+<link rel="stylesheet" href="{% static "css/editor.css" %}" />
+<link rel="stylesheet" href="{% static "css/jquery.sidr.dark.css" %}">
+<link rel="shortcut icon" href="{% static "images/favicon.png" %}" />
+
+<style type="text/css">
+	
+	table.table-headgray thead tr th {
+			background:  gray ;
+			color: white !important; 
+
+	}
+	.table > thead > tr > th, table > thead > tr > th{
+			
+			color: black !important; 
+
+	}
+	
+	.table > thead > tr > th, table > thead > tr > th , 
+	.table > tbody > tr > td, table > tbody > tr > td,
+	.table > tfoot > tr > td, table > tfoot > tr > td{
+			
+			border-color: black !important;
+			font-size: 12px;
+
+
+	}
+
+</style>
+<script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "flagging/js/flagging_app.js" %}"></script>
+<script src="{% static "flagging/js/flag_modals.js" %}"></script>
+<script src="{% static "customer/js/utility.js" %}"></script>
+<script src="{% static "flagging/js/inspection.js" %}"></script>
+<script src="{% static "js/editor.js" %}"></script>
+<body style="background: white">
+    <div class="container-fluid" style="background: white">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ActionPlanHead" style="padding: 0px">
+                    <div class="ActionPlanHeadLogo">
+                         {%dealer_detail_tag dealer_code%}
+                    </div>
+                    <p>
+                        Recommended Action Plan for {{customer}}
+                    </p>
+                    <p>
+                        Vin# {{vehicle_vin}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<div style="border-top: solid 1px black;background-color: white;margin: 10px 0px"></div>
+<div class="container-fluid" style="background: white" id="printable">    
+  
+    <div class="row">
+        <div class="col-lg-12">
+
+
+        <h4>ORIGNAL CUSTOMER REQUEST:</h4>
+          <div class="table-responsive"> 
+                                <table class="table table-bordered">
+                                    <tbody> 
+                                {% if not service == None %}
+                                <table class="table table-bordered table-headgray" >
+                                  <thead>
+                                    <tr>
+                                      <th width="30"></th>
+                                      <th>ORIGNAL CUSTOMER REQUESTS</th>
+                                      <th class="text-center">LABOR</th>
+                                      <th class="text-center">PARTS</th>
+                                      <th class="text-center">COST</th>
+                                      <th class="text-center">APPROVED</th>
+                                    </tr>
+                                  </thead>
+                                 
+                                   
+                                    <tbody>
+                                    <tr>
+                                    {% for o in service.appointmentService %} 
+                                      <td>{{forloop.counter}}</td>
+                                      <td><b>{% if not o.service.description == None  %} {{ o.service.description }} {% endif %}  {% if not o.service.name == None  %}  / {{ o.service.name }} {% endif %}
+                                            {% if not o.note == None  %}
+                                                <br/>Note (customer): {{ o.note}}
+                                            {%endif%}
+                                            {% if not o.desc == None  %}
+                                                <br/>Note (Advisor): {{ o.desc}}
+                                            {%endif%}
+                                            
+                                      </b></td>
+                                      <td class="text-center">{{ o.service.price_unit }}{{o.service.labor}}</td>
+                                      <td class="text-center">{{ o.service.price_unit }}{{o.service.parts}}</td>
+                                      <td class="text-center">{{ o.service.price_unit }}{{o.price}}</td>
+                                      <td class="text-center"><i class="fa fa-check-circle fa-lg text_grn"></i></td>
+                                    </tr>
+                                     {% endfor %}
+                                    <tfoot>
+                                    <tr>
+                                      <td></td>
+                                      <td class="text-right">TOTAL APPROVED ESTIMATE</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td class="text-right">{{service.appointmentService.0.service.price_unit}}{{ service.total }}</td>
+                                      <td></td>
+                                    </tr>
+                                  </tfoot>
+                                   
+                                       </tbody>
+                                   
+                                   
+                               
+                                  
+                                </table>
+                                 {% endif %}
+                                        
+                                    </tbody> 
+                                </table> 
+                            </div>
+                        
+                        <!-------------->
+             <h4>INSPECTION RESULT SUMMARY:</h4>
+             <div class-"">
+                       {% if not summary == None %}
+				<div class="table-responsive"> 
+                                <table class="table table-bordered"> 
+                                    <thead> 
+                                        <tr> 
+                                            <th>Inspection Item</th> 
+                                            <th>Findings</th> 
+                                            <th>Recommendations</th> 
+                                            <th>Specs</th> 
+                                        </tr> 
+                                    </thead> 
+                                    <tbody> 
+                                        <tr> 
+                                             <td></td>
+                                            <td colspan="3" class="bg_red"><strong>FAIL</strong></td>
+                                        </tr>
+                                        {% for s in summary %}
+                                        {% if s.status == "fail" %}
+                                        <tr> 
+                                            <td>{{ s.inspection.item.item}}</td> 
+                                            <td>{{ s.observation }}</td> 
+                                            <td>{{ s.recommendations }}</td> 
+                                            <td>{{ s.specs }}</td> 
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                        
+                                        <tr> 
+                                            <td></td>
+                                            <td colspan="3" class="bg_ylw"><strong>WARN</strong></td>
+                                        </tr>
+                                        {% for s in summary %}
+                                        {% if s.status == "warning" %}
+                                        <tr> 
+                                            <td>{{ s.inspection.item.item}}</td> 
+                                            <td>{{ s.observation }}</td> 
+                                            <td>{{ s.recommendations }}</td> 
+                                            <td>{{ s.specs }}</td> 
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                       
+                                        <tr> 
+                                            <td></td>
+                                            <td colspan="3" class="bg_grn"><strong>PASS</strong></td>
+                                           
+                                        </tr>
+                                        {% for s in summary %}
+                                        {% if s.status == "pass" %}
+                                        <tr> 
+                                            <td>{{ s.inspection.item.item}}</td> 
+                                            <td>{{ s.observation }}</td> 
+                                            <td>{{ s.recommendations }}</td> 
+                                            <td>{{ s.specs }}</td> 
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                      
+                                    </tbody> 
+                                </table> 
+                            </div>
+{% endif %}      
+                        </div>
+                        <!------>
+                        <h4>RECOMMENDED SERVICES:</h4>
+                        <div class="">
+                         <div class="table-responsive"> 
+<div id="ajax_recommendation">
+                {% if not inspection == None %}
+                <table class="table table-bordered table-headgray">
+                    <thead>
+                        <tr>
+                            <th width="40">PRI</th>
+                            <th>INSPECTION ITEM</th>
+                            <th class="text-center">RESULT</th>
+                            <th class="text-center">RECOMMENDED BY</th>
+                            <th class="text-center">LABOR</th>
+                            <th class="text-center">PARTS</th>
+                            <th class="text-center">TOTAL</th>
+                            {% if action_plan == None %}
+                            <th class="text-center">APPROVED</th>
+                            <th class="text-center">DECLINED</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rec in inspection.recommendation %}
+                        <tr data-id="{{rec.id}}">
+                            <td>{{ forloop.counter }}</td>
+                            <td><b> {% if not rec.notes == None %} {{ rec.notes }} {% endif %}
+                            </b></td> {% if rec.result == "Fail" %}
+                            <td class="text-center bg_red"><strong>FAIL</strong></td> 
+                            {% else %}
+                            <td class="text-center bg_gr"><strong>success</strong></td> 
+                            {% endif %}
+                            <td>{{rec.recommnded_by.userprofile.last_name}},{{rec.recommnded_by.userprofile.first_name}}
+                            </td>
+                            <td class="editable" class="text-center"><span>{{rec.price_unit}}{{rec.labor}}</span><input
+                                name="labor" type="number" style="display: none" min="0" value="{{rec.service.labor}}"></td>
+                            <td class="editable" class="text-center"><span>{{rec.price_unit}}{{rec.parts}}</span><input
+                                name="parts" type="number" style="display: none" min="0" value="{{rec.service.parts}}"></td>
+                            <td class="text-center">{{rec.price_unit}}{{rec.price}}</td>
+                            {% if action_plan == None %}
+                            
+                            {% if rec.status == "Accept" %}
+                            <td class="text-center"><i
+                                class="fa fa-check-circle fa-lg text_grn"></i></td>
+                            <td class="text-center"></td>
+                             {% else %}
+                            <td class="text-center"></td>
+                            <td class="text-center"><i
+                                class="glyphicon glyphicon-remove-sign fa-lg text_red"></i></td> 
+                            {% endif %}
+                            
+                            {% endif %}
+                            
+                        </tr>
+                        {% endfor %}
+
+                        <tr>
+                            <td colspan="6" class="text-right"><strong>RECOMMENDED
+                                    TOTAL</strong></td>
+                            <td class="text-center"><strong>{{inspection.recommendation.0.price_unit}}{{inspection.total}}</strong></td>
+                        {% if action_plan == None %}    <td class="text-center"><strong class="text_grn">{{inspection.recommendation.0.price_unit}}{{inspection.approved }}</strong></td>
+                            <td class="text-center"><strong class="text_red">{{inspection.recommendation.0.price_unit}}{{inspection.declined }}</strong></td> {% endif %}
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                {% endif %}
+                </div>
+                </div>
+                </div>
+                <!------>
+
+               
+				<div id="" class="" role="tabpanel" >
+                       
+                            <p>For more information on these services please visit WikiPedia and Google</p>
+                            <div class="RecomendedServicesLogo">
+                              <a href="http://www.wikipedia.org" target="_blank"><img class="RecSerGoogle" width="48" src="{% static "images/wikipedia.png"%}">
+                              </a>
+                             <a href="http://www.google.com" target="_blank"> <img class="RecSerWiki" width="48" src="{% static "images/google.png"%}"></a>
+                            </div>
+                        </div>
+                        </div>
+
+        </div>
+    </div>
+
+</div>
+</body>

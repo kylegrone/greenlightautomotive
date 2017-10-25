@@ -1,0 +1,55 @@
+{%if error%}
+		<div class="alert alert-danger fade in" class="galert" data-dismiss="alert" aria-label="close">
+		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							   
+									     {{ error }}
+		</div>
+{%endif%}
+{%if success %}
+	
+		<div class="alert alert-success fade in" class="galert" data-dismiss="alert" aria-label="close">
+		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									   
+									     {{ success }}
+		</div>
+				      
+{%endif%}
+<div class="row uta">
+
+                    	<div class="col-sm-4">
+                        	<div class="bg_wht pad-15">
+                            	<h4 class="text-center font_regular mt-0">APPLICATION USER &nbsp; <small><a href="#" class="addud">Add New</a></small></h4>
+                                <div class="clear pad-5"></div>
+                                {% for users in app_users %}
+                                <p>
+                                	{{users.first_name}},{{users.last_name}} 
+                                    <span class="pull-right">{% if request.user.id != users.user.id %}<a href="#" id="{{users.user.id}}" class="removeuseradvisor">Remove</a> |{% endif %} <a href="#" class="veditadvisor" id="{{users.user.id}}">View/Edit</a></span>
+                                </p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                        	<div class="bg_wht pad-15">
+                            	<h4 class="text-center font_regular mt-0">ADVISOR &nbsp; <small><a href="#" class="addud">Add New</a></small></h4>
+                                <div class="clear pad-5"></div>
+                                {% for users in advs %}
+                                <p>
+                                	{{users.first_name}},{{users.last_name}}
+                                    <span class="pull-right">{% if request.user.id != users.user.id %}<a href="#" id="{{users.user.id}}" class="removeuseradvisor">Remove</a> |{% endif %} <a href="#" class="veditadvisor" id="{{users.user.id}}">View/Edit</a></span>
+                                </p>
+                               {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                        	<div class="bg_wht pad-15">
+                            	<h4 class="text-center font_regular mt-0">TEAM &nbsp; <small><a href="#" class="vnewteam">Add New</a></small></h4>
+                                <div class="clear pad-5"></div>
+                                {% for team in teaml%}
+                                <p>
+                                	{{team.name}}
+                                    <span class="pull-right"><a href="#" id="{{team.id}}" class="removeteam">Remove</a> | <a href="#" class="veditteam" id="{{team.id}}">View/Edit</a></span>
+                                </p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>

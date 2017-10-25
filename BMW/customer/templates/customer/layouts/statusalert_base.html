@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{% block html_header %}
+			{% include 'customer/includes/htmlheader.html' %}
+		{%endblock%}
+	</head>
+	<body>
+	<header>
+	<div class="page-header">
+        <div class="container-fluid">
+        	<div class="row">
+            	<div class="col-sm-6">
+                	<a href="index.html" class="logo"><img src="{% static "customer/images/logo.png" %}" width="60"></a>
+                    <h1>BMWSF Service Scheduler</h1>
+                </div>
+                
+            </div>
+        </div>		
+    </div>
+</header>
+<div class="clear"></div>
+{% block main %}
+{% endblock %}
+<div id="loading_page">
+	<img id="loading-image-page" src="{% static "customer/images/ajax-loader.gif" %}" alt="Loading..." />
+</div>
+</body>
+</html>
+{% block js %}
+{% endblock %}

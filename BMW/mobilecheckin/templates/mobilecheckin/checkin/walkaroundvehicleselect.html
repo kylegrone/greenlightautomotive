@@ -1,0 +1,52 @@
+<div class="clearfix mb-10 SelectOther hidden" id="selectother">
+   <div class="col-sm-6">
+       <select class="form-control" id="wlkscat">
+		<option value="">service as category</option>
+		{% for obj in services%}
+		<option value="{{obj.name}}">{{obj.name}}</option>
+		{%endfor%}
+		</select>
+	</div>
+	<div class="col-sm-6">
+		<select class="form-control" id="wlktyp">
+		<option value="">part as type</option>
+		{% for obj in v_parts %}
+		<option value="{{obj.part_name}}">{{obj.part_name}}</option>
+		{% endfor %}
+		</select>
+	</div>
+</div>
+<!-- div class="clearfix SelectTires hidden" id="selecttires">
+	<div class="col-sm-3">
+		<select class="form-control" id="RF" >
+		<option value="">RF</option>
+		{% for obj in rf%}
+		<option value="{{obj.width}}">{{obj.width}}</option>
+		{% endfor %}
+		</select>
+	</div>
+	<div class="col-sm-3">
+		<select class="form-control" id="RR" >
+		<option value="">RR</option>
+		{% for obj in rr %}
+		<option value="{{obj.width}}">{{obj.width}}</option>
+		{% endfor %}
+		</select>
+	</div>
+	<div class="col-sm-3">
+		<select class="form-control" id="LF">
+		<option value="">LF</option>
+		{% for obj in lf%}
+		<option value="{{obj.width}}">{{obj.width}}</option>
+		{% endfor %}
+		</select>
+	</div>
+	<div class="col-sm-3">
+		<select class="form-control" id="LR">
+		<option value="">LR</option>
+		{% for obj in lr%}
+		<option value="{{obj.width}}">{{obj.width}}</option>
+		{% endfor %}
+		</select>
+	</div>
+</div-->

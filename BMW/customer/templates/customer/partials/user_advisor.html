@@ -1,0 +1,81 @@
+{% load staticfiles %}    
+
+<div class="container-fluid">
+	<div class="row">
+			<div class="col-sm-3">
+														{%if myadvisor %}
+									                                    	<div class="media-left">
+									                                        	<a href="#">
+									                                        			{%if myadvisor.advisor.userprofile.avatar  %}
+									                                        				<img src="{{myadvisor.advisor.userprofile.avatar.url}}" width="75" class="media-object img-thumbnail">
+									                                        			{%else%}
+									                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+									                                        			{%endif%}
+									                                        	</a>
+									                                        </div> 
+									                                       
+										                                        <div class="media-body">
+										                                        	<p>Advisor:<br>{{myadvisor.advisor.first_name}} {{myadvisor.advisor.last_name}}</p>
+										                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor-user" data-advisor = "{{myadvisor.advisor.id}}" >Edit</a>
+										                                        </div> 
+										                         {%else%}
+										                         			<div class="media-left">
+									                                        	<a href="#">
+									                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+									                                        			
+									                                        	</a>
+									                                        </div> 
+									                                       
+										                                        <div class="media-body">
+										                                        	<p>Advisor:<br>None</p>
+										                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor-user" data-advisor = "" data-advisor = "{{myadvisor.advisor.id}}">Add</a>
+										                                        </div> 
+								                             {%endif%}    
+								                             
+		</div> 
+	</div>
+</div>
+							                             
+	<script>
+		$(document).ready(function(){
+			var user_advisor_selection = new AdvisorSelection();
+			user_advisor_selection.panel = "#user-advisor-appointment";
+    		user_advisor_selection.dealer_code = "{{dealer_code}}"
+    		user_advisor_selection.pagination_container = "#user_advisor_pagination"
+    		user_advisor_selection.select_listener = user_advisor_selection.selectAdvisor;
+    		user_advisor_selection.advisor_fetch_url = "{% url 'customer:get_all_advisors_ajax'%}"
+    		user_advisor_selection.advisor_save_url = "{% url 'customer:save_advisor_ajax'%}";
+    		user_advisor_selection.profile_id = {{profile.id}}
+    		user_advisor_selection.type = "user"
+			$('#confirm-edit-advisor-user').on('show.bs.modal', function(e) {
+				var advisor_id = $(e.relatedTarget).data("advisor");
+    		/* 	var appointment_id = $(e.relatedTarget).data("appointment");
+    			advisor_selection.appointment_id = appointment_id; */
+    			user_advisor_selection.setAdvisors();
+			});
+    		$('#confirm-edit-advisor-user').on('hide.bs.modal', function(e) {
+			    window.location=window.location
+			});
+		})
+		
+	</script>   
+	
+	<div class="modal fade" id="confirm-edit-advisor-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4> Select Advisor</h4>
+            </div>
+            <div class="modal-body" >
+               <div class="row" id ="user-advisor-appointment"></div>
+               <nav class="text-center"> 
+					     			   <ul id="user_advisor_pagination" class="pagination">
+					     			   </ul>
+			     					</nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>	

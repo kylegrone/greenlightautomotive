@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="clearfix bg_wht FlaggingFilterForm">
+                <div class="form-inline pad-10">
+                    <div class="form-group">
+                        <input type="search" class="form-control" id="search" placeholder="Search RO #">
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-search fa-lg mr-20 ml-10"></i>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="">
+                            <option>Show All ROs</option>
+                        </select>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="status" value="active" checked> <span>Active Ro`s</span>
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="status" value="inActive"> <span>Inactive Ro`s</span>
+                        </label>
+                    </div>
+                    <button type="button" id="printRoList" class="btn btn-grey pull-right">Print</button>
+                    <!-- <button type="submit" style="display :none"></button> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="content"></div>
+<script>
+    $(document).ready(function() {
+
+        bindEvents();
+        searchRos();
+
+
+    });
+
+    function bindEvents() {
+
+        $('input[name=status]').change(function() {
+
+            searchRos();
+
+
+        });
+
+
+        $("#search").keydown(function(e) {
+            if (e.which == 10 || e.which == 13) {
+                searchRos();
+            }
+        });
+        $("#printRoList").click(function() {
+            print($("#roTable"));
+        });
+
+
+
+
+    }
+
+    function searchRos(orderBy, order) {
+
+
+        var url = "/flagger/search_ros?";
+        if (orderBy && order) {
+            url = url + "order=" + order + "&orderBy=" + orderBy;
+        }
+        var roNumber = $("#search").val();
+        if (roNumber != "") {
+            url = url + "roNumber=" + roNumber + "&"
+        }
+        var status = $('input[name=status]:checked').val();
+        url = url + "&status=" + status;
+        url = encodeURI(url);
+        window.console.log(url);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                $("#content").html(response)
+            }
+        });
+    }
+
+</script>

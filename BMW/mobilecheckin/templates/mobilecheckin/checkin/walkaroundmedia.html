@@ -1,0 +1,15 @@
+<div class="col-xs-10">
+	<div class="bg_wht pad-10">
+	   	<div class="row">
+		   	<div class="col-sm-12">
+			   	 {% for obj in media %}
+			   	 {% if obj.image %}
+			   	 <a href="{{MEDIA_URL}}{{obj.image}}" data-lightbox="image-1" data-title="Image: {{obj.image_name}} <br> Note: {{obj.notes}}">
+			   	 <img id="photo" src="{{MEDIA_URL}}{{obj.image}}">
+			   	 </a>
+			   	 {% endif %}
+			   	 {% endfor %}
+		   	 </div>
+	   	</div>
+	</div>
+</div>

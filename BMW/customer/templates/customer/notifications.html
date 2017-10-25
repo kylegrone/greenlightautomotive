@@ -1,0 +1,22 @@
+{% extends "customer/layouts/loggedin_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+
+	
+      <div id="myTabContent" class="tab-content">
+      	<div role="tabpanel" class="tab-pane fade  active in " id="account" aria-labelledby="account-tab">
+          	{% include "customer/partials/notifications_settings.html"%}
+          </div>
+      </div>
+
+ 
+{% endblock %}
+{% block js %}
+{{block.super}}
+ 
+
+<script src="{% static "customer/js/linkedin.js" %}"></script>
+<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+
+{% endblock%}
+

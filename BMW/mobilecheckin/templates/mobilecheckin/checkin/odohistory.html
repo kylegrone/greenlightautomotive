@@ -1,0 +1,18 @@
+<div class="row">
+	   		<div class="col-sm-6">
+	   		<div class="well" style="font-size:larger;">
+	   		History :
+	   		{% if odo_history %}
+	   		<ul>
+	   		{% for obj in odo_history %}
+	   			<li class="text_blue">{{obj.start_time}}{% if obj.odometer_reading == None %} Not Available {% else %} {{obj.odometer_reading}} {% endif %}</li>
+	   		{% endfor %}
+	   		</ul>
+	   		{%else%}
+	   		<ul>
+	   			<li class="text_red">NO Records Found</li>
+	   		</ul>
+	   		{% endif %}
+	   		</div>
+	   		</div>
+	   	</div>

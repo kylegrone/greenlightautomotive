@@ -1,0 +1,14 @@
+Recommendation Services Status Details: <br>
+<table>
+<thead>
+<th>Service</th>
+<th>Status</th>
+</thead>
+<tbody>
+{% for obj in status %}
+<tr>
+<td>{{obj.service.name}}</td>
+<td>{{obj.status}}</td>
+</tr>
+{% endfor %}
+</tbody>

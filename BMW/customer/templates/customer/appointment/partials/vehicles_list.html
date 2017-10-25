@@ -1,0 +1,115 @@
+{% load staticfiles %}            	
+          <div class="col-sm-6">
+        	<div class="bg_wht pad-15">
+            	<h4 class="well well-sm mt-0">Scheduled Appointment Time</h4>
+                <div class="row">
+                	<div class="col-xs-7 text_14">
+                    	<p>MONDAY April 27th at 7:30</p>
+                        <p>A WAY AWAY: Drop off</p>
+                    </div>
+                    <div class="col-xs-5">
+                    	<div class="media">
+                        	
+  							<div class="media-body">
+                            		{%if customer_vehicle.advisor.is == "true" %}
+								                                
+								                                    	<div class="media-left">
+								                                        	<a href="#">
+								                                        			{%if customer_vehicle.advisor.icon != ""  %}
+								                                        				<img src="{{customer_vehicle.advisor.icon}}" width="75" class="media-object img-thumbnail">
+								                                        			{%else%}
+								                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+								                                        			{%endif%}
+								                                        	</a>
+								                                        </div> 
+								                                       
+									                                        <div class="media-body">
+									                                        	<p>Advisor:<br>{{customer_vehicle.advisor.first}} {{customer_vehicle.advisor.last}}</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment="{{customer_vehicle.appointment.id}}" data-advisor = "{{customer_vehicle.advisor.id}}" >Edit</a>
+									                                        </div> 
+									                         {%else%}
+									                         			<div class="media-left">
+								                                        	<a href="#">
+								                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+								                                        			
+								                                        	</a>
+								                                        </div> 
+								                                       
+									                                        <div class="media-body">
+									                                        	<p>Advisor:<br>None</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment="{{customer_vehicle.appointment.id}}" data-advisor = "{{customer_vehicle.advisor.id}}">Add</a>
+									                                        </div> 
+							                             {%endif%}     
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Service Scheduled</h4>
+                <div class="row">
+                	<div class="col-xs-6 text_14">
+                		<p>
+                    	{%for service in customer_vehicle.appointment.services %}
+                				{{service.service__name}} </br>		
+                		{%endfor%}
+                		</p>
+                    </div>
+                    <div class="col-xs-6">
+                    	<div class="media">
+                        	<div class="media-left">
+                        			<a href="#"><img src="{{customer_vehicle.vehicle.image}}" width="100"></a>
+                        			
+                        	</div>
+  							<div class="media-body">
+                            	<p><strong>{{customer_vehicle.vehicle.vehicle__make__name}}</strong></p>
+                                    <p>
+                                    	Make: &nbsp; {{customer_vehicle.vehicle.vehicle__make__name}}<br>
+                                        Model: &nbsp;  {{customer_vehicle.vehicle.vehicle__model__name}}<br>
+                                        
+                                        Mileage: &nbsp; {{customer_vehicle.vehicle.milage}}
+                                    </p>
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Confirmation Code: {{customer_vehicle.appointment.code}}</h4>
+                <div class="row">
+                	{%if customer_vehicle.appointment.is != 'false' %}
+		                            
+		                           
+                            	<div class="col-xs-6">
+                                	<a href="{%url 'customer:service_selection_appointment'%}?appointment_id={{customer_vehicle.appointment.id}}&profile_id={{customer_vehicle.profile.id}}" class="btn btn-default  btn-block">Edit Appointment</a>
+                                </div>
+                                <div class="col-xs-6">
+                                	<a data-href="{%url 'customer:cancel_appointment'%}?appointment_id={{customer_vehicle.appointment.id}}&profile_id={{customer_vehicle.profile.id}}&dealer_code={{dealer_code}}&referer={{ request.get_full_path|urlencode }}" class="btn btn-danger btn-block" data-toggle="modal" data-target="#confirm-cancel-appointment">Cancel Appointment</a>
+                                </div>
+		                            
+		                      {%else%}
+		                      	    
+                            	<div class="col-xs-6">
+                                	<a href="{%url 'customer:schedule_appointment'%}?customer_vehicle_id={{customer_vehicle.vehicle.id}}&profile_id={{customer_vehicle.profile.id}}" class="btn btn-default btn-success btn-block">Schedule Appointment</a>
+                                </div>
+		                                
+		                            
+		                      {%endif%}
+                </div>
+                <div class="pad-20"></div>
+                <p class="text_14">
+                	Sync to your calender &nbsp; <a href="#"><i class="fa fa-calendar fa-lg"></i></a> &nbsp; 
+                    <a href="#" class="text_blck"><i class="fa fa-file-archive-o fa-lg"></i></a> &nbsp; 
+                    <a href="#"><i class="fa fa-calendar-plus-o fa-lg"></i></a>
+                    <a href="#" class="btn btn-info pull-right btn-sm">Print</a>
+                </p>
+                
+            </div>
+        </div>
+          
+        
+                    
+                    
+                    
+                    
+                      
+
+             

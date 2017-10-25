@@ -1,0 +1,26 @@
+{% extends 'flagging/base.html' %}
+{% block main %}
+<div class="clear pad-50"></div>
+<div class="container-fluid">
+	<div class="row">
+    	<div class="col-sm-offset-3 col-sm-6">
+            <div class="LoginBox">
+            	<h3 class="mt-0 text-center">Reset Username</h3>
+                <p>Please enter the email associated with your Flagging account and we will send instructions.</p>
+                <form action="{% url 'flagging:userreset' %}" method="post"> 
+                	{% csrf_token %}
+                	<div class="form-group">
+                		{{ form.email.errors }}
+                		{{ form.email }}
+                    	<!-- <input type="email" class="form-control" id="" placeholder="c"> -->
+  					</div>  					
+                    <div class="clear pad-5"></div>
+                    <button type="submit" class="btn btn-info">Ok</button> &nbsp; 
+                    <a href="{% url 'flagging:index' %}" class="btn btn-grey">Cancel</a>
+				</form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear pad-5"></div>
+{% endblock %}

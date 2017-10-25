@@ -1,0 +1,211 @@
+<td colspan="5">
+  <div class="row">
+    <div class="col-sm-4">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Customer #</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ row.customer.id}}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Phone #</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ row.customer.phone }}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Email</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ row.customer.email }}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">SMS Yes/NO</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">XXX-XXX-XXXX</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">DOB</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">23/2/2016</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-12 control-label text_16">Credit Card info (Enter info of Scan)</label>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Type</label>
+                <div class="col-sm-9">
+                    <select class="form-control">
+                    {% for key,val in row.creditcard.cardtypes %}
+                            {% if row.creditcard.crdtcard.card_type == key %}
+                                <option selected="selected">{{key}}</option>
+                            {% else %}
+                                <option>{{key}}</option>
+                            {% endif %}
+                       {% endfor %}
+                       </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Number</label>
+                <div class="col-sm-9">
+                    {% if row.creditcard.crdtcard.card_number %}
+                                <input class="form-control" placeholder="Enter # or Scan Card" type="text" value={{row.creditcard.crdtcard.card_number}}>
+                         {% else %}
+                             <input class="form-control" placeholder="Enter # or Scan Card" type="text">
+                         {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Expires</label>
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <select class="form-control">
+                            <option selected disabled>Month</option>
+                            {% for key,val in row.creditcard.cardexpmonth %}
+                                {% if row.creditcard.crdtcard.card_exp_month == key %}
+                                    <option selected="selected">{{key}}</option>
+                                {% else %}
+                                    <option>{{key}}</option>
+                                {% endif %}
+                               {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-xs-6">
+                            <select class="form-control">
+                            <option selected disabled>Year</option>
+                            {% for key,val in row.creditcard.cardexpyr %}
+                                {% if row.creditcard.crdtcard.card_exp_year == key %}
+                                    <option selected="selected">{{key}}</option>
+                                {% else %}
+                                    <option>{{key}}</option>
+                                {% endif %}
+                               {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">CVV</label>
+                <div class="col-sm-9">
+                    {% if row.creditcard.crdtcard.card_ver_number %}
+                        <input class="form-control" placeholder="Enter CVV" type="text" value={{row.creditcard.crdtcard.card_ver_number}}>
+                    {% else %}
+                        <input class="form-control" placeholder="Enter CVV" type="text" value={{row.creditcard.crdtcard.card_ver_number}}>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-4">
+        <div class="text-center mb-20">
+            <img src="{{row.vehicle.image}}">
+        </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-12 control-label text_16">Vehicle info (Enter info of snapshort)</label>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Milage</label>
+                <div class="col-sm-9">
+                {% if row.vehicle.milage %}
+                    <input class="form-control" placeholder="Metor reading / snapshort" type="text" value={{row.vehicle.milage}}>
+                {% else %}
+                     <input class="form-control" placeholder="Metor reading / snapshort" type="text">
+                {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">VIN #</label>
+                <div class="col-sm-9">
+                {% if row.vehicle.vin %}
+                    <input class="form-control" placeholder="Enter VIN # / snapshort" type="text" value={{row.vehicle.vin}}>
+                {% else %}
+                    <input class="form-control" placeholder="Enter VIN # / snapshort" type="text">
+                {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">DL #</label>
+                <div class="col-sm-9">
+                    {% if row.insurence.driver_liscens_number %}
+                    <input class="form-control" placeholder="Enter DL # / snapshort" type="text" value={{row.insurence.driver_liscens_number}}>
+                    {% else %}
+                    <input class="form-control" placeholder="Enter DL # / snapshort" type="text">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">license expiry date</label>
+                <div class="col-sm-9">
+                <input class="form-control" placeholder="license expiry date" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Loaner</label>
+                <div class="col-sm-9">
+                    <div class="radio mr-20" style="display:inline-block;">
+                        <label><input checked="" type="radio"> <span>Yes</span></label>
+                    </div>
+                    <div class="radio" style="display:inline-block;">
+                          <label><input type="radio"> <span>No</span></label>
+                      </div>
+                      <a href="#" class="pull-right mt-10"><strong>Text Loaner Dep. info</strong></a>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="col-sm-4">
+          <div class="text_grn text-center" ><div id="timmer_{{id}}">NOT STARTED<br></div><strong class="text_20" id="timmercount_{{id}}">{{row.time_left.min}}:{{row.time_left.sec}}</strong></div>
+          <div class="clear pad-5"></div>
+          <form class="form-horizontal well mb-0">
+              <div class="form-group">
+                  <label class="col-sm-12 control-label text_16">
+                      SCHEDULE SERVICES <a class="pull-right text_tq text_14">Add Services</a>
+                  </label>
+              </div>
+              <div class="form-group">
+                  <label class="col-sm-9 control-label">Confirmation #</label>
+                  <div class="col-sm-3">
+                      <p class="form-control-static">XXXXXXXX</p>
+                  </div>
+              </div>
+              {% for obj in row.service.details %}
+              <div class="form-group">
+                  <label class="col-sm-9 control-label">{{obj.name}}</label>
+                  <div class="col-sm-3">
+                      <a  class="form-control-static text_tq" onclick="removeservice({{obj.appt_service_id}})">Remove</a>
+                  </div>
+              </div>
+              {% endfor %}
+          </form>
+      </div>
+  </div>
+  <div class="clear pad-5"></div>
+  <div class="row">
+      <div class="col-sm-2 text_16 mt-5"><label>INSURENCE INFO:</label></div>
+      <div class="col-sm-3">
+      <select class="form-control">
+      {% if row.insurence.insurance_company_name %}
+      <option>{{row.insurence.insurance_company_name}}</option>
+      {% else %}
+      <option>Select or Enter Company</option>
+      {% endif %}
+      </select>
+      </div>
+      <div class="col-sm-3">
+      {% if row.insurence.insurance_card_number %}
+      <input class="form-control" placeholder="Enter Policy #" type="text" value={{row.insurence.insurance_card_number}}>
+      {% else %}
+       <input class="form-control" placeholder="Enter Policy #" type="text">
+       {% endif %}
+      </div>
+      <div class="col-sm-1"><select class="form-control"><option>Month</option></select></div>
+      <div class="col-sm-1"><select class="form-control"><option>Year</option></select></div>
+  </div>
+</td>

@@ -1,0 +1,10 @@
+<div style="font-size:larger;" id="reply_div">Your vehicle is at the car wash and will be ready shortly. Please <strong><a href="#" data-toggle="modal" data-target=".payment_details" class="text_red">Reply Here</a></strong> when you are on your way.<br>
+This will help to streamline the pick-up process. Thank you. 
+</div>
+<strong>Addtional Notes:</strong><br>
+{% if appt.ro.shop_notes %}
+{{appt.ro.shop_notes}}
+{% else %}
+No Notes Available
+{% endif %}
+</div>

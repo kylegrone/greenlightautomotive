@@ -1,0 +1,37 @@
+<div class="row">
+				{%for appointment in appointments%}
+                        <div class="col-sm-4">
+                            <div class="text-center">
+                            		<a href="{%url 'customer:service_selection_appointment'%}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">
+                            		<img src="{{appointment.vehicle.vehicle.mainimage.url}}" width="100">
+                            	
+                            </a></div>
+                            <div class="clear pad-10"></div>
+                            <table width="100%">
+                              <tbody>
+                              
+                              <tr>
+                                <td>Make:</td>
+                                <td>{{appointment.vehicle.vehicle.make.name}}</td>
+                              </tr>
+                              <tr>
+                                <td>Model:</td>
+                                <td>{{appointment.vehicle.vehicle.model.name}}</td>
+                              </tr>
+                              <tr>
+                                <td>Year:</td>
+                                <td>{{appointment.vehicle.vehicle.year.name}}</td>
+                              </tr>
+                              <tr>
+                                <td>Milage:</td>
+                                <td>{{appointment.vehicle.milage}}</td>
+                                
+                              </tr>
+                            </tbody></table>
+                            <div class="clear pad-5"></div>
+							<div class="text-center">
+								<a href="{%url 'customer:service_selection_appointment'%}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" class="btn btn-info btn-sm"> Select</a>
+							</div>
+                        </div>
+                     {% endfor %}
+</div>

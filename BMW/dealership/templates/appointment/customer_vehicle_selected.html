@@ -1,0 +1,30 @@
+<div class="row">
+<div class="col-sm-3">
+	<p>Home Phone: &nbsp; {{ customer.Home}}</p>
+    <p>Cell Phone: &nbsp; {{ customer.Mobile}}</p>
+    <p>Email: &nbsp; <a href="#">{{ customer.email_1}}</a></p>
+        
+</div>
+{% for vehicle in vehicles %}
+	<div class="col-sm-3">
+		<div class="col-xs-6 text-center"><a><img src="{{ vehicle.vehicle.image }}" width="100"></a></div>
+		<p><strong>{{ vehicle.vehicle.vehicle__make__name }} {{ vehicle.vehicle.vehicle__year__name }}</strong></p>
+	    <p>approx milage {{ vehicle.vehicle.milage  }}</p>
+	    <p>VIN#: {{ vehicle.vehicle.vin  }}</p>        
+	</div>
+	
+	<div class="col-sm-3">
+		{% if vehicle.advisor.is == "true" %}
+		    <p rel="{{ vehicle.advisor.id }}">{{ vehicle.advisor.last }}</p>
+		{% else %}
+			<p>NO ADVISOR</p>
+		{% endif %}
+	</div>
+	
+	<div class="col-sm-3">
+		<p>Scheduled: Confirm # &nbsp; {{ vehicle.appointment.code }}</p>
+	    <p>    APPT#: Day/Time &nbsp; {{ vehicle.appointment.time  }}</p>
+	    <p>   A Way Away: &nbsp; {{ vehicle.appointment.wayaway  }}</p>	            
+	</div>
+{% endfor %}
+</div>

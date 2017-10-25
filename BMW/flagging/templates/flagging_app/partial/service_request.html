@@ -1,0 +1,51 @@
+{% if not service == None %}
+                                <table class="table table-bordered table-headgray">
+                                  <thead>
+                                    <tr>
+                                      <th width="30"></th>
+                                      <th>ORIGNAL CUSTOMER REQUESTS</th>
+                                      <th class="text-center">LABOR</th>
+                                      <th class="text-center">PARTS</th>
+                                      <th class="text-center">COST</th>
+                                      <th class="text-center">APPROVED</th>
+                                    </tr>
+                                  </thead>
+                                 
+                                   
+                                    <tbody>
+                                    <tr>
+                                    {% for o in service.appointmentService %} 
+                                      <td>{{forloop.counter}}</td>
+                                      <td><b>{% if not o.service.description == None  %} {{ o.service.description }} {% endif %}  {% if not o.service.name == None  %}  / {{ o.service.name }} {% endif %}
+                                      		{% if not o.note == None  %}
+                                      			<br/>Note (customer): {{ o.note}}
+                                      		{%endif%}
+                                      		{% if not o.desc == None  %}
+                                      			<br/>Note (Advisor): {{ o.desc}}
+                                      		{%endif%}
+                                      		
+                                      </b></td>
+                                      <td class="text-center">{{ o.service.price_unit }}{{o.service.labor}}</td>
+                                      <td class="text-center">{{ o.service.price_unit }}{{o.service.parts}}</td>
+                                      <td class="text-center">{{ o.service.price_unit }}{{o.price}}</td>
+                                      <td class="text-center"><i class="fa fa-check-circle fa-lg text_grn"></i></td>
+                                    </tr>
+                                     {% endfor %}
+                                    <tfoot>
+                                    <tr>
+                                      <td></td>
+                                      <td class="text-right">TOTAL APPROVED ESTIMATE</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td class="text-right">{{service.appointmentService.0.service.price_unit}}{{ service.total }}</td>
+                                      <td></td>
+                                    </tr>
+                                  </tfoot>
+                                   
+                                       </tbody>
+                                   
+                                   
+                               
+                                  
+                                </table>
+                                 {% endif %}

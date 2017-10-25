@@ -1,0 +1,190 @@
+{% extends "customer/layouts/appointment_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+{%if appointment %}
+
+
+	<div class="pad-30"></div>	
+		<ul id="myTabs" class="service_menu "> 
+		        	<li role="dropdown" class="dropdown dropdown-hover ">
+			            	<a href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="vehicles-tab">Vehicles</a>
+			            	<ul class="dropdown-menu" style="display: none;width:100%">
+			           			 <li>
+			           			 		{%if appointment.vehicle%}
+			           			 			{{appointment.vehicle.vehicle.make.name}} {{appointment.vehicle.vehicle.model.name}} 
+			           			 		{%else%}
+			           			 			Please select a vehcile
+			           			 		{%endif%}
+			           			 </li>
+			     		   </ul>
+	          		  </li> 
+	          		  
+		            <li role="dropdown"  class="dropdown dropdown-hover ">
+		          	  
+		            	  <a href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Service and Repair </a>
+	            		<ul class="dropdown-menu" style="display: none;width:100%">
+		            		<li>
+		            				<div id="service_repair_top_bar" >
+		            						
+		            						{%if services_list  %}
+		            							Services and Repairs Added
+		            						{%else%}
+		            							No Service or Repair Added
+		            						{%endif%}
+			           			 		
+			           			 	</div>
+			           			 </li>
+			           	</ul>
+		            </li>
+		            
+		            <li role="dropdown" class="dropdown dropdown-hover ">
+		            	
+		            	 <a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Appointment</a>
+		            	<ul class="dropdown-menu" style="display: none;width:100%">
+		            		<li>
+		            				<div id="service_repair_top_bar" >
+			           			 		{%if appointment.advisor or appointment.start_time  or appointment.way_away %}
+			           			 			{%if appointment.start_time%}
+			           			 				Date time{%if appointment.start_time or appointment.way_away%},
+			           			 				{%endif%}
+			           			 			{%endif%}
+			           			 			{%if appointment.advisor%}
+			           			 				&nbsp;Advisor
+			           			 				{%if appointment.way_away%},
+			           			 				{%endif%}
+			           			 			{%endif%}
+			           			 			{%if appointment.way_away%}
+			           			 			&nbsp;Way away 
+			           			 			{%endif%}
+			           			 			selected
+			           			 		{%else%}
+			           			 			Select Date, Advisor, Way away
+			           			 		{%endif%}
+			           			 	</div>
+			           			 </li>
+			           	</ul>
+		            </li>
+		            <li role="dropdown" class="dropdown dropdown-hover ">
+		            	
+		            	 <a href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Review and Book</a>
+		            	<ul class="dropdown-menu" style="display: none;width:100%">
+		            		<li>
+		            				<div id="service_repair_top_bar" >
+		            					{%if appointment.appointment_status_id == 1%}
+		            						Booked
+		            					{%else%}
+			           			 			Not Booked
+			           			 		{%endif%}
+			           			 	</div>
+			           			 </li>
+			           	</ul>
+		            </li>
+		</ul>  
+{%endif%}
+	<div class="pad-10"></div>
+{%if appointments %}
+		<div class="row vehicles_list_appointment">
+			{% for tmpappointment in appointments %}
+						{%include 'customer/appointment/partials/appointment_list_new.html' %}
+			{%endfor%}
+		</div>
+{%else%}
+	{%if appointment == None %}
+		<h4>No Appointments found</h4>
+	{%endif%}
+{%endif%}
+
+		     
+
+ 
+{% endblock %}
+{% block js %}
+{{block.super}}
+ 
+<script src="{% static "customer/js/settings.js" %}"></script>
+
+<script src="{% static "customer/js/bootstrap_dialog.js" %}"></script>
+<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+<link rel="stylesheet" href="{% static "customer/css/bootstrap_dialog.css" %}" />
+     <script src="{% static "customer/js/advisor_selection.js" %}"></script>
+    <script type="text/javascript">
+    
+    	$('document').ready(function(){
+    		var advisor_selection = new AdvisorSelection();
+    		advisor_selection.panel = "#advisor-appointment";
+    		$('body').on("click",".advisor_selector",function(){
+    			
+    		});
+			advisor_selection.dealer_code = "{{dealer_code}}"
+			advisor_selection.pagination_container = "#advisor_pagination"
+			advisor_selection.select_listener = advisor_selection.selectAdvisor;
+			advisor_selection.advisor_fetch_url = "{% url 'customer:get_all_advisors_ajax'%}"
+			advisor_selection.advisor_save_url = "{% url 'customer:save_advisor_ajax'%}";
+// 			advisor_selection.profile_id = {{profile.id}}
+// 			advisor_selection.type = "user"
+			$('#confirm-edit-advisor').on('show.bs.modal', function(e) {
+				
+				var advisor_id = $(e.relatedTarget).data("advisor");
+				
+    			var appointment_id = $(e.relatedTarget).data("appointment");
+    			
+    			advisor_selection.appointment_id = appointment_id;
+    			advisor_selection.setAdvisors();
+			});
+			
+			
+			$('#confirm-edit-advisor').on('hide.bs.modal', function(e) {
+			    window.location=window.location
+			});
+			$('#confirm-cancel-appointment').on('show.bs.modal', function(e) {
+			    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+			})
+    		
+    	});
+    </script>
+{% endblock%}
+{% block extra %}
+
+<!-- -- modals start -->
+
+<div class="modal fade" id="confirm-edit-advisor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4> Select Advisor</h4>
+            </div>
+            <div class="modal-body" >
+               <div class="row" id ="advisor-appointment">
+               		
+               </div>
+               <nav class="text-center"> 
+					     			   <ul id="advisor_pagination" class="pagination">
+					     			   </ul>
+			     					</nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>	
+
+
+<div class="modal fade" id="confirm-cancel-appointment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+               	Cancel Appointment	
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel this appointment.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <a class="btn btn-danger btn-ok" href="#">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>	
+
+{%endblock%}

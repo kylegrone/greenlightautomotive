@@ -1,0 +1,51 @@
+<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <div class="clear pad-10"></div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <div class="table-responsive">
+                                                <div class="ReportsTablesHead">
+                                                    <div class="ReportsTableLogo">
+                                                        <img src="/static/images/logo.png" width="66" height="69"> BMW San Francisco
+                                                    </div>
+                                                    <div class="ReportsTableTitle">
+                                                        Service Advisor Report
+                                                    </div>
+                                                </div>
+                                                <table class="table table-bordered table-striped table-headblck">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Advisor Name</th>
+                                                            <th>Eligible Closed Ros</th>
+                                                            <th>Average Milage/ Eligible Closed Ros</th>
+                                                            <th>SA Rec. Insp. %</th>
+                                                            <th>ROs w/Insp. %</th>
+                                                            <th>Tec Recs per Insp.</th>
+                                                            <th>Post Sale to Action Plan emailed</th>
+                                                            <th>CP Dollars per CP RO</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for row in rows %}
+                                                        <tr>
+                                                            <td>{{row.advisor}}</td>
+                                                            <td>{{row.closed_ros}}</td>
+                                                            <td>{{row.average_milage}}</td>
+                                                            <td>{{row.rec_inpsection}}</td>
+                                                            <td>{{row.rec_closed_ro}}</td>
+                                                            <td>{{row.tec_recs_per_inspection}}</td>
+                                                            <td>N/A</td>
+                                                            <td>N/A</td>
+                                                        </tr>
+                                                       {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>

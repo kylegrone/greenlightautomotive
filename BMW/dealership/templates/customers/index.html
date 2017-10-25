@@ -1,0 +1,90 @@
+{% extends 'dealership/subbase.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="clear pad-10"></div>
+
+<div class="customer-page">
+	<div class="container-fluid">
+	    <div class="bg_wht pad-10">
+	        <div class="row">
+	        	<div class="col-sm-2">
+	        		<h4 class="font_regular">Find Customer</h4>
+	            </div>            
+	            <div class="col-sm-6">
+	        		{% include "dealership/app/partials/search.html" %} 
+	            </div>
+	            <div class="col-sm-4 text-right">
+	            	<button type="button" class="btn btn-default" data-toggle="modal" data-target=".newcustomer">New Customer</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+		
+	<div class="clear pad-10"></div>
+	<div class="container-fluid">
+	    <div class="panel-group" id="accordion-customer" role="tablist" aria-multiselectable="true">   
+			{% for row in list.data %}
+				{% include "customers/partials/list.html" %} 
+			{% endfor %}
+		</div>
+	</div>
+	<div class="clear pad-10"></div>
+	<div class="container-fluid  pad-0">
+		<div class="bg_wht pad-10">
+	        <div class="row">
+				<div class="col-sm-12 pagination-page"></div>
+			</div>
+		</div>
+	</div>
+		
+	{% include "customers/partials/customers_add_modal.html" %} 
+	{% include "customers/partials/customers_advisor_modal.html" %} 
+</div>
+{% endblock %}
+
+{% block script %}
+
+	{{ block.super }}
+	<script src="{% static "js/simplePagination.js" %}"></script>
+	<script src="{% static "js/dealership_customer.js" %}"></script>
+	<script src="{% static "js/dealership_overview.js" %}"></script>
+	<script src="{% static "js/dealership_appointment.js" %}"></script>
+	<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+	<script src="{% static "customer/js/advisor_selection.js" %}"></script>
+	<script>	
+		
+		$(document).ready(function() {	
+			
+		    $(".dropdown-hover").hover(            
+				function() {
+					$('.dropdown-menu', this).stop( true, true ).fadeIn("fast");
+					$(this).toggleClass('open');
+					$('b', this).toggleClass("caret caret-up");                
+				},
+				function() {
+					$('.dropdown-menu', this).stop( true, true ).fadeOut("fast");
+					$(this).toggleClass('open');
+					$('b', this).toggleClass("caret caret-up");                
+				}
+			);
+		    
+		    
+		    $('.pagination-page').pagination({
+		        items: {{ list.total }},
+		        itemsOnPage: {{ list.limit }},
+		        currentPage: {{ list.page }},
+		        hrefTextPrefix : "?{{qstring}}page=",
+		        cssStyle: 'light-theme'
+		    });
+
+			var dealer_code = "{{ config.dealer_code }}";
+			
+			window.dealershipCustomer = new DealershipCustomer();
+			window.dealershipCustomer.dealer_code = "{{ config.dealer_code }}";
+			window.dealershipCustomer.setEventListeners();
+			window.dealershipCustomer.getVehicleWidget({{vehicles|safe}});				
+		});	
+			  
+	</script>
+{% endblock %}

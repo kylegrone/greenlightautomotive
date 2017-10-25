@@ -1,0 +1,59 @@
+<div class="row">
+                                    <div class="col-lg-12">
+
+                                        <div class="table-responsive">
+                                            <div class="ReportsTablesHead">
+                                                <div class="ReportsTableLogo">
+                                                    <img src="/static/images/logo.png" width="66" height="69"> BMW San Francisco
+                                                </div>
+                                                <div class="ReportsTableTitle">
+                                                    Technician Analysis Report
+                                                </div>
+                                            </div>
+                                            <table class="table table-bordered table-striped table-headblck">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Technician Name</th>
+                                                        <th>SA Req. Insp.</th>
+                                                        <th>Req. Insp. Completed</th>
+                                                        <th>Req. Insp. Completed (%)</th>
+                                                        <th>Unrequested Insp. Completed</th>
+                                                        <th>ROs w/ Insp. </th>
+                                                        <th>Average Mileage per Inspetion</th>
+                                                        <th>Tec Recs per Inspection</th>
+                                                        <th>Failed Rec Value per Inspection</th>
+                                                        <th>Caution Rec Value per Inspection</th>
+                                                        <th>Failed Approved Rec Value per Insp</th>
+                                                        <th>Failed Rec Close %</th>
+                                                        <th>Ros from Return Visits within 30 days</th>
+                                                        <th>Same Visit upsell from Inspected Ros</th>
+                                                        <th>Same Visit Avg upsell per Insp. </th>
+                                                        <th>Upsell $ from Return Visits within 30days</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for row in rows %}
+                                                    <tr>
+                                                        <td>{{row.technician}}</td>
+                                                        <td>{{row.sa_req_inspection}}</td>
+                                                        <td>{{row.req_inspection_completed}}</td>
+                                                        <td>{{row.req_inspection_completed_percent}}</td>
+                                                        <td>N/A</td>
+                                                        <td>{{row.ros_with_inspection.milage}}</td>
+                                                        <td>{{row.tech_recs_per_inspection}}</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                        <td>N/A</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>

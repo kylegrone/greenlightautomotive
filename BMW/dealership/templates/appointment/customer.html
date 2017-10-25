@@ -1,0 +1,62 @@
+<div class="row">
+<div class="col-sm-3">
+	<p>Home Phone: &nbsp; {{ customer.Home}}</p>
+    <p>Cell Phone: &nbsp; {{ customer.Mobile}}</p>
+    <p>Work Phone: &nbsp; {{ customer.Work}}</p>
+    <p>Email: &nbsp; <a href="#">{{ customer.email_1}}</a></p>
+    <p>Address: &nbsp; {{ customer.address_line1}}<br>{{ customer.address_line2}}</p>
+    
+    <div class="clear pad-10"></div>
+    
+    <p>DL#: &nbsp; {{ customer.insurance.driver_liscens_number}}</p>
+    <p>Insurance: &nbsp; {{ customer.insurance.insurance_company_name}} {{ customer.insurance.insurance_card_number}}</p>
+    {% if customer.cc == 0 %}
+    	<p>CC#: &nbsp; No Information Available</p>
+    {% else %}
+    	<p>CC#: &nbsp; XXXX-XXXX-XXXX-{{ customer.cc}}</p>
+    {% endif %}
+    
+    <div class="clear pad-10"></div>
+    
+    <p>Notes: &nbsp; {{ customer.customer_notes }}</p>
+     <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target=".editcust">Edit</a>
+</div>
+<div class="col-sm-9">
+	<div id="carousel-customer" class="carousel slide" data-ride="carousel">
+    	<div class="carousel-inner" role="listbox">
+  		
+        	{% for vehicle in vehicles %}
+        		{% if forloop.counter|divisibleby:2  %}
+        		{% else %}  
+        			{% if forloop.counter == 1 %}      		
+		        	<div class="item active">
+		        		<div class="row">
+		        	{% else %} 
+		        		</div>
+		        	</div>
+		        	<div class="item">
+		        		<div class="row">			        				
+		        	{% endif %}						
+				{% endif %}	 
+					{% include "appointment/customer_vehicle.html" %}        	
+							        		
+		        {% if forloop.counter == vehicles|length %}
+		        		</div>		
+		        	</div>        		
+		        {% endif %}								       
+				    
+			{% endfor %}         
+		</div>
+        
+		<a class="left carousel-control" href="#carousel-customer" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#carousel-customer" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</div>
+</div>
+	{% include "customers/partials/edit_customer.html" %} 

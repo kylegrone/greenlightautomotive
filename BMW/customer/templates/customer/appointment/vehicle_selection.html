@@ -1,0 +1,151 @@
+{% extends "customer/layouts/appointment_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+ {%if appointment %}
+	<ul id="myTabs" class="service_menu "> 
+	        	<li role="dropdown" class="dropdown dropdown-hover active">
+		            	<a href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="vehicles-tab">Vehicles</a>
+		            	<ul class="dropdown-menu" style="display: none;width:100%">
+		           			 <li>
+		           			 		{%if appointment.vehicle%}
+		           			 			{{appointment.vehicle.vehicle.make.name}} {{appointment.vehicle.vehicle.model.name}} 
+		           			 		{%else%}
+		           			 			Please select a vehcile
+		           			 		{%endif%}
+		           			 </li>
+		     		   </ul>
+          		  </li> 
+          		  
+	            <li role="dropdown"  class="dropdown dropdown-hover">
+	          	  
+	            	  <a href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Service and Repair </a>
+            		<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+		           			 		Complete Previous Steps
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            
+	            <li role="dropdown" class="dropdown dropdown-hover">
+	            	
+	            	 <a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Appointment</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+		           			 		Complete Previous Steps
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            <li role="dropdown" class="dropdown dropdown-hover">
+	            	
+	            	 <a href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Review and Book</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+		           			 		Complete Previous Steps
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	</ul>
+	<div class="pad-10"></div>
+	<ul class="pager">
+ 			<li class="previous pointer" style="display:none">
+   				
+   					<a><span aria-hidden="true">←</span> Previous</a>
+   		</li>
+   		<li class="next pointer" >
+   				<a >Next <span aria-hidden="true">→</span></a>
+   		</li>
+ 		</ul>
+{%endif%}
+          	<form class="form-horizontal" id="vehicle_form" method="POST"  action=""{% url 'customer:vehicle_selection_appointment' %}"">
+          	 {% csrf_token %}
+          		{% include "customer/appointment/partials/selection_form.html"%}
+          		{% include "customer/appointment/partials/model_selection.html"%}
+          		<input type="hidden" name="appointment_id" value="{{appointment.id}}"/>
+          		<input type="hidden" name="dealer_code" value="{{dealer_code}}"/>
+          </form>
+        
+      <nav>
+  		<ul class="pager">
+  			<li class="previous pointer" style="display:none">
+    				
+    					<a><span aria-hidden="true">←</span> Previous</a>
+    		</li>
+    		<li class="next pointer" >
+    				<a >Next <span aria-hidden="true">→</span></a>
+    		</li>
+  		</ul>
+	</nav>
+
+ 
+{% endblock %}
+{% block js %}
+{{block.super}}
+ 
+	<script src="{% static "customer/js/settings.js" %}"></script>
+		<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+			<script src="{% static "customer/js/snapshot.js" %}"></script>
+			<script src="{% static "customer/js/bootstrap_dialog.js" %}"></script>
+			<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+	<script>
+			$(document).ready(function(){
+				var accordion = "{{accordion}}";
+				closeContainers();
+				$("#submit_btn").click(function(){
+					
+				});
+				
+				if(accordion=="main" || accordion ==""){
+					openSelectionForm()
+				}
+				else{
+					openModelForm()
+				}
+				$("body").on("click",".next",function(){
+					if($("#main_container_vehicle").find(".collapsable_div").css("display")=="block"){
+						openModelForm()
+					}else{
+						
+						submitForm();	
+					}
+				})
+				$("body").on("click",".previous",function(){
+					if($("#model_container_vehicle").find(".collapsable_div").css("display")=="block"){
+						openSelectionForm()
+					}
+				})
+			})
+			
+			
+			function submitForm(){
+				
+				var make = $("#make").val();
+				var year = $("#year").val();
+				var model = $("#vehicle_id_field").val();
+				if(make==""   || model == "" || year=="" ){
+					BootstrapDialog.alert('You need to select Make,Year and Model first to continue',"Error");
+					openSelectionForm()
+					
+				}else{
+					$("#vehicle_form").submit();
+				}
+			}
+			
+			function openSelectionForm(){
+				openContainer($("#main_container_vehicle"));
+				$(".previous").hide();
+			}
+			function openModelForm(){
+				openContainer($("#model_container_vehicle"));
+				$(".previous").show();
+			}
+	</script>
+	{% endblock%}
+	{% block extra %}
+		
+{%endblock%}

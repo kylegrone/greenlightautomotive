@@ -1,0 +1,19 @@
+<div>search customer</div>
+
+<form id="searchcust_form" action="{% url 'dealership:searchcustomer' %}" method="post">
+	{% csrf_token %}
+    <div class="form-group">
+    	{% for choice in searchform.options %}
+    		<div  class="radio">
+	            <label>{{ choice.tag }} <span>{{ choice.choice_label }}</span></label>
+	        </div>
+		{% endfor %}
+    </div>
+    <div class="form-group">
+    	{{ searchform.criteria }}
+    </div>
+    <button  type="submit" class="btn btn-info" id="submit">Ok</button>
+</form> 
+
+
+

@@ -1,0 +1,48 @@
+
+		{% load flagging_tags %}
+						
+	 <td style="background-color: {{appointment.ro.ro_number|getColor}} !important;"></td>
+	 <td class="ro_number">{{ appointment.ro.ro_number }}</td>
+	<td>{{ appointment.ro.ro_date }}</td>
+	<td>{{ appointment.ro.rfid_tag }}</td>
+	<td>{{ appointment.customer.first_name }} {{ appointment.customer.last_name }}</td>
+	<td>{{ appointment.vehicle.vehicle.year.name }}</td>
+	<td>{{ appointment.vehicle.vehicle.make.name }}</td>
+	<td>{{ appointment.vehicle.vehicle.model.name }}</td>
+	<td>{{ appointment.vehicle.customer_vehicle_desc }}</td>
+	<td> {{ appointment.vehicle.milage }} </td>
+	<td> {{ appointment.advisor.userprofile.first_name}} {{ appointment.advisor.userprofile.last_name}} </td>
+	<td> {{ appointment.ro.inspector.userprofile.first_name}} {{ appointment.ro.inspector.userprofile.last_name}} </td>
+	{% if not appointment.ro.flag1 == None %}
+	<td class="flag1" style="color:{{appointment.ro.ro_number|getColor}}">
+	<span data-toggle="popover" title=""
+	data-content="LastUpdated: {{appointment.ro.flag1_updated_time}} UpdatedBy: {{appointment.ro.flag1_updated_by.first_name}}">{{ appointment.ro.flag1.name }}</span>
+	</td>
+	{% else %}
+	<td class="text_{{appointment.ro.ro_number|getColor}}"></td>
+	{% endif %}
+	<td>{{ appointment.ro|getFlagTimeLapsed:'flag1'}}</td>
+	{% if not appointment.ro.flag2 == None %}
+	<td class="flag2"  style="color:{{appointment.ro.ro_number|getColor}}">
+	<span data-toggle="popover" title=""
+	data-content="LastUpdated: {{appointment.ro.flag2_updated_time}} UpdatedBy: {{appointment.ro.flag2_updated_by.first_name}}">
+	{{ appointment.ro.flag2.name }}</span>
+	
+	
+	</td>
+	{% else %}
+	<td class="text_{{appointment.ro.ro_number|getColor}}"></td>
+	{% endif %}
+	<td>{{ appointment.ro|getFlagTimeLapsed:'flag2'}}</td>
+	{% if not appointment.ro.flag3 == None %}
+	<td class="flag3"  style="color:{{appointment.ro.ro_number|getColor}}">
+	<span data-toggle="popover" title=""
+	data-content="LastUpdated: {{appointment.ro.flag3_updated_time}} UpdatedBy: {{appointment.ro.flag3_updated_by.first_name}}">
+	{{ appointment.ro.flag3.name }}
+	</span>
+	</td>
+	{% else %}
+	<td class="text_{{appointment.ro.ro_number|getColor}}"></td>
+	{% endif %}
+	<td>{% if  appointment.ro|checkinnotes %}<i class="fa fa-check"></i> {% else %}<i>...</i>{% endif %}</td>
+	<td>{{ appointment.ro|getInspectionStatus }}</td>

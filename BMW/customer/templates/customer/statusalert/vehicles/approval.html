@@ -1,0 +1,113 @@
+{% if  recommandations %}
+{% if appt.appointment_recommandation_status %}
+	<p class="text-danger">Detail Of Your Approved Appointment Recommandations Are:</p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-headgray">
+                    <thead>
+                    	<tr>
+                        	<th></th>
+                            <th>INSPECTION NOTES</th>
+                            <th>PART PRICE</th>
+                            <th>LABOUR PRICE</th>
+                            <th class="text-center">TOTAL</th>
+                            <th class="text-center">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in recommandations %}
+                    	<tr>
+                        	<td>{{forloop.counter}}</td>
+                            <td>{{obj.notes}}</td>
+                            <td>${{obj.parts}}</td>
+                            <td>${{obj.labor}}</td>
+                            <td class="text-center">${{obj.price}}</td>
+                            <td>{{obj.status}}</td>
+                        </tr>
+                       {% endfor %}
+                        <tr class="info">
+                        	<td colspan="4"></td>
+                            <td class="text-center"><strong>${{total}}</strong></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+{% else %}
+<p class="text-danger">Please review the service recommendations listed for approval bellow:</p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-headgray">
+                    <thead>
+                    	<tr>
+                        	<th></th>
+                            <th>INSPECTION NOTES</th>
+                            <th>PART PRICE</th>
+                            <th>LABOUR PRICE</th>
+                            <th class="text-center">TOTAL</th>
+                            <th class="text-center">APPROVE</th>
+                            <th class="text-center">DECLINE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in recommandations %}
+                    	<tr>
+                        	<td>{{forloop.counter}}</td>
+                            <td>{{obj.notes}}</td>
+                            <td>{{obj.parts}}</td>
+                            <td>{{obj.labor}}</td>
+                            <td class="text-center">${{obj.price}}</td>
+                            <td class="text-center"><label class="checkbox m-0"><input type="radio" name="{{obj.id}}" value="Accept" checked/> <span>&nbsp;</span></label></td>
+                            <td class="text-center"><label class="checkbox m-0"><input type="radio" name="{{obj.id}}" value="Decline"/> <span>&nbsp;</span></label></td>
+                        </tr>
+                       {% endfor %}
+                        <tr class="info">
+                        	<td colspan="4"></td>
+                            <td class="text-center"><strong>${{total}}</strong></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+            	<div class="col-sm-offset-3 col-sm-6">
+                	<div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="info">
+                                    <th>
+                                        <h5 class="mb-0 pull-left">CUSTOMER SIGNATURE</h5>
+                                        <div class="col-sm-6 pull-right">
+                                            <input type="text" class="form-control" placeholder="Type Customer Full Name" name="signature">
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <!-- button type="button" class="btn btn-default btn-sm disabled">Type</button> &nbsp; 
+                                        <button type="button" class="btn btn-info btn-sm">Draw</button--->
+                                        <div class="clear pad-10"></div>
+                                        <p>I, the customer agree to <a href="#">terms & conditions</a> and <a href="#">Work Order</a> for the appointment 
+                                        (Language Needed)</p>
+                                        <!-- div class="input-group"> 
+                                            <input class="form-control" type="text" name="mirror"> 
+                                            <div class="input-group-btn"> 
+                                                <button type="button" class="btn btn-grey rest" aria-label="Help">Reset</button> 
+                                                <button type="button" class="btn btn-info apply">Apply</button> 
+                                            </div> 
+                                        </div-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="checkbox"><input type="checkbox" id="status_email"><span>Send me email or approved work order</span></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center"><button type="submit" class="btn btn-primary submitapproval">SUBMIT APPROVAL</button></div>
+                </div>
+            </div>
+{% endif %}
+{% else %}
+<p class="text-danger">No Recommendations </p>
+{% endif %}

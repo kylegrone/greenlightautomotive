@@ -1,0 +1,162 @@
+{% load staticfiles %}
+<div class="modal fade newcustomer" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New Customer</h4>
+                </div>
+      			<div class="modal-body">				
+                	
+                    <div class="row">
+						<div class="col-sm-6">
+							<form id="form-save-customer" class="save-form pending">
+                                <h5>Customer Details:</h5>
+                                <div class="clear pad-5"></div>
+                                <div class="form-group">
+                                    <label>Last Name*</label>
+                                    {{ custform.last_name }}
+                                </div>
+                                <div class="form-group">
+                                    <label>First Name*</label>
+                                    {{ custform.first_name }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone*</label>
+                                   	{{ custform.phone_number_1 }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Email*</label>
+                                    {{ custform.email_1 }}
+                                </div>
+                                <input type="hidden" value="Email" name="method_of_contact" />
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label><input name="send_link" type="checkbox" checked="checked" /> <span>Send email with registration link</span></label>
+                                    </div>
+                                </div>
+                                <button type="submit" id="form-save-customer-submit" class="submit hidden"></button>
+							</form> 
+                        </div> 				 
+						<div class="col-sm-6">
+							<form id="form-save-vehicle" class="pending">
+								<h5>Vehicle Details:</h5>
+								<div class="clear pad-5"></div>
+								<div class="form-group">
+									<label>Year</label>
+									<select class="form-control vehichle_selectbox" data-name="Year" data-key="year" required="required" id="year"><option value="">Select Year</option> </select>
+								</div>
+								<div class="form-group">
+									<label>Make</label>
+									<select class="form-control vehichle_selectbox" data-name="Make" data-key="make" id="make"><option value="">Select Make</option></select>
+								</div>
+								<div class="form-group">
+									<label>Model</label>
+									<select class="form-control vehichle_selectbox" data-name="Model" data-key="model" required="required" id="model"><option value="">Select Model</option></select>
+								</div>
+								
+								
+								{{ vehicleform.vehicle }}
+								{{ vehicleform.user }}
+								
+								<div class="form-group">
+									<label>Mileage</label>
+									{{ vehicleform.milage }}
+								</div>
+								<div class="form-group">
+									<label>VIN#</label>
+									{{ vehicleform.vin_number }}
+								</div>
+								<div class="form-group">
+									<label>License#</label>
+									{{ vehicleform.lisence_number }}
+								</div>
+								<button type="submit" id="form-save-vehicle-submit" class="hidden"></button>
+							</form>							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+                                <div class="checkbox">
+                                    <label><input class="chk-reminder" type="checkbox" checked="checked"></input> <span>Please remind me about this appointment</span></label>
+                                </div>
+                                <div class="clear pad-5"></div>
+                                <form id="form-save-reminder" class="save-form pending"> 
+	                                <div class="chk-reminder-options">
+	                                	{% for choice in guestform.method_of_reminder %}
+		                                	<div class="radio">
+									    		<label class="radio">{{ choice.tag }} <span>{{ choice.choice_label }}</span></label>
+											</div>
+										{% endfor %}                                 	
+	                                </div>
+	                                {{ guestform.customer }}
+                                	<button type="submit" id="form-save-reminder-submit" class="submit hidden"></button>
+								</form>                                
+                            </div>
+						</div>
+						<div class="col-sm-6">
+							<h5>Appointment Information:</h5>
+							<div class="clear pad-5"></div>
+							<form id="form-save-appointment" class="save-form pending"> 
+								{{ apptform.vehicle }}
+								{{ apptform.customer }}
+								{{ apptform.advisor }}
+								
+								<div class="form-group">
+                        			<div class="media"> 
+                            			<div class="media-left">
+                                			<a><img  src="{%static "images/noimage.gif" %}" class="media-object img-thumbnail" width="75"></a>
+                            			</div> 
+			                            <div class="media-body advisor-panel">
+								            <p>Advisor:<br>NO ADVISOR</p>
+			                                <a class="btn btn-info btn-xs pull-right edit-advisor" data-toggle="modal" data-target="#select-advisor-modal">Edit</a>
+			                            </div> 
+                        			</div>
+                    			</div>								
+								
+								<div class="form-group">
+									Is APPT for regular Maintenance?<div class="clear"></div>
+									{% for choice in apptform.maintenance %}
+										<div class="radio">
+											<label class="radio">{{ choice.tag }} <span>{{ choice.choice_label }}</span></label>
+										</div>
+									{% endfor %}
+								</div>                                
+								<div class="form-group">
+									<label>Services Concerns?</label>
+									{{ apptform.service_notes }}
+								</div>
+								<button type="submit" id="form-save-appointment-submit" class="submit hidden"></button>
+							</form>
+						</div>							
+					</div>
+					
+					<div class="row">     
+						<div class="alert error alert-danger fade in hidden">
+							<!--
+					    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+					    -->
+					    	<strong>Error!</strong>
+					    	<div class="details"></div>
+						</div>
+					                   
+						<div class="col-sm-offset-2 col-sm-8 text-center">
+							<h5>Save before scheduling an appointment!</h5>
+							<button type="submit" class="btn btn-info add-cust-submit">Save</button>
+							<div class="clear pad-10"></div>
+							<div class="progress">
+								<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+									0%
+								</div>
+							</div>
+							<button class="btn btn-info btn-schedule-apt disabled">Schedule Appointment</button>
+						</div>
+					</div>   
+                </div>
+    		</div>
+    	</div>
+  	</div>
+</div>
+ 

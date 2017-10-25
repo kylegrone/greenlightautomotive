@@ -1,0 +1,7 @@
+
+<h4 class="mt-0">{{ day }} ({{ availed }})</h4>
+<div class="panel-group" id="{{ id }}" role="tablist" aria-multiselectable="true">	
+	{% for slab in slabs %}
+		{% include "overview/time_weekly_slab.html" %}  
+	{% endfor %}
+</div>

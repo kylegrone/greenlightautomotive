@@ -1,0 +1,29 @@
+<div class="HeadRow GridRowBlue">
+    <table class="table mb-0">
+        <tbody>
+            <tr>
+                <td colspan="8">
+                    <strong class="text_14">{{ slab.title }} ({{ slab.size }}/{{ slab.capacity }})</strong> Click customer name to open detail
+                	<span aria-hidden="true" class="glyphicon glyphicon-chevron-up pull-right  mt-5"></span>
+                    <span aria-hidden="true" class="glyphicon glyphicon-chevron-down pull-right hide mt-5"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+                        
+<div class="DetailRow">
+    <table class="table mb-0">
+        <tbody>  
+        	{% if slab.data %}                   
+				{% for row in slab.data %}
+					{% include "mobilecheckin/appointments/time_daily_row.html" %} 
+				{% endfor %}
+			{% else %}
+				<tr>
+	  				<td class="col-lg-12">No Appointments for this Slab</td>
+	  			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+</div>

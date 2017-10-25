@@ -1,0 +1,127 @@
+{% extends 'dealership/subbase.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="overview-page">
+	
+	{% block meters %}
+		<div class="container-fluid">
+			<div class="da_menu">
+				{% include "dealership/app/wallboard.html" %}  
+			</div>
+		</div>
+		<div class="clear"></div>
+	{% endblock %}
+	
+	{% block operations %}
+		{% include "dealership/app/operations.html" %}  
+	{% endblock %}
+		
+	<div class="container-fluid">
+	    <div class="bg_wht pad-10">
+			{% block filters %}
+				{% include "overview/filters.html" %} 
+			{% endblock %}
+			
+			{% block data %}
+				<div id="main_content">
+					 
+				</div>
+			{% endblock %}
+		</div>
+	</div>
+	
+	{% include "customers/partials/customers_add_modal.html" %}
+	{% include "customers/partials/customers_advisor_modal.html" %}
+	{% include "overview/carryover_time.html" %}
+</div>
+{% endblock %}
+
+{% block script %}
+	{{ block.super }}
+	
+	<script src="{% static "js/dealership_customer.js" %}"></script>
+	<script src="{% static "js/dealership_appointment.js" %}"></script>
+	<script src="{% static "js/dealership_overview.js" %}"></script>
+	<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+	<script src="{% static "customer/js/advisor_selection.js" %}"></script>
+	
+	
+	<script>		
+		$(document).ready(function() {	
+			var dealer_code = "{{ config.dealer_code }}";
+			
+			window.dealershipOverview = new DealershipOverview();
+			window.dealershipOverview.search = "{{ qstring.search }}";
+			window.dealershipOverview.criteria = "{{ qstring.criteria }}";
+			window.dealershipOverview.cust_id = "{{ qstring.cust_id }}";
+			window.dealershipOverview.appt_id = "{{ qstring.appt_id }}";
+			window.dealershipOverview.dealer_code = "{{ config.dealer_code }}";
+			window.dealershipOverview.setEventListeners();		
+			window.dealershipOverview.setOverviewFilters();
+			
+			window.dealershipOverview.getWallboardData();
+			
+				
+			window.dealershipCustomer = new DealershipCustomer();
+			window.dealershipCustomer.dealer_code = "{{ config.dealer_code }}";
+			window.dealershipCustomer.setEventListeners();
+			window.dealershipCustomer.getVehicleWidget({{vehicles|safe}});	
+			
+			
+			window.puller = new messagePuller();
+			window.puller.centrifuge_url ="{{config.CENTRIFUGE_URL}}";
+			window.puller.secret = "{{config.CENTRIFUGE_SECRET}}";
+			window.puller.channel = "{{config.dealer_id}}";
+			window.puller.user = "demo";
+			window.puller.addWidgets(
+					{"name":"update","callback":window.dealershipOverview.setupRealTimeUpdates,
+					"services_listening_to":["appointments"]
+					}						
+			);		
+			
+			window.puller.addWidgets(
+				{"name":"wallboard","callback":window.dealershipOverview.updateWallboard,
+					"services_listening_to":["appointments"]
+					}
+			);	
+			window.puller.setCentrifuge();
+			window.puller.connect();
+		
+			//overviewTimeWeekly();
+			
+			//console.info(search);
+				
+			//var d = new Date();
+			//var time = d.getHours() + ":" + d.getMinutes();		
+			
+			/*
+			fetchAllApointments();
+			var date = new Date;
+			var minutes = 10 - date.getMinutes()%10;
+			var seconds = (((minutes* 60) - date.getSeconds())+1)*1000;
+			console.info(seconds);		
+			
+			var refreshIntervalId = setInterval(function(){ firstInterval(); }, seconds);		
+			
+			function firstInterval()
+			{
+				clearInterval(refreshIntervalId);
+				setInterval(function(){ fetchNextAppointment(); }, 600000);
+				fetchNextAppointment();
+			}
+			*/
+			
+			
+			/*
+			var csrftoken = getCookie('csrftoken');
+			$.ajaxSetup({
+			    beforeSend: function(xhr, settings) {
+			        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+			            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			        }
+			    }
+			});  
+			*/      
+		});		
+	</script>
+{% endblock %}

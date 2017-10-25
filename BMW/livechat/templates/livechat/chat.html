@@ -1,0 +1,216 @@
+{% load staticfiles %}
+  	<link href="{% static "css/custom_chat.css" %}" rel="stylesheet">
+	
+	<script src="{% static "js/sock.js" %}"></script>
+	<script src="{% static "js/sha.js" %}"></script>
+	
+	<script src="{% static "js/centrifuge.js" %}"></script>
+	<script src="{% static "js/livechat.js" %}"></script>
+
+	{% if chatadvisor %}
+
+		<div class="chatbox">
+		    <div id="flip">
+		    	<div id="chat-contact-button" class=""></div>Contact a Service Advisor
+		    </div>
+		    <div id="chat-panel" class='chat_panel'>
+		        <div class="row">
+		        	<div class="live_support_main" >
+				        	<div class="col-xs-5 text-center">
+				        		{%if chatadvisor.userprofile.avatar%}
+				            		<img src="{{chatadvisor.userprofile.avatar.url}}" class="img-responsive mb-10">
+				            	{%else%}
+				            		<img src="{% static "images/noimage.gif" %}" class="img-responsive mb-10">
+				            	{%endif%}
+				                <small>{{chatadvisor.first_name}} {{chatadvisor.last_name}}</small>
+				            </div>
+				            <div class="col-xs-7" >
+				            	{{chatadvisor.userprofile.first_name}} {{chatadvisor.userprofile.last_name}} is available to answer your questions
+				            	{% if chatadvisor.userprofile.phone_number_1 and chatadvisor.userprofile.phone_number_1 != "0" %}
+				               		 <p class="text-center"><a href="tel:{{chatadvisor.userprofile.phone_number_1}}">{{ chatadvisor.userprofile.phone_number_1}}</a></p>
+				               			 <div class="clear pad-5"></div>
+				                		<a href="tel:{{chatadvisor.userprofile.phone_number_1}}" class="btn btn-default btn-block btn-sm">Click to Call Now</a>
+				                {%endif%}
+				              	  <div class="clear pad-5"></div>
+				               	 <!--  <a href="#" class="btn btn-info btn-block btn-sm livechat_enable_btn">Live Chat</a>-->
+				               	
+				            </div>
+		           </div>
+		        
+		        </div>
+		           <div class="chat_box_main">
+		         	 
+					        <div id="chat" >
+					        	<div class="media">
+					                <div class="media-left">
+					                   
+					                    {%if chatadvisor.userprofile.avatar%}
+					                    
+				            				 <a href="#"><img src="{{chatadvisor.userprofile.avatar.url}}" width="50" class="media-object img-circle" alt=""></a>
+				            			{%else%}
+				            				 <a href="#"><img src="{% static "images/noimage.gif" %}" width="50" class="media-object img-circle" alt=""></a>
+				            			{%endif%}
+					                </div>
+					                <div class="media-body">Now chatting with {{chatadvisor.first_name}} {{chatadvisor.last_name}}</div>
+					                <div>  
+					                 	<a href="#" class="close_chat">
+         										 <span class="glyphicon glyphicon-remove "></span>
+        								</a> 
+        							</div> 					
+					            </div>
+					            
+					            <div class="chat-erea clearfix chat_box_inner">
+					                
+					            </div>
+					            <div class="loading_chatbox">Loading...</div>
+					                <div class="extra_details_chatbox">Loading...</div>
+					            <div class="media">
+					                <div class="media-left">
+					                    <a href="#"><span src="{% static "images/noimage.gif" %}" width="50" class="glyphicon glyphicon-camera image_upload media-object img-circle" alt=""></span></a>
+					                </div>
+					                <div class="media-body">
+					                		<textarea class="form-control message_box"  id="messagebox" disabled="disabled"></textarea>
+					                </div>
+					                <div class="media-right">
+					                    <input type="button" disabled="disabled" href="#" class="btn btn-sm btn-info sendchat_button" value="send"/>
+					                </div>    					
+					            </div>
+					        </div>
+					   
+		        
+				           
+		           
+		           
+		        </div>
+		    </div>
+		</div>
+		<div class="hdn_form">
+					<form action="{% url 'livechat:upload' %}" method="post" id="upload_form" enctype="multipart/form-data">
+										        {% csrf_token %} {{imgform}} 
+										        <input type="submit" value="Upload" id="submit_btn"/>
+					</form>
+		</div>
+		
+		<script> 
+			$(document).ready(function(){
+				
+				var livechat = new liveChat()	;
+				livechat.centrifuge_url ="{{CENTRIFUGE_URL}}";
+				livechat.secret = "{{CENTRIFUGE_SECRET}}";
+				livechat.user = "{{chat_username}}";
+				livechat.user_nick = "{{chat_nick}}";
+				livechat.chat_box = $(".chat_box_inner");
+				livechat.chat_message_box = $("#messagebox");
+				livechat.send_button = $(".sendchat_button")
+				livechat.channel = "livechat#{{advisor}},{{chat_username}}" 
+				livechat.setCentrifuge();
+				livechat.loading_el = $(".loading_chatbox");
+				livechat.extra_detials_el = $(".extra_details_chatbox");
+				livechat.setEvents();
+				
+				$("body").on("click","#chat-contact-button",function(){	  
+							
+						$("#chat-contact-button").toggleClass("button-open");
+						$("#chat-panel").slideToggle("slow");	
+						$(".livechat_enable_btn").click(function(){
+							$('.chat_box_main').show();
+							$('.live_support_main').hide();
+							/* livechat.connect();
+							addChannel(livechat.channel,livechat.user,{{advisor.id}}) */
+						})
+			  });
+				$('#upload_form').submit(livechat.upload);
+			    $('.image_upload').click(function(){
+			    	$("#id_pic").trigger("click")
+			    });
+			    $("#id_pic").change(function(){
+			    	$("#submit_btn").trigger("click");
+			    })
+			    $(".close_chat").click(function(){
+			    	$('.chat_box_main').hide();
+					$('.live_support_main').show();
+					
+			    });
+				    
+				    
+				    
+				function showloader(){
+					$(".loading_chatbox").show();
+				}
+				    
+				function hideloader(){
+					$('.loading_chatbox').hide();
+				}
+				
+				/* function upload(event) {
+					event.preventDefault();
+					var data = new FormData($('#upload_form').get(0));
+					console.info(data)
+					showloader();
+					$.ajax({
+					    url: $(this).attr('action'),
+					    type: $(this).attr('method'),
+					    data: data,
+					    cache: false,
+					    processData: false,
+					    contentType: false,
+					    success: function(data) {
+					    	livechat.sendImage(data["imgurl"])
+					       
+					    	hideloader()
+					    }
+				});
+					return false;
+				} */
+				
+				//adding channel to the database
+				function addChannel(channel,guest_user,advisor){
+					$.ajax({
+						url:"{% url 'livechat:addchannel' %}",
+						data:{
+							"channel":channel,
+							"guest_user":guest_user,
+							"advisor":advisor
+						},
+						success:function(data){
+							console.log("channel added");
+						}
+					})
+				}
+				function deleteChannel(channel,guest_user,advisor){
+						$.ajax({
+							url:"{% url 'livechat:deletechannel' %}",
+							data:{
+								"channel":channel,
+								"guest_user":guest_user,
+								"advisor":advisor
+							},
+							success:function(data){
+								console.log("channel added");
+							}
+						})
+					}
+				
+			
+				window.onbeforeunload= function() {
+					
+					 if (typeof livechat !="undefined"){
+						 
+						// deleteChannel(livechat.channel,livechat.user,{{advisor.id}})
+					 }
+				}
+			
+			});
+			
+		</script>
+		<style>
+		
+		
+		</style>
+		
+ {% endif %}
+
+
+   
+
+

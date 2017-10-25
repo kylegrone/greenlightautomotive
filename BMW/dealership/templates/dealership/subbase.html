@@ -1,0 +1,167 @@
+{% extends 'dealership/base.html' %}
+{% load staticfiles %}
+{% load dealership_tag %}
+{% load dealership_detail %}
+{% block mainheader %}
+<header>
+	<div class="page-header">
+        <div class="container-fluid">
+        	<div class="row">
+            	<div class="col-sm-6">
+                	
+                <h1> {% dealer_detail_dealer config.dealer_code %} </h1>
+                </div>
+                <div class="col-sm-6 mt-10">
+                	<div class="dropdown pull-right">
+                        <span class="simple-menu dropdown-toggle" id="da" data-toggle="dropdown" aria-haspopup="true" 
+                        aria-expanded="true">&nbsp;</span>
+                        <ul class="dropdown-menu text-left" aria-labelledby="da">
+                            <li><a href="{% url 'dealership:index' %}">{{config.dealer_name}}</a></li>
+                            <li><a target="_blank" href="{% url 'customer:index' %}?dealer_code={{config.dealer_code}}">Launch Customer Portal</a></li>
+                            <li><a target="_blank" href="{% url 'flagging:index' %}?dealer_code={{config.dealer_code}}">Launch Tracker Portal</a></li>
+                            <li><a target="_blank" href="{% url 'mobilecheckin:index' %}?dealer_code={{config.dealer_code}}">Launch Check-In Portal</a></li>
+                        </ul>
+                    </div>
+                	<div class="dropdown pull-right mr-20 mt-10 text_14">
+                        <a href="#" class="dropdown-toggle text_grey" id="login" data-toggle="dropdown" aria-haspopup="true" 
+                        aria-expanded="true">Hi ({{config.username}}) <i class="fa fa-chevron-circle-down text_blck"></i></a>
+                        <ul class="dropdown-menu" aria-labelledby="lo{% load staticfiles %}gin">
+                            <li><a href="{% url 'dealership:passchange' %}?dealer_code={{config.dealer_code}}">Change Password</a></li>
+                            <li><a href="#">View Profile</a></li>
+                            <li><a href="{% url 'dealership:logout' %}">Log out</a></li>
+                        </ul>
+                    </div>                    
+                </div>
+            </div>
+        </div>		
+    </div>
+</header>
+<div class="clear"></div>
+{% endblock %}
+	
+{% block main %}
+	{% block breadcrumbs %}
+		{% include "dealership/app/breadcrumb.html" %}  
+	{% endblock %}
+	
+	{% block tabs %}
+		{% include "dealership/app/navbar.html" %} 
+		{% include "dealership/app/partials/favorites-modal.html" %} 
+	{% endblock %}
+	
+	{% block content %}		
+	{% endblock %}
+	
+	{% block dropdown-menu %}
+		{% include "dealership/app/dropdown-menu.html" %}
+	{% endblock %}
+{% endblock %}
+
+{% block script %}
+	{{ block.super }}
+	<script>
+		var url_ov_time_daily_slab = "{% url 'dealership:ov_time_daily_slab' %}";
+		var url_ov_time_weekly_day = "{% url 'dealership:ov_time_weekly_day' %}";
+		var url_ov_time_weekly_slab = "{% url 'dealership:ov_time_weekly_slab' %}";
+		var url_ov_appointment_detail = "{% url 'dealership:ov_appointment_detail' %}";
+		var url_ov_advisor = "{% url 'dealership:ov_daily_advisor' %}";
+		var url_ov_status = "{% url 'dealership:ov_daily_status' %}";
+		var url_ov_advisor_daily_slab = "{% url 'dealership:ov_advisor_daily_slab' %}";
+		var url_ov_status_daily_slab = "{% url 'dealership:ov_status_daily_slab' %}";
+		var url_ov_advisor_weekly_slab = "{% url 'dealership:ov_advisor_weekly_slab' %}";
+		var url_ov_status_weekly_slab = "{% url 'dealership:ov_status_weekly_slab' %}";
+		var url_ov_time_daily_search = "{% url 'dealership:ov_time_daily_search' %}";
+		var url_ov_time_daily_search_appt = "{% url 'dealership:ov_time_daily_search_appt' %}";
+		var url_appointment_create_update = "{% url 'dealership:appointment_create_update' %}";
+		var url_appointment_customer = "{% url 'dealership:appointment_customer' %}";
+		var url_appt_cust_veh_del = "{% url 'dealership:appointment_customer_vehicle_delete' %}";
+		var url_appt_update_time_template = "{% url 'dealership:appointment_update_time' %}";
+		var url_appointment_services = "{% url 'dealership:appointment_repair'%}";
+		var url_appointment_wayaway = "{% url 'dealership:appointment_wayaway'%}";
+		var url_appointment_wayaway_save = "{% url 'dealership:appointment_wayaway_save'%}";
+		var url_appointment_account_info = "{% url 'dealership:appointment_accountinfo'%}";
+		var url_get_all_services =  "{% url 'customer:get_all_services_ajax'%}";
+		var url_rservices_create_update = "{% url 'dealership:rservices_create_update' %}";
+		var url_rservices_delete = "{% url 'dealership:rservices_delete' %}";
+		var url_get_all_advisors_ajax = "{% url 'customer:get_all_advisors_ajax'%}";
+		var url_save_advisor_ajax = "{% url 'customer:save_advisor_ajax'%}";
+		var url_appointment = "{% url 'dealership:appointment'%}";
+		var url_overview = "{% url 'dealership:overview'%}";
+		var url_ov_update_cc = "{% url 'dealership:ov_update_cc'%}";
+        var url_ov_update_vehicle = "{% url 'dealership:ov_update_vehicle'%}";
+        var url_ov_update_insurance = "{% url 'dealership:ov_update_insurance'%}";
+		var url_customers_add_user = "{% url 'dealership:customers_add_user'%}";
+		var url_customers_add_vehicle = "{% url 'dealership:customers_add_vehicle'%}";
+		var url_customers_add_appointment = "{% url 'dealership:customers_add_appointment'%}";
+		var url_customers_add_reminder = "{% url 'dealership:customers_add_reminder'%}";
+		var url_customers_save_appointment_services = "{% url 'customer:save_appointment_services_ajax'%}";
+		var url_appointment_book = "{% url 'dealership:appointment_book'%}";
+		var url_ov_time_wallboard = "{% url 'dealership:wallboard' %}";
+	
+	    var get_available_slabs_for_date = "{% url 'customer:get_available_slabs_for_date'%}";
+	    
+	    var get_all_favorites = "{% url 'dealership:all_favorites'%}";
+	    var get_dealer_favorites = "{% url 'dealership:dealer_favorites'%}";
+	    var save_dealer_favorites = "{% url 'dealership:save_dealer_favorites'%}";
+	    
+	    var url_rservices_form = "{% url 'dealership:rservices_form'%}";
+        
+        var url_remove_service = "{% url 'dealership:appointment_remove_service'%}";
+		var url_customer_edit = "{% url 'dealership:edit_customer'%}";
+		$(document).ready(function() {	
+			var dealershipbase = new Dealership();
+			
+			$(".{{config.tab}}").addClass("active");
+			
+			
+			
+			$(".dropdown-hover").hover(            
+			function() {
+				$('.dropdown-menu', this).stop( true, true ).fadeIn("fast");
+				$(this).toggleClass('open');
+				$('b', this).toggleClass("caret caret-up");                
+			},
+			function() {
+				$('.dropdown-menu', this).stop( true, true ).fadeOut("fast");
+				$(this).toggleClass('open');
+				$('b', this).toggleClass("caret caret-up");                
+			});  
+			
+			$(document.body).on('click', '.panel-title a', function(event) {		
+				if($(this).children('.fa').hasClass("fa-plus-circle")){
+					$(this).children('.fa').removeClass("fa-plus-circle").addClass('fa-minus-circle');
+				}
+				else{
+					$(this).children('.fa').removeClass("fa-minus-circle").addClass('fa-plus-circle');
+				}
+			}); 
+			
+			$('#add-fav-link').click(function(){
+				dealershipbase.getGetDataFromServer(get_all_favorites, {}, loadAllFavorites);				
+			});
+			
+			$('#add-fav-button').click(function(){				
+				data={'favorites_id':$('#favorites-modal-list').val()};
+				dealershipbase.getTemplateFromServer(save_dealer_favorites, data, saveFavoritesCallback);				
+			});
+
+			
+		});		
+		
+		function loadAllFavorites(data)
+		{
+			console.info(data);
+			$('#favorites-modal-list').html("<option>Add Favorites</option>");
+			for(i in data["favorites"]){
+				$('#favorites-modal-list').append("<option value="+data["favorites"][i]["id"]+">"+data["favorites"][i]["name"]+"</option>");
+			}
+			$('#add-favorites-modal').modal('show');
+		}
+		
+		function saveFavoritesCallback(content)
+		{
+			$('.navbar .submenu').html(content);
+			$('#add-favorites-modal').modal('hide');
+		}
+	</script>
+{% endblock %}

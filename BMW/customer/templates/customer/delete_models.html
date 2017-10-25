@@ -1,0 +1,16 @@
+{% extends "customer/layouts/index.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+	<form action="{% url 'customer:delete_models'  %}?dealer_code={{dealer_code}}&year={{year}}" method="post">
+                                		{% csrf_token %}
+                                            {%for dvehicle in dvs%}
+                                            		
+                                            		<h4>
+                                            			<input type="checkbox" name="models" value="{{dvehicle.id}}">
+                                            			{{dvehicle.vehicle.model.name}}--{{dvehicle.vehicle.year.name}}
+                                            		</h4>
+                                            {%endfor%}
+                                           
+                                            <input type="submit" name="submit" value="Submit"/>
+    </form>
+{%endblock%}

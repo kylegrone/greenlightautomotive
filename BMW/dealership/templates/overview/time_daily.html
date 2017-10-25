@@ -1,0 +1,26 @@
+{% block breadcrumbs %}
+	{% include "dealership/app/breadcrumb.html" %}  
+{% endblock %}
+
+<span class="open-time hidden">{{timings.open_time_string}}</span>
+<span class="close-time hidden">{{timings.close_time_string}}</span>
+<span class="slot-duration hidden">{{timings.slot}}</span>
+	
+<div id="ajax_main_content">	
+	<div id="overview_time_daily" class="OverviewTimeDailyGrid">
+		<table class="table table-striped mb-0">
+	    	<thead>
+	        	<tr>
+	              <th class="col-lg-1">TIME</th>
+	              <th class="col-lg-2">CUSTOMER NAME</th>
+	              <th class="col-lg-2">VEHICLE/COLOR/LP#</th>
+	              <th class="col-lg-1">VIN#</th>
+	              <th>SERVICE SCHEDULED</th>
+	              <th class="col-lg-1">A WAY AWAY</th>
+	              <th class="col-lg-2">ADVISOR</th>
+	              <th class="col-lg-1">STATUS</th>
+	            </tr>
+	        </thead>        
+	    </table>
+	</div>
+</div>

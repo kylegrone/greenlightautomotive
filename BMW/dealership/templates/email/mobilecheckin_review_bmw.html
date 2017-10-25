@@ -1,0 +1,293 @@
+<style>
+body{
+	margin:0px;
+	padding:0px;
+	}
+table{
+	font-size:12px;
+}
+h3{
+	font-size:16px;
+	}
+</style>
+<div bgcolor="#878787" style="background:#878787;height:100%!important;margin:0;padding:30px 0 0 0;width:100%!important">
+
+    <table style="background-color:#878787;border-collapse:collapse!important;height:100%!important;margin:0;padding:0;width:100%!important" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+        <tbody>
+            <tr>
+                <td style="height:100%!important;margin:0;padding:0 20px;width:100%!important" valign="top" align="center">
+                    <table style="border-collapse:collapse!important;width:600px;padding:0px;margin:0px" width="600" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                            <tr>
+                                <td style="background-color:#3e3e3e" valign="middle" height="26" bgcolor="#3e3e3e" align="left">
+                                    <span style="color:#ffffff;font-family:helvetica,arial,sans-serif;font-size:10px;padding:0 0 0 30px;margin:0">Your BMW Service Appointment.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center">
+                                    <table style="background:#f4f4f4;background-color:#f4f4f4;border-collapse:collapse!important" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:#505050;font-family:Helvetica;font-size:20px;font-weight:bold;line-height:100%;padding:0;text-align:left;vertical-align:middle" valign="top" align="left">
+                                                    <img src="cid:header_bmw.jpg" alt="BMW Service" style="border:0;height:auto;line-height:100%;max-width:600px;outline:none;text-decoration:none" tabindex="0">
+                                                    <div dir="ltr" style="opacity: 0.01; left: 659px; top: 753px;">
+                                                        <div role="button" tabindex="0" aria-label="Download attachment">
+                                                            <div></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #e5e5e5;padding:0;margin:0; background:#fff;" valign="top" align="center"><table width="100%" style="font-family:helvetica,arial,sans-serif;font-size:10px;">
+<tbody><tr>
+<td>&nbsp;</td>
+</tr>
+  <tr>
+    <td><h3>BMW Appointment Review</h3></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
+      <tbody>
+        <tr>
+          <td width="50%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tbody>
+                    <tr>
+                      <td>Customer Name: &nbsp; {{name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Cell Phone #: &nbsp; {{cellno}}</td>
+                    </tr>
+                    <tr>
+                      <td>Customer #: &nbsp; {{customer_id}}</td>
+                    </tr>
+                    <tr>
+                      <td>Email: &nbsp; {{email}}</td>
+                    </tr>
+                    <tr>
+                      <td>Confirmation Code: &nbsp; {{ccode}}</td>
+                    </tr>
+                    <tr>
+                      <td>A Way Away: &nbsp; {{aww}}</td>
+                    </tr>
+                    <tr>
+                    <td>&nbsp;</td>
+                    </tr>
+                  </tbody>
+                </table></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
+                  <tbody>
+                    <tr>
+                    {% if vinimage %}
+                     <td align="center" bgcolor="#eeeeee"><strong>VIN Image</strong><strong></strong></td>
+                    {% endif %}
+                      <td align="center" bgcolor="#eeeeee"><strong>VIN Number</strong><strong></strong></td>
+                    </tr>
+                    <tr>
+                    {% if vinimage %}
+                    <td><img src="{{domain}}{{vinimage}}"/></td>
+                    {% endif%}
+                    <td>{{vinreading}}</td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </tbody>
+                </table></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
+                  <tbody>
+                    <tr>
+                      <td align="center" bgcolor="#eeeeee"><strong>Walk Around Detail</strong><strong></strong></td>
+                    </tr>
+                    {% for obj in wlkaround %}
+                    <tr>
+                      <td>{{obj.image_name}}<br>{{obj.notes}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table></td>
+              </tr>
+            </tbody>
+          </table></td>
+          <td width="50%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="5">
+                  <tbody>
+                    <tr>
+                      <td align="center" bgcolor="#eeeeee"><strong>Service</strong></td>
+                      <td align="center" bgcolor="#eeeeee"><strong>Cost</strong></td>
+                    </tr>
+                    {% for obj in app_services %}
+                    	<tr>
+						 <td>{{obj.name}}
+													{%if obj.note %}
+														<br/>Note (Customer): {{obj.note}}
+													{%endif%}
+													{%if obj.desc %}
+														<br/>Note (Advisor): {{obj.desc}}
+													{%endif%}
+						 </td>
+						 <td>${{obj.cost|floatformat:2}}</td>
+					   </tr>
+					{% endfor %}
+                    <tr>
+                      <td align="center" bgcolor="#eeeeee"><strong>Total</strong></td>
+                      <td align="center" bgcolor="#eeeeee"><strong>${{totalcost|floatformat:2}}</strong></td>
+                    </tr>
+                  </tbody>
+                </table></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
+                  <tbody>
+                    <tr>
+                    {% if odoimage %}
+                      <td align="center" bgcolor="#eeeeee"><strong>Odometer Image</strong></td>
+                    {% endif %}
+                      <td align="center" bgcolor="#eeeeee"><strong>Odometer Reading</strong></td>
+                    </tr>
+                    <tr>
+                    {% if odoimage %}
+                      <td><img src="{{domain}}{{odoimage}}"/></td>
+                     {% endif %}
+                      <td>{{odoreading}}</td>
+                    </tr>
+                  </tbody>
+                </table></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
+                  <tbody>
+                    <tr>
+                      <td align="center" bgcolor="#eeeeee"><strong>Tyre Details</strong><strong></strong></td>
+                    </tr>
+                    {% for obj in tires %}
+                    <tr>
+			            <td>RR Tire: {{obj.rr}}</td>
+			
+			          </tr>
+			          <tr>
+			            <td>RF Tire: {{obj.rf}}</td>
+			          </tr>
+			          <tr>
+			            <td>LR Tire: {{obj.lr}}</td>
+			            
+			          </tr>
+			          <tr>
+			            <td>LF Tire: {{obj.lf}}</td>
+			         </tr>
+                    {% endfor %}
+                  </tbody>
+                </table></td>
+              </tr>
+            </tbody>
+          </table></td>
+        </tr>
+      </tbody>
+    </table></td>
+    </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
+      <tbody>
+        <tr>
+          <td align="center" bgcolor="#eeeeee"><strong>Walk Around Image</strong><strong>s</strong></td>
+        </tr>
+        {% for obj in wlkaround %}
+        {% if obj.image %}
+        <tr>
+          <td> <div style="text-align: center;  display: inline-block;">
+		        <img src="{{domain}}{{obj.image}}" />
+		        
+		        <p>{{obj.image_name}}</p>
+		    </div></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="5">
+      <tbody>
+        <tr>
+          <td align="center" bgcolor="#eeeeee"><strong>Customer Signature</strong><strong> {{name}}</strong></td>
+        </tr>
+        <tr>
+          <td>
+        	<p style="font-size:8px">Repair authorization & vehicle depository receipt (AB 409 amending civil code)
+I hereby authorize the repair work to be done along with necessary materials. You and your employees may operate vehicle for purposes of testing, inspection or delivery at my risk. An express mechanic's lien is acknowledged on vehicle to secure the amount of repairs thereto. In the event legal action is necessary to enforce this contract, I will pay reasonable attorney's fees and costs. I acknowledge this deposited property is not insured or protected in the amount of cash value thereof by the dealer against loss occasioned by theft fire and vandalism while such property remains with the depository. I also acknowledge no articles of personal property have been left in the vehicle and that dealer is not responsible for the inspection thereof.</p>
+        <img src="{{domain}}{{customer_signatures}}" />
+        </tr>
+      </tbody>
+    </table></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</tbody>
+                                </table>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#3e3e3e;font-family:Helvetica,arial,sans-serif;line-height:125%;font-size:10px;color:#fff;font-weight:bold;text-decoration:none;padding:10px 0" valign="middle" height="26" bgcolor="#3e3e3e" align="center">THIS IS AN AUTOMATED MESSAGE &ndash; <span style="white-space:nowrap">PLEASE DO NOT REPLY DIRECTLY TO THIS EMAIL.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center">
+                                    <table style="background:#e6e6e6;background-color:#e6e6e6;border-collapse:collapse!important;margin:15px 0 0 0" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:#808080;font-family:Helvetica,arial,sans-serif;font-size:10px;line-height:150%;margin-top:0;padding:30px;text-align:left" valign="top" align="left">
+                                                    <p>&copy; 2016 BMW of North America, LLC. The BMW name, model names and logo are&nbsp;registered trademarks.</p>
+                                                    <p>Repair times and costs vary based upon the nature of the repair, parts availability, your warranty status, and other factors. Once your vehicle is in the shop, we will diagnose your problem and contact you as soon as we can to provide details and specific time and cost estimate. Diagnostic and/or repair fees may apply if work to be performed is not covered under warranty.
+                                                        <br>
+                                                        <br>Please use the <a href="#" target="_blank">My Account</a> link to unsubscribe or adjust your privacy preferences.</p>
+                                                    <p>Please note we are located at 1675 HOWARD STREET, SAN FRANCISCO, California 94103.</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>

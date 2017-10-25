@@ -1,0 +1,35 @@
+	<div class="row TodayAppFilter">
+    	<div class="col-md-4 col-sm-3">
+            <h3 class="mt-0 font_regular">Today's Appointments</h3>
+        </div>
+        <div class="col-md-5  col-sm-6 text-center">
+            <span id="mobilecheckin-date"></span>
+            <!--
+            <div class="input-group date">
+			  <input type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar fa-lg ml-10 mr-10"></i></span>
+			</div> 
+			-->
+            <a href="#" class="text_grey"><i class="date-appt fa fa-calendar fa-lg ml-10 mr-10"></i></a> 
+            <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target=".walkin">WALK-IN</a>
+        </div>
+        <div class="col-sm-3 pull-right">
+        	<div class="row">
+                <div class="col-sm-12">
+                    <form class="search_form_checkin">
+	                        <div class="input-group">
+	                        	<input type="hidden" name="search" value="phone">
+	                            <input required="required" name="criteria" class="form-control" placeholder="Search for..." type="text">
+	                            <span class="input-group-btn">
+	                                <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+	                            </span>
+	                        </div>
+	                        <div class="cust-search-error col-sm-12">
+							    <p class="text_red hidden">Customer not found. Try another option</p>
+							</div>
+                       </form>
+                </div>
+            </div>        
+        </div>
+</div>
+
+

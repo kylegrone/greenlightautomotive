@@ -1,0 +1,78 @@
+<div id="time-carryover-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-content">
+          		<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				    <h4 class="modal-title">Carryover Appointment</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<form id="form-carryover-time" class="save-form pending">
+							<input id="appointment_id" name="id" type="hidden"/>
+							<div>
+<div class="row mb-10 clearfix">
+<div class="col-sm-4 text-right">Appointment Date/Time:</div>
+<div class="col-sm-8  text-left">&nbsp; <span id="appt_actual_time"></span></div>
+</div>
+<div class="row mb-10 clearfix">
+<div class="col-sm-4 text-right">Appointment Duration:</div>
+<div class="col-sm-8  text-left">&nbsp;</div>
+</div>
+<div class="row mb-10 clearfix">
+<div class="col-sm-4 text-right">Carryover Date:</div>
+<div class="col-sm-8  text-left">&nbsp; 
+<div class="DatePickerBtn">
+<a class="carryover-date-control pointer" id="carryover-date-prev">
+<span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+</a>
+<input name="start_time" id="carryover-date-text" class="ml-10 mr-10"/> 
+<a class="carryover-date-control pointer" id="carryover-date-next">
+<span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+</a>
+<a class="pointer ml-10 carryover-date-picker">
+<span aria-hidden="true" class="glyphicon glyphicon-calendar"></span>
+</a>
+</div>
+</div>
+</div>
+<div class="row mb-10 clearfix">
+<div class="col-sm-4 text-right">Carryover Duration:</div>
+<div class="col-sm-8  text-left">&nbsp; <a href="#">{{ customer.email_1 }}</a></div>
+</div>
+<div class="row mb-10 clearfix">
+<div class="col-sm-4 text-right">Notes:</div>
+<div class="col-sm-8  text-left"> <textarea></textarea></div>
+</div>
+						    </div>
+						    <button type="submit" id="form-carryover-time-submit" class="submit btn btn-default">submit</button>
+						</form>
+					</div>
+				</div>
+    		</div>
+    	</div>
+  	</div>
+</div>
+
+
+<div id="time-carryover-confirmation-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-content">
+          		<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				    <h4 class="modal-title">Carryover Appointment</h4>
+				</div>
+				<div class="modal-body">
+					Appointment time has been updated
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+   

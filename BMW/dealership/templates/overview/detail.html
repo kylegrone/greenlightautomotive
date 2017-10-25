@@ -1,0 +1,272 @@
+<td colspan="8">
+<div class="row">
+<div class="col-sm-4">
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Customer #</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{ customer.id }}</p>
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">Phone #</label>
+			<div class="col-sm-9">
+				{% if customer.Mobile and customer.Mobile != '0' %}
+					<p class="form-control-static">{{ customer.Mobile }}</p>
+				{% elif customer.Home and customer.Home != '0' %}	
+					<p class="form-control-static">{{ customer.Home }}</p>
+				{% else %}
+					<p class="form-control-static">{{ customer.Work }}</p>
+				{% endif %}
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">Email</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{ customer.email_1 }}</p>
+			</div>
+		</div>
+        <div class="form-group">
+        	{% if customer.method_of_contact == 'Mobile' %}
+				<label class="col-sm-3 control-label">SMS (Yes)</label>
+				<div class="col-sm-9">
+					<p class="form-control-static">{{ customer.Mobile }}</p>
+				</div>
+			{% else %}
+				<label class="col-sm-3 control-label">SMS (NO)</label>
+			{% endif %}
+		</div>        
+	</div>
+	<form id="apt-credit-form-{{ appointment.id }}" class="form-horizontal apt-detail-form" action="{% url 'dealership:ov_update_cc'%}">       
+		<div class="form-group">
+			<label class="col-sm-12 control-label text_16">Credit Card info (Enter info of Scan)</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">First Name</label>
+			<div class="col-sm-9">
+            	{{ cc_form.first_name }}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Last Name</label>
+			<div class="col-sm-9">
+            	{{ cc_form.last_name }}
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">Type</label>
+			<div class="col-sm-9">
+            	{{ cc_form.card_type }}
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">Number</label>
+			<div class="col-sm-9">
+            	{{ cc_form.card_number }}
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">Expires</label>
+			<div class="col-sm-9">
+            	<div class="row">
+                	<div class="col-xs-6">
+            			{{ cc_form.card_exp_year }}
+                    </div>
+                    <div class="col-xs-6">
+            			{{ cc_form.card_exp_month }}
+                    </div>
+                </div>        
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">CVV</label>
+			<div class="col-sm-9">
+            	{{ cc_form.card_ver_number }}
+			</div>
+		</div>
+        {{ cc_form.user }}
+        <div class="alert alert-danger hidden fade in">
+		    <a title="close" aria-label="close" data-dismiss="alert" class="close" href="#">×</a>
+            <strong>Error!</strong>
+            <div class="details"></div>
+        </div>
+        
+        <div class="alert alert-success hidden fade in">
+		    <a title="close" aria-label="close" data-dismiss="alert" class="close" href="#">×</a>
+            <strong>Success!</strong>
+            <div class="details"></div>
+        </div>
+        
+        <button type="submit" id="apt-credit-form-submit-{{ appointment.id }}" class="submit hidden"></button>
+	</form>
+</div>
+<div class="col-sm-4">
+	<div class="text-center mb-20">
+    	<img src="{{ vehicle.image }}">
+    </div>
+    <form id="apt-vehicle-from-{{ appointment.id }}" class="form-horizontal apt-detail-form" action="{% url 'dealership:ov_update_vehicle'%}">
+        <div class="form-group">
+			<label class="col-sm-12 control-label text_16">Vehicle info (Enter info of snapshot)</label>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">Mileage</label>
+			<div class="col-sm-9">
+            	{{ vehicle_form.milage }}
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">VIN #</label>
+			<div class="col-sm-9">
+            	{{ vehicle_form.vin_number }}
+			</div>
+		</div>
+        <div class="form-group">
+			<label class="col-sm-3 control-label">DL #</label>
+			<div class="col-sm-9">
+            	{{ vehicle_form.lisence_number }}
+			</div>
+		</div>
+		{{ vehicle_form.user }}
+		{{ vehicle_form.vehicle }}
+        <input class="field-id-value" name="id" value="{{vehicle.id}}" type="hidden" />
+        <div class="alert alert-danger hidden fade in">
+		    <a title="close" aria-label="close" data-dismiss="alert" class="close" href="#">×</a>
+            <strong>Error!</strong>
+            <div class="details"></div>
+        </div>
+        
+        <div class="alert alert-success hidden fade in">
+		    <a title="close" aria-label="close" data-dismiss="alert" class="close" href="#">×</a>
+            <strong>Success!</strong>
+            <div class="details"></div>
+        </div>
+        <button type="submit" id="apt-vehicle-form-submit-{{ appointment.id }}" class="submit hidden"></button>
+	</form>
+	<div class="form-horizontal">
+        <div class="form-group">
+			<label class="col-sm-3 control-label">Loaner</label>
+			<div class="col-sm-9">                
+                {% if wayaway == "Loaner" %}
+                    <div class="radio mr-20" style="display:inline-block;">
+                        <label><input disabled name="loaner-check" type="radio" checked> <span>Yes</span></label>
+                    </div>
+                    <div class="radio" style="display:inline-block;">
+                        <label><input disabled name="loaner-check" type="radio"> <span>No</span></label>
+                    </div>
+                    <a id="text-loaner-dept" class="pull-right mt-10 pointer"><strong>Text Loaner Dep. info</strong></a>
+                {% else %}
+                    <div class="radio mr-20" style="display:inline-block;">
+                        <label><input disabled name="loaner-check" type="radio" > <span>Yes</span></label>
+                    </div>
+                    <div class="radio" style="display:inline-block;">
+                        <label><input disabled name="loaner-check" type="radio" checked> <span>No</span></label>
+                    </div>
+                    <a id="text-loaner-dept" class="pull-right mt-10 pointer hidden"><strong>Text Loaner Dep. info</strong></a>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-sm-4">
+	<form class="form-horizontal">
+		{% if checkin == "true" %}
+			<div class="form-group AppointmentDetailCarStatus">
+				<div class="text_grn text-center" id="timmerdiv_{{appointment.id}}">
+				{% if appointment.appointment_status.name == 'Scheduled' %}
+				NOT STARTED
+				{% else %}
+				{{appointment.appointment_status.name}}
+				{% endif %}
+				<br><strong class="text_20" id="timmercount_{{appointment.id}}" min="{{time_left.min}}" sec="{{time_left.sec}}"></strong></div>
+			</div>
+		{% endif %}
+		<div class="ScheduleServiceCont">
+		
+        <div class="form-group">
+			<label class="col-sm-12 control-label text_16">
+            	SCHEDULE SERVICES <a href="{% url 'dealership:appointment' %}?panel=service&customer_id={{ customer.id }}&appointment_id={{ id }}&vehicle_id={{ vehicle.id }}" class="pull-right text_tq text_14">Add Services</a>
+            </label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">Confirmation #</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{ appointment.confirmation_code }}</p>
+			</div>
+		</div>
+		{% for ser in service.details %}
+	        <div class="form-group">
+				<a rel="{{ ser.appt_service_id }}" class="remove-apt-service col-sm-4 control-label text_tq">Remove</a>
+				<div class="col-sm-8">
+					<p class="form-control-static">{{ ser.name }}</p>
+				</div>
+			</div>
+		{% endfor %}
+  
+		
+		{% if checkin == "false" %}
+	        <div class="form-group">
+				<label class="col-sm-4 control-label">RO#</label>
+				<div class="col-sm-8">
+	            	<p class="form-control-static">{{ appointment.ro_id }}</p>
+				</div>
+			</div>
+	        <div class="form-group">
+				<label class="col-sm-4 control-label">DMS Code</label>
+				<div class="col-sm-8">
+	            	<p class="form-control-static"></p>
+				</div>
+			</div>
+	        <div class="form-group">
+				<label class="col-sm-4 control-label">(Status ie)</label>
+				<div class="col-sm-8">
+	            	<p class="form-control-static"></p>
+				</div>
+			</div>
+	        <div class="form-group">
+				<label class="col-sm-4 control-label">Customer Notes</label>
+				<div class="col-sm-8">
+	            	<p class="form-control-static">{{ appointment.service_notes }}</p>
+				</div>
+			</div>
+		{% endif %}
+        <div class="alert alert-dangercol-sm-12 hidden fade in ">
+            <a title="close" aria-label="close" data-dismiss="alert" class="close" href="#">×</a>
+            <strong>Error!</strong>
+            <div class="details"></div>
+        </div>
+	</div>                  
+    
+	</form>
+    
+</div>
+</div>
+<div class="clear pad-5"></div>
+<div class="row">
+<form class="apt-detail-form" id="apt-insurance-form-{{ appointment.id }}" action="{% url 'dealership:ov_update_insurance'%}">
+	<div class="col-sm-2 text_16 mt-5"><label>INSURANCE INFO:</label></div>
+	<div class="col-sm-2">{{ ins_form.insurance_company_name }}</div>
+	<div class="col-sm-2">{{ ins_form.insurance_card_number }}</div>
+    <div class="col-sm-2">{{ ins_form.ins_exp_month }}</div>
+    <div class="col-sm-2">{{ ins_form.ins_exp_year }}</div>
+    {{ ins_form.user }}
+    <div class="alert alert-dangercol-sm-12 hidden fade in ">
+	    <a title="close" aria-label="close" data-dismiss="alert" class="close" href="#">×</a>
+        <strong>Error!</strong>
+        <div class="details"></div>
+    </div>
+
+    <div class="alert alert-success col-sm-12 hidden fade in ">
+	    <a title="close" aria-label="close" data-dismiss="alert" class="close" href="#">×</a>
+        <strong>Success!</strong>
+        <div class="details"></div>
+    </div>
+    <button type="submit" id="apt-insurance-form-submit-{{ appointment.id }}" class="submit hidden"></button>
+</form>
+    
+
+
+    
+<button type="button" rel="{{ appointment.id }}" class="btn btn-default save-appointment-detail">Update</button>
+</div>
+</td>
+                    

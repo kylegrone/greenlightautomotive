@@ -1,0 +1,11 @@
+<div class="row">
+  	<div class="col-sm-3">
+  		{% for forms in aform %}
+  			{% if forloop.counter|divisibleby:8 %}
+  				</div>
+  				<div class="col-sm-3">
+  			{%endif%}
+      		<div><label class="checkbox"><input type="checkbox" id={{forms.id}} {% if forms.id in damenities %} checked {% endif %}><span>{{forms.name}}</span></label></div>
+         {% endfor %}
+      </div>
+</div>

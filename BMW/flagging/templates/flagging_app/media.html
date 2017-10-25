@@ -1,0 +1,213 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 ">
+<div class="clearfix bg_wht FlaggingFilterForm">
+
+
+	<div class="form-inline pad-10">
+    	<div class="form-group">
+        	<input type="search" class="form-control" id="search" placeholder="Search RO #" value="{{roNumber}}">
+  		</div>
+        <div class="form-group">
+        	<button type="submit" id="searchB" class="btn btn-link"><i class="fa fa-search fa-lg text_grey"></i></button>
+  		</div>
+  	  {% include "flagging_app/partial/ro_details.html"%}  		
+	</div>
+</div></div></div>
+
+<div class="clear pad-15"></div>
+<div class="container-fluid" id = "mediaViewTab">
+	<div class="row">
+    	<div class="col-lg-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  				<div class="panel panel-default">
+                	<div class="panel-heading gry-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Inspection Media<i class="fa text_blue pull-right fa-plus-circle"></i><i class="fa text_blue pull-right fa-minus-circle"></i></a>
+                        </h4>
+                    </div>
+                    
+    				<div id="collapseOne" class="panel-collapse collapse in"  role="tabpanel" aria-labelledby="headingOne">
+      					<div class="panel-body">
+      					{% if not roDetails == None %}		
+      					{% for inspection in images %}
+      						{% if forloop.counter|divisibleby:5 %}
+                        	<div class="row">
+                        	{% endif %}
+                            	<div class="col-sm-2 col-xs-6 mb-10">
+                                	<a href="#" class="openModal" data-type="inspection" id="{{inspection.id}}"><img src="{{inspection.image.url}}" class="img-thumbnail"></a>
+                                </div>
+                                
+                                {% if forloop.counter|divisibleby:5 %}
+                        	</div>
+                        	{% endif %}
+                            
+                            {% endfor %}
+                            {% endif %}
+                            
+                            </div>
+      					</div>
+      				<!-- 	<div class="panel-heading gry-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Check IN Media</a>
+                        </h4>
+                   		 </div>
+      					<div id="collapseTwo" class="panel-collapse collapse in"  role="tabpanel" aria-labelledby="headingOne">
+      					<div class="panel-body">
+      					
+      					{% for image in walkArounds %}
+      						{% if forloop.counter|divisibleby:5 %}
+                        	<div class="row">
+                        	{% endif %}
+                            	<div class="col-sm-2 col-xs-6 mb-10">
+                                	<a href="#" class="openModal" data-type="checkin" id="{{image.id}}"><img src="{{image.image.url}}" class="img-thumbnail"></a>
+                                </div>
+                                
+                                {% if forloop.counter|divisibleby:5 %}
+                        	</div>
+                        	{% endif %}
+                            
+                            {% endfor %}
+                           
+                            
+                            </div>
+      					</div> -->
+    				</div>
+                
+                  	<div class="panel panel-default">
+                	<div class="panel-heading gry-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">CheckIn Media<i class="fa text_blue pull-right fa-plus-circle"></i><i class="fa text_blue pull-right fa-minus-circle"></i></a>
+                        </h4>
+                    </div>
+                    
+    				<div id="collapseTwo" class="panel-collapse collapse in"  role="tabpanel" aria-labelledby="headingTwo">
+      					<div class="panel-body">
+      					
+      					{% for w in walkArounds %}
+      						{% if forloop.counter|divisibleby:5 %}
+                        	<div class="row">
+                        	{% endif %}
+                            	<div class="col-sm-2 col-xs-6 mb-10">
+                                	<a href="#" class="openModal" data-type="walkarounds" data-notes = "{{w.notes}}" id="{{w.id}}"><img src="{{w.image.url}}" class="img-thumbnail"></a>
+                                </div>
+                                
+                                {% if forloop.counter|divisibleby:5 %}
+                        	</div>
+                        	{% endif %}
+                            
+                            {% endfor %}
+                            
+                            </div>
+      					</div>
+      				<!-- 	<div class="panel-heading gry-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Check IN Media</a>
+                        </h4>
+                   		 </div>
+      					<div id="collapseTwo" class="panel-collapse collapse in"  role="tabpanel" aria-labelledby="headingOne">
+      					<div class="panel-body">
+      					
+      					{% for image in walkArounds %}
+      						{% if forloop.counter|divisibleby:5 %}
+                        	<div class="row">
+                        	{% endif %}
+                            	<div class="col-sm-2 col-xs-6 mb-10">
+                                	<a href="#" class="openModal" data-type="checkin" id="{{image.id}}"><img src="{{image.image.url}}" class="img-thumbnail"></a>
+                                </div>
+                                
+                                {% if forloop.counter|divisibleby:5 %}
+                        	</div>
+                        	{% endif %}
+                            
+                            {% endfor %}
+                           
+                            
+                            </div>
+      					</div> -->
+    				</div>
+  				</div>
+			</div>
+        </div>
+
+    </div>
+</div>
+<div class="clear pad-5"></div>
+
+
+
+<div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+      		</div>
+      		<div id="mediaModalBody" class="modal-body text-center">
+        		
+      		</div>
+            <div class="modal-footer">
+            	<button  id="delete" type="button" class="btn btn-danger">Delete</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+<script>
+$(function(){
+	window.delete_media_url = "{% url 'flagging:delete_media' %}";
+	new Media().bindEvents();
+});
+function Media(){
+	var self = this;
+	self.bindEvents = function(){
+		$("#search").keydown(function(e){
+			  if(e.which == 10 || e.which == 13) {
+				  getMediaView();
+	       }
+		});
+		$("#searchB").off("click").on("click",function(){
+			getMediaView(); 	
+		});
+		 $('.openModal').click(function(event){
+			 event.preventDefault();
+			window.modal = new MediaModal($(this));
+			modal.init();			
+		}); 
+	}
+}
+function getMediaView(){
+	var roNumber = $("#search").val();
+	var url = "{% url 'flagging:media' %}";
+	ajaxRequest(url,"GET",successFunction,{"roNumber":roNumber}); 
+
+}
+function MediaModal(object){
+	var self = this; 
+	self.id = object.attr("id");
+	self.imageSrc = object.find("img");
+	self.type = object.attr("data-type");
+	self.object = object ;
+	self.init = function(){
+        var html=  '<img src='+self.imageSrc.attr("src")+' class="img-center" style="width:100%;height=auto"><div class="clear pad-10"></div>';
+        if(self.type == "walkarounds"){
+        	html = html + "<b>Notes: </b><label>"+self.object.attr("data-notes")+"</label>"
+        }
+        $("#mediaModalBody").html(html);
+        $("#mediaModal").modal();
+    	self.bindEvents();
+	}
+	self.bindEvents = function(){
+		$("#delete").off("click").on("click",function(){
+			var url = window.delete_media_url;
+			$(".close").trigger("click");
+			setTimeout(function(){
+				  //your code to be executed after 1 seconds
+				ajaxRequest(url,"GET",successFunction,{"roNumber" : $("#search").val(), "id" : parseInt(self.id) ,"type" : self.type });
+				}, 300); 
+		});
+	}
+	
+}
+
+</script>

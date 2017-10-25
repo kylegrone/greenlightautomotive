@@ -1,0 +1,26 @@
+<table class="table table-bordered table-striped"> 
+<thead> 
+    <tr> 
+        <th>Service</th>
+        <th>Availablity</th> 
+        <th>Cost</th> 
+        <th>Action</th> 
+    </tr> 
+</thead> 
+<tbody> 
+{% for obj in serrep %}
+    <tr> 
+        <td>{{obj.name}}</td>
+        <td>{{obj.availablity.name}}</td> 
+        <td><input class="two_decimal_number" type="number" value="{{obj.price | floatformat:2}}" name="service_price" id="add_service_price_{{obj.id}}"/>
+        
+        <textarea id="add_service_desc_{{obj.id}}">{%if obj.desc%}{{obj.desc}}{%endif%}</textarea>
+        </td>
+        <td><button class="btn btn-success btn-xs addserrep" type="button"  data-priceinput ="add_service_price_{{obj.id}}" data-noteobj ="add_service_desc_{{obj.id}}"  id={{obj.id}}>Add</button></td>
+          
+    </tr>
+    {% empty%}
+      Not Found
+ {% endfor %}
+</tbody> 
+</table> 

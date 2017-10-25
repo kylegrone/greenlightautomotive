@@ -1,0 +1,15 @@
+<ul class="nav navbar-nav">
+                    	<li  {% if tab == "" %} class="active" {%endif%}>
+                    			<a href="{% url 'customer:index' %}?dealer_code={{dealer_code}}">Log In</a>
+                    	</li>
+                        <li {% if tab == "find" %} class="active" {%endif%}>
+                        	<a href="{% url 'customer:findapp' %}?dealer_code={{dealer_code}}">Find My Existing Appointment</a>
+                        </li>
+                        <li {% if tab == "new" %} class="active" {%endif%}>
+                        		<a href="{% url 'customer:new_customer_vehicle' %}?dealer_code={{dealer_code}}">I am a New Customer</a>
+                        </li>
+                        <li {% if tab == "appointmentnow" %} class="active" {%endif%}>
+                        		<a href="{% url 'customer:book_appointment_now_new' %}?dealer_code={{dealer_code}}">I need a Appointment Now!</a>
+                        </li>
+                    </ul>
+                    

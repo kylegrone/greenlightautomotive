@@ -1,0 +1,12 @@
+<ul id="dd_status_menu" class="dropdown-menu pull-right">
+	{% for st in status %}
+		<li><a class="pointer" rel="{{ st.id }}">{{ st.title }}</a></li>
+	{% endfor %}
+</ul>
+    
+
+<ul id="dd_wayaway_menu" class="dropdown-menu">
+    {% for st in wayaway %}
+		<li><a  class="pointer" rel="{{ st.id }}">{{ st.title }}</a></li>
+	{% endfor %}
+</ul>

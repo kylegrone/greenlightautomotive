@@ -1,0 +1,51 @@
+    {% load staticfiles i18n %}
+    
+    	<div class="panel panel-default collaps_main_container" id="advisor_selection_from">
+				            <div class="panel-heading wht-heading" role="tab" >
+				                <h6 class="panel-title">
+				                    <a  role="button "  aria-expanded="false" aria-controls="service">
+				                    	<span class="collapse_button_trigger pointer">Select an Advisor</span> 
+				                    	<i class="fa fa-minus-circle text_blue pull-right collapse_button" data-minclass="fa-minus-circle" data-plusclass="fa-plus-circle"></i>
+				                    </a>
+				                </h6>
+				            </div>
+				            <div id="service" class=" collapsable_div" role="tabpanel" aria-labelledby="service">
+				                <div class="panel-body">
+				                	     
+				                    <div class="clear pad-10"></div>
+				                    
+				                   <div class="row" id="advisor-appointment" >
+				                   		
+									</div>
+									<nav class="text-center"> 
+					     			   <ul id="advisor_pagination" class="pagination">
+					     			   </ul>
+			     					</nav>
+				
+				                </div>
+				            </div>
+				             
+				 </div>
+<!--     <div class="well collaps_main_container">
+			                	<h5 class="mt-0">
+			                			<a href="#" class="text_blck">
+			                			<i class="fa fa-minus-square-o fa-lg mr-10 collapse_button"></i></a> Advisor
+			                	</h5>
+								<div class="collapsable_div">
+									<div class="row" id="advisor-appointment">
+									</div>
+									<nav class="text-center"> 
+					     			   <ul id="advisor_pagination" class="pagination">
+					     			   </ul>
+			     					</nav>
+								</div>   
+			         	
+     			 	  </div> -->
+     <script src="{% static "customer/js/advisor_selection.js" %}"></script>
+    <script type="text/javascript">
+    
+    	$('document').ready(function(){
+    		
+    		
+    	});
+    </script>

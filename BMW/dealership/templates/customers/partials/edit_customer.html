@@ -1,0 +1,65 @@
+<div class="modal fade editcust" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="close wlkinclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Customer</h4>
+      		</div>
+      		<div class="modal-body">
+      		<div class="row">
+      		<div class="alert alert-danger" style="display:none">
+      			<a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+      			<strong>Error</strong>
+  				<div class="errmsg"></div>
+			</div>
+        	<div class="row">
+        		<div class="col-sm-7">
+                     <div class="clear pad-5"></div>
+                      <h5>Customer Information</h5>
+                    	<form id="editcustomerform">
+                    	<div class="form-horizontal">
+                    	<div class="form-group">
+                            	<label for="nam" class="col-sm-4 control-label">First Name*</label>
+                                <div class="col-sm-9">
+                                	<input type="hidden" id="customer_id" name="id" value="{{customer.id}}">
+                                	{{cusform.first_name}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="nam" class="col-sm-4 control-label">Last Name*</label>
+                                <div class="col-sm-9">
+                                	{{cusform.last_name}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="fon" class="col-sm-4 control-label">Phone*</label>
+                                <div class="col-sm-9">
+                                	{{cusform.phone_number_1}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="mail" class="col-sm-4 control-label">Email*</label>
+                                <div class="col-sm-9">
+                                	{{cusform.email_1}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-sm-12">Method of Contact</label>
+                                <div class="col-sm-6">
+                                	{{cusform.method_of_contact}}
+                                </div>
+								  <div class="col-sm-6">
+                                 <input type="hidden" class="form-control" id="vehicle_id_field" name="vehicle_id">
+                                 </div>
+                            </div>
+                    	</div>
+                    	<div class="modal-footer">
+            			<div class="text-center"><button type="submit" class="btn btn-default">Update</button></div>
+      			</div>
+      			</div>
+                </form>
+        	</div>
+        	</div>
+        	</div>
+        	</div>
+        	</div>

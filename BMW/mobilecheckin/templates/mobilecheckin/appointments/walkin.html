@@ -1,0 +1,274 @@
+<div class="modal fade walkin" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	<div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="close wlkinclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Walk in Appointment</h4>
+      		</div>
+      		<div class="modal-body">
+      		<div class="row">
+      		<div class="alert alert-danger" style="display:none">
+      			<a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+      			<strong>Error</strong>
+  				<div class="errmsg"></div>
+			</div>
+
+      		</div>
+        		<div class="row">
+                	<div class="col-sm-7">
+                    	<p>Search existing customers:</p>
+                        <div class="input-group">
+		                        <div class="input-group">
+		                        	<input type="hidden" name="search" value="phone">
+		                            <input id="phonenumber" required="required" name="criteria" class="form-control" placeholder="Enter Phone number" type="text">
+		                            <span class="input-group-btn">
+		                                <button class="btn btn-grey search_customer"><i class="fa fa-search"></i></button>
+		                            </span>
+		                        </div>
+		                        <div class="cust-search-error col-sm-12" style="display:none">
+								    <p class="text_red">Customer not found</p>
+								</div>
+                        </div>
+                        
+                        <div class="clear pad-5"></div>
+                        
+                        <h5>Customer Information</h5>
+                        <form id="walkinappointment">
+                        <div class="form-horizontal">
+                        	<div class="form-group">
+                            	<label for="nam" class="col-sm-3 control-label">First Name*</label>
+                                <div class="col-sm-9">
+                                	<input type="hidden" id="customer_id" name="customer_id">
+                                	{{walkinform.first_name}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="nam" class="col-sm-3 control-label">Last Name*</label>
+                                <div class="col-sm-9">
+                                	{{walkinform.last_name}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="fon" class="col-sm-3 control-label">Phone*</label>
+                                <div class="col-sm-9">
+                                	{{walkinform.phone_number_1}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="mail" class="col-sm-3 control-label">Email*</label>
+                                <div class="col-sm-9">
+                                	{{walkinform.email_1}}
+                                </div>
+                            </div>
+                            <div class="form-group customer_pveh" style="display:none">
+                            	<label for="make" class="col-sm-3 control-label">Customer Vehicles</label>
+                                <div class="col-sm-9">
+                                	<select class="form-control"  id="cus_veh">
+		                                			<option value="">Select Customer Vehicles</option>
+		                             </select>
+                                </div>
+                            </div>
+                        	<div class="form-group">
+                            	<label for="make" class="col-sm-3 control-label">Make*</label>
+                                <div class="col-sm-9">
+                                	<select class="form-control vehichle_selectbox oldvehmake" data-name="Make" data-key="make" id="make" required="required">
+		                                			<option value="">Select Make</option>
+		                             </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="model" class="col-sm-3 control-label">Model*</label>
+                                <div class="col-sm-9">
+                                	<select class="form-control vehichle_selectbox oldvehmodel"  data-name="Model" data-key="model" required="required" id="model">
+		                                		<option value="">Select Model</option></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="year" class="col-sm-3 control-label">Year*</label>
+                                <div class="col-sm-9">
+                                	<select class="form-control vehichle_selectbox oldvehyear" data-name="Year" data-key="year" required="required" id="year">
+		                                		<option value="">Select Year</option></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            	<label for="vin" class="control-label col-lg-12">Enter VIN #</label>
+                                <div class="col-sm-12">
+                                	
+                                	<input type="text" class="form-control" id="id_vin" name="vin">
+                                </div>
+                            </div>
+                          
+                            <div class="form-group">
+                            	<label class="control-label col-sm-12">How would you like us to contact you regarding this appointment?</label>
+                                <div class="col-sm-6">
+                                	{{walkinform.method_of_contact}}
+                                </div>
+								  <div class="col-sm-6">
+                                 <input type="hidden" class="form-control" id="vehicle_id_field" name="vehicle_id">
+                                 </div>
+                            </div>
+                             
+                            
+                            <div class="form-group" style="display:none">
+                            	<label class="control-label col-sm-4">Take a snapshot:</label>
+                                <div class="col-sm-6">
+                                	<a href="#"><span class="glyphicon glyphicon-camera text_20" id="snap_enable_button"></span></a>
+                                
+                                	 <input type="file" id="snap_image_sf" style="display:none" />
+                                </div>
+                            </div>
+						</div>                        
+                    </div>
+                    <div class="col-sm-5">
+                    	     <div class="well" style="position:relative;display:none"  id="canvas_and_button_container">>
+		                        	<h4 class="font_regular text-center mt-0">Take a VIN Snapshot</h4>
+		                        		<div class="video_main_container" id="camera_main_container">
+		                           			<!--   <textarea class="form-control mb-15" rows="5" placeholder="Position by VIN# within the box"></textarea>-->
+		                            		
+		                            	</div>
+		                            	
+		                            
+		                            <p class="text-center">When ready click SNAP</p>
+		                            <div class="clear pad-5"></div>
+		                            <div class="row">
+		                            	<div class="col-sm-offset-3 col-sm-6">
+		                                	<div class="row">
+		                                    	
+		                                        <!-- <div class="col-xs-7">
+		                                        	<div class="btn-group btn-group-justified" role="group"> 
+		                                            	<button  class="btn btn-success text-left" id="snap_flash_on_button" role="button" type="button">ON</button> 
+		                                                <button  class="btn btn-grey text-left" id="snap_flash_off_button" role="button" type="button">&nbsp;</button> 
+		                                            </div>
+		                                        </div> -->
+		                                    </div>
+		                                    <div class="clear pad-5"></div>
+		                                    <div class="row">
+		                                    	 	<div class="row">
+						                                    	<div class="col-xs-6">
+						                                    		<button  id="snap_main_button" class="btn btn-info btn-block" disabled="disabled" type="button">SNAP</button>
+						                                    		
+						                                    	</div>
+						                                    	<div class="col-xs-6">
+						                                    		<button  id="snap_cancel_button" class="btn btn-danger btn-block" disabled="disabled" type="button">Cancel</button>
+						                                    	</div>
+						                                       <!--   <div class="col-xs-6"><a href="#" class="btn btn-danger btn-block">CANCEL</a></div>-->
+						                         </div>
+		                                       <!--   <div class="col-xs-6"><a href="#" class="btn btn-danger btn-block">CANCEL</a></div>-->
+		                                    </div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                
+		                
+		                
+		                
+                   
+                   
+                   
+                   
+                    </div>
+                </div>
+      		</div>
+      		<div class="modal-footer">
+            	<div class="text-center"><button type="submit" class="btn btn-default createappointment">Create Appointment in Next Available Slot</button></div>
+      		</div>
+    	</div>
+    	</form>
+  	</div>
+</div>
+<script>
+$(document).ready(function(){
+	
+	var vehicle_add_widget = new VehicleWidget();
+	vehicle_add_widget.vehicles = {{vehicles|safe}}
+	
+	vehicle_add_widget.dropdownobj = ".vehichle_selectbox";
+	vehicle_add_widget.vin_number_control = "#vin_vehicle"
+	vehicle_add_widget.attachVehicleFound(fill_vehicle_id)
+	
+	vehicle_add_widget.initialize();
+	vehicle_add_widget.attachVehicleFound(setVehicleId);
+	
+	var camera =  new SnapShot();
+	camera.video = "#snap_video";
+	camera.snap_button = $("#snap_main_button");
+	camera.video_id = "video_orig";
+	camera.image_div = $("#snap_container");
+	camera.auto_flash_on_button  = $("#snap_flash_on_button");
+	camera.auto_flash_off_button  = $("#snap_flash_off_button");
+	camera.snap_enable_button = $("#snap_enable_button");
+	camera.snap_process_url = null;
+	camera.crop_selector = $("#snap_selector");
+	camera.canvas = "#snap_container";
+	camera.canvas_2 = "#snap_container_2";
+	camera.snap_process_url = "{%url 'customer:ocr_snap' %}";
+	camera.clip_y = 100;
+	camera.cancel_button = $("#snap_cancel_button")
+	camera.initiate()
+	camera.attachObservers(receiveVin); 
+	
+	function receiveVin(text){
+		$("#id_vin").val(text)
+	}
+	
+
+		
+})
+	function fill_vehicle_id(vehicles){
+		console.info(vehicles);
+		if (vehicles.length == 1){
+			//$("#vehicle_id")
+		}
+	}
+	
+	function setVehicleId(vehicles){
+		
+		if (Object.keys(vehicles).length == 1){
+			var vehichle_id_control = $("#vehicle_id_field");
+			$.each(vehicles,function(k,v){
+				vehichle_id_control.val(vehicles[k]["id"])
+			});
+			
+		}
+	}
+</script>	
+
+<style>
+#snap_selector{
+	position:absolute;
+	border:dotted 3px black;
+	width:100%;
+	height:100px;
+	display:none;
+	top:100px;
+	
+}
+/* #snap_container,#snap_container_2{
+	width:100%;
+} */
+#snap_video{
+	position:absolute;
+	
+}
+.video_main_container{
+	width:100%;
+	position:relative;
+	height:350px
+}
+#snap_container{
+	display:none
+
+}
+#snap_flash_on_button,#snap_flash_off_button{
+width:45%;
+}
+#snap_enable_button{
+1;
+}
+
+.modal-dialog {
+  margin: 30px auto;
+  width: 800px;
+}
+
+</style>          	     

@@ -1,0 +1,9 @@
+<tr id="appointment_{{ row.id }}">
+  <td>{{ row.time }}</td>
+  <td>{{ row.customer.name }}</td>
+  <td>
+  	<span data-toggle="tooltip" title="Model detail`ll be here">{{ row.vehicle.model }}</span> / 
+    <span data-toggle="tooltip" title="Make detail`ll be here">{{ row.vehicle.make }}</span> / 
+    <span data-toggle="tooltip" title="Year detail`ll be here">{{ row.vehicle.year }}</span>
+  </td>
+</tr>

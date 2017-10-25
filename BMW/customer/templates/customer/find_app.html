@@ -1,0 +1,295 @@
+{% extends "customer/layouts/index.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+<div class="row">
+		
+                    <p>Have an appointment you would like to change or cancel? We can look it up! Enter your phone number or appointment confirmation code.</p>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <input type="text" id="phone_confirmation_field" class="form-control" placeholder="Phone # or Confirmation Code">
+                        </div>
+                        <div class="pull-left">
+                        	<button data-field="#phone_confirmation_field" data-fieldname="confirmation_phone"  class="btn btn-info find_me_btn" id="find_me_btn"  type="button">
+                        			<span class="glyphicon glyphicon-map-marker mr-5" aria-hidden="true"></span>Find Me
+                        	</button>
+                        	
+                           <!--  <input type="button"  class="find_me_btn btn btn-info" value="Find Me" > -->
+                        </div>
+                    </div>
+                
+                <!--  <a href="#" data-toggle="modal" data-target=".findmatch">Match Popup</a>-->                              			
+</div>
+         
+         
+         
+<div class="modal fade canntfind" id="modal-cantfind" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        		<h4 class="modal-title">We couldn't find a match for the phone number enterned</h4>
+      		</div>
+      		<div class="modal-body">
+            	
+                    <div class="form-group well well-sm">
+                        <label>Is this the correct number? <span class='incorrect-number'></span></label>
+                        <input type="text" class="form-control mb-10" id="confirmation_phone_2" placeholder="Enter Confirmation Code of Phone #">
+                        <button type="button" class="btn btn-info find_me_btn"  data-field="#confirmation_phone_2" data-fieldname="confirmation_phone">Re-Submit</button>
+                    </div>
+                    <p>Select an alternate method to find your vehicle.</p>
+                    <div class="form-group well well-sm">
+                        <label>Enter vehicle's VIN number</label>
+                        <input type="text" class="form-control mb-10" placeholder="Enter VIN number" id="vin_input_1">
+                            <p>OR upload image of VIN number: </p>
+  						<form action="{% url 'customer:uploadvin' %}" method="post" id="upload_img_form" enctype="multipart/form-data">
+										        {% csrf_token %} {{vinmg}} 
+										  
+								 <button type="submit" id ="submit_img_btn" class="btn btn-info mt-10 "  style="display:none">Search</button> 
+						</form>
+						<div class="form-group">
+							<button type="button" class="btn btn-info mt-10" id="vin_image_or_input"  >Search</button>
+                            <button type="button" class="btn btn-info mt-10 find_me_btn" id="vin_input_1_submit" style="display:none"  data-field="#vin_input_1" data-fieldname="vin_number">Search</button>
+  						</div>                       
+                    </div>
+                  
+                    <div class="form-group well well-sm">
+                        <label>Enter vehicle's license number</label>
+                        <input type="text" class="form-control mb-10" id="liscense_number_1" placeholder="Enter license #">
+                        <button type="button" class="btn btn-info find_me_btn" data-field="#liscense_number_1" data-fieldname="liscense_number">Search</button>                        
+                    </div>
+                   	 <div class="form-group well well-sm">
+                        <label>Search a list of make and models</label>
+                        <input type="text" style="display:none" class="form-control mb-10" id="vehicle_id_control"  placeholder="Enter license #">
+                         						
+					                                	<select class="form-control vehichle_selectbox" data-decodenumber= "0" id="make" name="make" data-name="Make" data-key="make" required="required" >
+					                                		<option value="">Select Make*</option>
+					                                	</select>
+					                            
+					                            <p></p>
+					                            
+					                                	<select class="form-control vehichle_selectbox" data-decodenumber= "0" id="model" name="model" data-name="Model" data-key="model" required="required" >
+					                                		<option value="">Select Model*</option>
+					                                	</select>
+					                            					                          
+					                            
+					                                	<select style="display:none"class="form-control vehichle_selectbox" data-decodenumber= "3" data-name="Year" data-key="year" name="year" required="required" id="year">
+					                                		<option value="">Select Year</option>
+					                                		</select>
+					                            
+					  						   <div class="clear pad-5"></div>
+                        					<button type="button" class="btn btn-info" id="vehicl_id_btnmain" >Search</button>
+                        					                        
+                    </div>
+                
+            </div>
+    	</div>
+  	</div>
+</div>
+
+
+<div class="modal fade findmatch" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id = "modal-search">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        		<span aria-hidden="true">×</span></button>
+        		<h4 class="modal-title">We found a match. Which vehicle whould you like to book?</h4>
+      		</div>
+      		<div class="modal-body">
+                <div class="bg_wht pad-10" id='search_appointment_body'>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4>Not one of these?</h4>
+                <div class="row">
+                	<div class="col-sm-5">
+                		<form action="{%url 'customer:search_by_code_phone' %}" method="GET">
+                    	<div class="well">
+                        	<p>Is this the correct number? <span class="incorrect_number"></span><br>If not then please re-enter the correct number OR enter the comfirmation code.</p>
+                            <input type="text" class="form-control mb-10 " name="code" id="confirmation_phone_3" placeholder="Enter phone number or comfirmation code">
+                            <input type="hidden"  name="dealer_code" value="{{dealer_code}}">
+                            <div class="text-center">
+                            	<button type="submit" class="btn btn-info"  >Re-submit</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-2"><h2>OR</h2></div>
+                    <div class="col-sm-5">
+                    	<div class="row">
+                    		<form action="{% url 'customer:login' %}" method="post">
+                                		{% csrf_token %}
+                        				<p>Login to select from the vehicles associated with your account.</p>
+                        				    <div class="clear pad-10"></div>
+                            			
+                             				<div class="col-sm-10">
+                                                <!--input type="text" class="form-control" placeholder="Usernam"-->
+                                                
+                    							{{ loginform.username }}
+                                                <div class="clear pad-5"></div>
+                                                
+                                            </div>
+                                            <div class="col-sm-10">
+                                            	{{ loginform.password }}
+                                                <!-- input type="password" class="form-control" placeholder="Password"-->
+                                                <div class="clear pad-5"></div>
+                                                
+                                            </div>
+                                            <div class="col-sm-offset-2  col-sm-6">
+                                                <input type="submit" class="btn btn-default btn-block" value="Login" />
+                                            </div>
+                                            <input type="hidden" name="dealer_code" value="{{dealer_code}}"/>
+                                        
+		                            		
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    	</div>
+  	</div>
+</div>                     		
+{% endblock %}
+{% block js %}
+
+		{{block.super}}
+		<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+		<input type="hidden" data-url="{% url 'customer:search_app'%}" id="search-url"/>
+		<input type="hidden" value="{{dealer_code}}" id="dealer_code"/>
+		<script>
+		$(document).ready(function(){
+			
+			function setVehicleId(vehicles){
+				if (Object.keys(vehicles).length == 1){
+					var vehichle_id_control = $("#vehicle_id_control");
+					$.each(vehicles,function(k,v){
+						vehichle_id_control.val(vehicles[k]["id"])
+					});
+					
+				}
+			}
+			
+			
+			var vehicle_add_widget = new VehicleWidget();
+			vehicle_add_widget.vehicles = {{vehicles|safe}}
+			vehicle_add_widget.vin_text_input = $("#vin_vehicle");
+			vehicle_add_widget.dropdownobj = ".vehichle_selectbox";
+			
+			
+			vehicle_add_widget.attachVehicleFound(setVehicleId);
+			
+			vehicle_add_widget.initialize();
+			
+			
+			
+			$('#upload_img_form').submit(uploadImage);
+			$("body").on("click","#vin_image_or_input",function(){
+				$("#vin_input_1").removeClass("error_input");
+				if($("#vin_upload").val()!=""){
+					$("#submit_img_btn").trigger("click");
+					
+				}else{
+					$("#vin_input_1_submit").trigger("click");
+				}
+			});
+			
+			/* $("body").on("click","#vehicl_id_btnmain",function(){
+				
+				if($("#model").val()!="" && $("#year").val()!=""){
+					$("#vehicl_id_btnsecondary").trigger("click");
+					
+				}else{
+					BootstrapDialog.show({
+			            title: 'Error',
+			            message: 'Please select Model and Year'
+			        });
+				}
+			}); */
+			
+			$("body").on("click","#vehicl_id_btnmain",function(){
+				var data = {"make":$("#make").val(),"model":$("#model").val()}
+				if($("#model").val()!="" && $("#make").val()!=""){
+					$("#vehicl_id_btnsecondary").trigger("click");
+					data["dealer_code"] =$("#dealer_code").val();
+					search(data);
+				}else{
+					BootstrapDialog.show({
+			            title: 'Error',
+			            message: 'Please select Make and Model'
+			        });
+				}
+				
+			})
+			$("body").on("click",".find_me_btn",function(){
+				var field = $($(this).data("field"));
+				var field_name= $(this).data("fieldname");
+				var field_val = $.trim(field.val());
+				field.removeClass("error_input")
+				if(field_val==""){
+					field.addClass("error_input")
+				}else{
+					var data = {}
+					data["dealer_code"] =$("#dealer_code").val();
+					data[field_name] = field_val
+					search(data,field)
+				}
+			})
+			function search(searchdata,el){
+				
+				$("#loading_page").show();
+				$.ajax({
+					url:$("#search-url").data('url'),
+					data:searchdata
+					,success:function(data){
+						$("#search_appointment_body").html(data);
+						$('#modal-search').modal('show');
+						$('#modal-cantfind').modal('hide');
+						$("#loading_page").hide();
+					},error:function(){
+						
+						$('#modal-cantfind').modal('show');
+						$('#modal-search').modal('hide');
+						$("#loading_page").hide();
+						if(typeof searchdata["confirmation_phone"]!="undefined" && typeof el !="undefined"){
+							$(".incorrect-number").html(el.val())	
+						}
+					}
+				});
+			}
+			function uploadImage(event) {
+				event.preventDefault();
+				var data = new FormData($('#upload_img_form').get(0));
+				
+				$("#loading_page").show();
+				$.ajax({
+				    url: $(this).attr('action'),
+				    type: $(this).attr('method'),
+				    data: data,
+				    cache: false,
+				    processData: false,
+				    contentType: false,
+				    success: function(data) {
+				    	if(typeof data["vin"]!="undefined" && data["vin"]!="" && data["vin"]!=null ){
+				    		$("#vin_input_1").val(data["vin"]);
+				    		$("#vin_input_1_submit").trigger("click")
+				    	}else{
+				    		BootstrapDialog.show({
+					            title: 'Error',
+					            message: 'Unable to process the vin'
+					        });
+				    	}
+				    	$("#vin_upload").val("");
+				    	$("#loading_page").hide();
+				    },
+				    error:function(){
+				    	$("#vin_upload").val("");
+				    }
+			});
+				return false;
+			}
+		
+		})
+		</script>
+
+{% endblock%}
+                              		
+                              		

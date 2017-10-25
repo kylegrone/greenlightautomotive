@@ -1,0 +1,143 @@
+{%if customer_form  %}
+	<form  method="POST" action="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="form_submit_book">
+		
+		{% csrf_token %}
+					<div class=" col-sm-5">
+									<h4 class="mt-0 font_regular">Please Provide Contact to Complete Your Appointment</h4>
+	                	            {{customer_form.user}}
+	                	            <a class="mt-0 font_regular" href="{% url 'customer:index' %}?dealer_code={{dealer_code}}&referer={{ request.get_full_path|urlencode }}">Login</a> 
+	                	            
+	                	            & Use Account Information OR Fill in Details Below:
+				                    <div class="clear pad-10"></div>
+				                    {% if  customer_form.non_field_errors %}
+						                <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ customer_form.non_field_errors }}
+										</div>
+				               		 
+				               		 {%endif%}
+				                 
+					                       <div class="row">
+					                                <div class="form-group col-xs-10">
+					                                    <label for="fnam">First Name*</label>
+					                                    {{customer_form.first_name}}
+					                                    {% if  customer_form.first_name.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.first_name.errors }}
+														</div>
+														{%endif%}
+					                     	 </div>
+					                     </div>
+					                     <div class="pad-5"></div>
+					                      <div class="row">
+					                                <div class="form-group col-xs-10">
+					                                    <label for="lnam">Last Name*</label>
+					                                    {{customer_form.last_name}}
+					                                    {% if  customer_form.last_name.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.last_name.errors }}
+														</div>
+														{%endif%}
+					                                </div>
+					                       </div>
+				                           <div class="pad-5"></div>
+				                           
+					                     	<div class="row">
+					                        	<div class="col-sm-10">
+					                        		<label for="fnam">Phone Number*</label><br/>
+					                                                                  
+					                                  	{{customer_form.phone_number_1}}
+					                                  	{% if  customer_form.phone_number_1.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.phone_number_1.errors }}
+														</div>
+														{%endif%}
+					                                
+					                       		 </div>
+					                        </div>  <div class="pad-5"></div>   
+					                        <div class="row">
+					                        	<div class="col-sm-10">
+						                            <div class="form-group">
+						                                <label for="mail">Email*</label>
+						                                {{customer_form.email_1}}
+						                                {% if  customer_form.email_1.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.email_1.errors }}
+														</div>
+														{%endif%}
+													
+						                            </div>
+						                         </div>
+						                    </div><div class="pad-5"></div>
+						                    <div class="form-group" style="display:none" >
+							    				<label class="checkbox">
+							      					<input type="checkbox" name="contact_me_appointment" checked="checked" class="contact_me"> <span>
+							      					</span>
+							      					
+							    				</label>
+							  				</div>
+							  				<div class="pad-5"></div>
+							  				<div class="form-group contact_me_time_container" style="display:none">
+							  						<select name='contact_me_time' class="form-control">
+							  								<option value="Morning">Morning</option>
+							  								<option value="Mid-Day">Mid-Day</option>
+							  								<option  value = "Later-Afternoon">Later-Afternoon</option>
+							  						</select>
+							  				</div>
+							  				<div class="form-group">
+							    				<label class="checkbox">
+							    					<textarea class="form-control" name='comments' placeholder="Comments" cols="60" ></textarea>
+							      				</label>
+							  				</div>
+							  				
+							  				
+							  				
+							  				 <div class="form-group"  >
+							    				<label class="checkbox">
+							      					 <span>
+							      					 How would you like us to contact you regarding this appointment?
+							      					</span>
+							      					
+							    				</label>
+							  				</div>
+							  				
+					                      <div class=" form-group">
+					                               
+					                                
+					                                    {{customer_form.method_of_contact}}
+					                                    {% if  customer_form.method_of_contact.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.method_of_contact.errors }}
+														</div>
+														{%endif%}
+					                                
+					                        </div>  
+					                        <div class="form-group">
+							    				<label class="checkbox">
+							      					<input type="checkbox" name="reminder_settings" class="reminder_settings"> <span>Please remind me about this appointment</span>
+							    				</label>
+							  				</div>
+							  				<div class="form-group reminder_setting_container" style="display:none">
+							  								<input type="checkbox" name="setting_email" class="form-control">Email
+							  								<input type="checkbox" value="phone" name="setting_text" class="form-control">Text <br/>
+							  								<input type="checkbox"value="text" name="setting_phone" class="form-control">Phone <br/>
+							  								
+							  				</div>  
+				                        
+				                          
+				                </div>
+				             
+	        <input type="hidden" name="dealer_code" value="{{dealer_code}}"/>      
+	         <input type="hidden" name="appointment_id" value="{{appointment.id}}"/> 
+	             
+	         <div class="col-sm-offset-10 col-sm-2 text-right mt-10">
+               	 	<button  style="float:right;width:70px" id="book_btn" disabled="disabled"  data-loggedin="false" class="btn btn-info">Book</button>
+            	</div>
+	 </form>
+{%endif%}
+

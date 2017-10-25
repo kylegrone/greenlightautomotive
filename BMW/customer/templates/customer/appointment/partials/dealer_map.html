@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<div class="col-sm-6">
+        	<div class="bg_wht pad-15" style="height:450px">
+        		<div class="media">
+	                <div class="media-left">
+	                </div>
+	                <div class="media-body">
+	                	<div class="row">
+		                	<div class="col-sm-8">
+		                			<div class="pull-left">
+		                				<a href="" class="logo">
+		                						{%if dealer.logo%}
+		                						<img src="{{dealer.logo.url}}"  width="60">
+		                						{%else%}
+		                							<img src="{% static "customer/images/logo.png" %}"  width="60">
+		                						{%endif%}
+		                					
+		                				</a>
+		                			</div>
+			                		
+			                   		 <h3 class="pull-left">&nbsp;{{dealer.name}} </h3>
+			                   		 <div class="clear"></div>
+	                   		 </div>
+                   		 </div>
+	                	<h4 class="font_regular"> {{dealer.city}} {{dealer.address_line1}}</h4>
+	                </div>
+           		</div>
+            	<div class="clear pad-10"></div>
+            	<div id="dealeraddress_map"  style="height:280px"></div>
+            </div>
+        </div>
+

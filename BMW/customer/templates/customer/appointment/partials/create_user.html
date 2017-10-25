@@ -1,0 +1,209 @@
+<div id="check_user_exist_id" data-url="{% url 'customer:check_username' %}"></div>
+ <div class="pad-20"></div>
+ <form id="form_create_user" action="{% url 'customer:createuser' %}" method="post">
+ {% csrf_token %}
+	<div class="bg_wht pad-15">
+    	<h4 class="mt-0">New? Save your information for future service needs by registering (Optional)</h4>
+        <p class="text_14">Registering will save you time on your next service appointment. Save your vehicle information and account details.</p>
+       	<div class="row">	                    <div class="clear pad-10"></div>
+	                    {% if  usercreationform.non_field_errors %}
+			                <div class="alert error alert-danger fade in">
+						    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+						    	<strong>Error!</strong>{{ usercreationform.non_field_errors }}
+							</div>
+	               		 
+	               		 {%endif%}
+       	</div>
+        <div class="row">
+        	
+        	<div class="col-sm-7">
+        		
+            	<h4 class="font_regular">Pick a username and password</h4>
+                <div class="row">
+                    <div class="col-sm-9">
+                       
+                             <div class="form-group">
+					    		<div id="user_error_div" style="display:none">
+							    		<div class="alert error alert-danger fade in">
+								    			<a href="#" class="close" data-dismiss="alert">&times;</a>
+								    			<strong>Error!</strong> <span class="error_msg"></span>
+										</div>
+								</div>
+					    		 {% if usercreationform.user_attrs.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.user_attrs.errors }}
+										</div>
+										{%endif%}
+					    		
+					    		{{ usercreationform.username }}
+					            <!-- <input type="password" class="form-control" id="current" placeholder="Enter Current Password"> -->
+					        </div>
+                            {{ usercreationform.profile }}
+					        
+					    	<div class="form-group">
+					    		 {% if usercreationform.current.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.current.errors }}
+										</div>
+										{%endif%}
+					    		
+					    		{{ usercreationform.current }}
+					            <!-- <input type="password" class="form-control" id="current" placeholder="Enter Current Password"> -->
+					        </div>
+					        <div class="form-group">
+					          {% if usercreationform.new.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.new.errors }}
+										</div>
+										{%endif%}
+					        	{{ usercreationform.new }}
+					            <!-- <input type="password" class="form-control" id="new" placeholder="Enter New Password"> -->
+					        </div>
+					        <div class="form-group">
+					          {% if usercreationform.confirm.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.confirm.errors }}
+										</div>
+										{%endif%}
+					        	{{ usercreationform.confirm }}
+					            <!-- <input type="password" class="form-control" id="confirm" placeholder="Confirm Password"> -->
+					        </div>
+					        <div class="clear pad-5"></div>
+					                       
+                    </div>
+                    <div class="col-sm-3">
+                    	<ul class="tick">
+		                    	<li id="char">Six Characters</li>
+		                        <li id="uper">Upper Case</li>
+		                        <li id="lower">Lower Case</li>
+		                        <li id="number">Number</li>
+		                        <li id="symbol">Symbol</li>
+		                        <li id="match">Passwords Match</li>
+		                </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+            	<div class="clear pad-30"></div>
+                <div class="alert alert-warning text_14">
+                	Not Registering?<br>Remember to write down your confirmation number for future reference.
+                </div>
+                <div class="clear pad-10"></div>
+                <div class="text-right">
+                	{%if done_disable != True %}
+                    	<a type="button" class="btn btn-success" href="{% url 'customer:search_by_code_phone'%}?dealer_code={{dealer_code}}&&profile_id={{profile.id}}">NO THANKS. I'M DONE</a> &nbsp; 
+                    {%endif%}
+                    <button type="submit" class="btn btn-info" id="save_user">REGISTER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="dealer_code" value="{{ dealer_code }}" />
+    <input type="hidden" name="referrer" value="{{ request.get_full_path }}" />
+</form>
+ <!-- <form id="form_create_user" action="{% url 'customer:createuser' %}" method="post">
+ {% csrf_token %}
+ <input type="hidden" name="type" value="change_password"/>
+ <div class="pad-10"></div>
+<div class="well " >
+					<h5 class="mt-0">
+                    	<a  class="text_blck"><i class="fa fa-lg mr-10 collapse_button"></i></a> 
+                       Create Account
+                    </h5>
+        				
+	                    <div class="clear pad-10"></div>
+	                    {% if  usercreationform.non_field_errors %}
+			                <div class="alert error alert-danger fade in">
+						    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+						    	<strong>Error!</strong>{{ usercreationform.non_field_errors }}
+							</div>
+	               		 
+	               		 {%endif%}
+		
+		<div class="container-fluid ">
+			<div class="row">
+		    	<div class="col-sm-8">
+		    		 
+		            <div class="row">
+		            	<div class="col-sm-9">
+						<p>Please enter a new password that you will remember. The password must be atleast six characters. With atleast one uper case character, one lower case charecter, one number and one sumble.</p>
+					    
+					    	<div class="form-group">
+					    		<div id="user_error_div" style="display:none">
+							    		<div class="alert error alert-danger fade in">
+								    			<a href="#" class="close" data-dismiss="alert">&times;</a>
+								    			<strong>Error!</strong> <span class="error_msg"></span>
+										</div>
+								</div>
+					    		 {% if usercreationform.user_attrs.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.user_attrs.errors }}
+										</div>
+										{%endif%}
+					    		
+					    		{{ usercreationform.username }}
+					            <input type="password" class="form-control" id="current" placeholder="Enter Current Password">
+					        </div>
+					        {{ usercreationform.profile }}
+					        
+					    	<div class="form-group">
+					    		 {% if usercreationform.current.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.current.errors }}
+										</div>
+										{%endif%}
+					    		
+					    		{{ usercreationform.current }}
+					            <input type="password" class="form-control" id="current" placeholder="Enter Current Password">
+					        </div>
+					        <div class="form-group">
+					          {% if usercreationform.new.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.new.errors }}
+										</div>
+										{%endif%}
+					        	{{ usercreationform.new }}
+					            <input type="password" class="form-control" id="new" placeholder="Enter New Password">
+					        </div>
+					        <div class="form-group">
+					          {% if usercreationform.confirm.errors %}
+				                    	 <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ usercreationform.confirm.errors }}
+										</div>
+										{%endif%}
+					        	{{ usercreationform.confirm }}
+					            <input type="password" class="form-control" id="confirm" placeholder="Confirm Password">
+					        </div>
+					        <div class="clear pad-5"></div>
+					        <button type="submit" class="btn btn-info" id="save_user">Save</button> &nbsp; 
+					       
+					 
+					</div>          	
+		                <div class="col-sm-3">
+		                	<div class="clear pad-30"></div>
+		                	<ul class="tick">
+		                    	<li id="char">Six Characters</li>
+		                        <li id="uper">Uper Case</li>
+		                        <li id="lower">Lower Case</li>
+		                        <li id="number">Number</li>
+		                        <li id="symbol">Symbol</li>
+		                        <li id="match">Passwords Match</li>
+		                    </ul>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="clear pad-5"></div>
+		
+</div>
+<input type="text" name="referrer" value="{{ request.get_full_path }}" />
+</form> -->

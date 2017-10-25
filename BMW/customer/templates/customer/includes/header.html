@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load dealership_detail %}
+<header>
+	<div class="page-header LoginPageHead">
+        <div class="container-fluid">
+        	<div class="row">
+            	<div class="col-lg-12">
+            		<div class="col-sm-8">
+                		
+                		 	{% dealer_detail_customer dealer_code %}
+                		
+                   		
+                    </div>
+                    <div class="col-sm-4">
+	                    {% if chatadvisor and chatposition != "bottom" %}
+				        						{% if chatadvisor.userprofile.phone_number_1 and chatadvisor.userprofile.phone_number_1 != "0" %}
+					               					 <!--  
+					               			 		<div class="dropdown pull-right "  style="margin-top:15px">
+					                					<a href="tel:{{chatadvisor.userprofile.phone_number_1}}" class="btn btn-default btn-block btn-sm" style="width:100px">Call</a>
+				        							</div>-->
+				        						{%endif%}
+				        				
+				        {%endif%}
+			        </div>
+                </div>
+            </div>
+        </div>		
+    </div>
+</header>

@@ -1,0 +1,90 @@
+
+{% extends 'flagging/base.html' %}
+{% block main %}
+<div class="container-fluid">
+	<div class="row">
+    	<div class="col-sm-offset-2 col-sm-8">
+            <h3 class="font_regular">Hello {{ userProfile.user.first_name }} {{ userProfile.user.last_name }}</h3>
+            <p>If you would like to recieve alerts when flags are update. Please select by TEXT or by EMAIL bellow:</p>
+            <div class="clear pad-10"></div>
+            <div class="radio" style="margin-top:-5px;">
+            	<label><input type="radio" name="mode" checked value="text"> <span>By Text</span></label></br>
+            	<label><input type="radio" name="mode" value="email"> <span>By email</span></label>
+            </div>
+            
+            	
+            
+            <div class="clear pad-10"></div>
+            <div class="well" id="phoneNumber" >
+                <p>This is the number we have on file for you. Is this the mobile number you would like alerts sent for you?</p>                
+                <p><strong>{{ userProfile.phone_number }}</strong></p>
+                <p>If you would like to use different number please enter it here.</p>
+                <form class="form-inline" action="{% url 'flagging:confirmation' %}" method="post">
+                	<div class="form-group col-sm-4">
+                	{% csrf_token %}
+                    	{{ form.field }}
+                    	<input type = "hidden" value="text" name = "modeType">
+  					</div>
+                    <button type="submit" class="btn btn-info">Submit Number</button>
+				</form>
+            </div>
+            <div class="well" id = "email" style="display:None">
+                <p>This is the email we have on file for you. Is this the email you would like alerts sent for you?</p>                
+                <p><strong>{{ userProfile.user.email }}</strong></p>
+                <p>If you would like to use different email please enter it here.</p>
+                <form class="form-inline" action="{% url 'flagging:confirmation' %}" method="post">
+                	<div class="form-group col-sm-4">
+                	{% csrf_token %}		
+                    	{{ form.field }}
+                    	<input type = "hidden" value="email" name = "modeType">
+  					</div>
+                    <button type="submit" class="btn btn-info">Submit Email</button>
+				</form>
+            </div>
+            <form action="{% url 'flagging:confirmation' %}" method="post">
+            {% csrf_token %}
+            <div class="radio pull-right">
+                <label><input type="checkbox" id="isSkip" > <span>Please don`t show this screen again</span></label>
+            </div>
+            <input type="hidden" name="modeType" value="skip" >
+            <input type="hidden" name="is_skip_hidden" id = "is_skip_hidden" value="false" >
+            <div class="clear pad-10"></div>
+            <p class="text-right"><button type="submit" class="btn btn-info">Skip</button></p>
+        	</form>
+        </div>
+    </div>
+</div>
+<div class="clear pad-5"></div>
+{% endblock %}
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+{% block script %}
+<script>
+$(document).ready(function(){
+	
+	$("#isSkip").change(function(){
+		$("#is_skip_hidden").val($("#isSkip").is(":checked"));
+		
+	});
+	$("input[name=mode]:radio").change(function (){
+
+		var val = $('input[name=mode]:checked').val();
+		if (val == "email"){
+			$("input[name=field]").attr("placeholder","Email");
+			$("#phoneNumber").hide();
+			$("#email").show();
+		}else if (val == "text"){
+			$("input[name=field]").attr("placeholder","Phone Number");
+			$("#phoneNumber").show();
+			$("#email").hide();
+		}
+		
+
+
+		});
+});
+
+</script>
+
+{% endblock %}

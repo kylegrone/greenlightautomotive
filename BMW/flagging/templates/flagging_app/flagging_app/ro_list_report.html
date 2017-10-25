@@ -1,0 +1,61 @@
+<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <div class="clear pad-10"></div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <div class="table-responsive">
+                                                <div class="ReportsTablesHead">
+                                                    <div class="ReportsTableLogo">
+                                                        <img src="/static/images/logo.png" width="66" height="69"> BMW San Francisco
+                                                    </div>
+                                                    <div class="ReportsTableTitle">
+                                                        Repair Order List
+                                                    </div>
+                                                </div>
+                                                <table class="table table-bordered table-striped table-headblck">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>RO #</th>
+                                                            <th>RO Closed Date</th>
+                                                            <th>Eligible Closed RO</th>
+                                                            <th>SA Requested Inspection</th>
+                                                            <th>RO with Inspection</th>
+                                                            <th>Tech assigned to RO.</th>
+                                                            <th>Vehicle Make</th>
+                                                            <th>Vehicle Mileage</th>
+                                                            <th># Tech Recs</th>
+                                                            <th>Value of Faled Recs from Insp.</th>
+                                                            <th>Upsell on RO</th>
+                                                            <th>Failed Approved Rec Value from Insp.</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for row in rows %}
+                                                        <tr>
+                                                            <td>{{row.ro_number}}</td>
+                                                            <td>{{row.ro_closed_date}}</td>
+                                                            <td>{{row.eligible_closed_ro}}</td>
+                                                            <td>{{row.requested_inpsection}}</td>
+                                                            <td>{{row.inpsection}}</td>
+                                                            <td>{{row.tech}}</td>
+                                                             <td>{{row.vehicle}}</td>
+                                                            <td>{{row.milage}}</td>
+                                                            <td>{{row.num_of_tech_inspections}}</td>
+                                                            <td>{{row.failed_recs_price}}</td>
+                                                            
+                                                           <td>{{row.upsell_ro}}</td>
+                                                            <td>{{row.accepted_dollars}}</td>
+                                                           
+                                                        </tr>
+                                                       {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>

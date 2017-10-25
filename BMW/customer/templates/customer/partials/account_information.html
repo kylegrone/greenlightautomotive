@@ -1,0 +1,224 @@
+<form  method="POST" url="{% url 'customer:accountsettings' %}">
+<input type="hidden" name="type" value="account"/>
+{% csrf_token %}
+{% if customer_form.errors %}
+
+{% endif %}
+	<div class="well collaps_main_container">
+	                	<h5 class="mt-0"><a href="#" class="text_blck">
+	                	<i class="fa fa-minus-square-o fa-lg mr-10 collapse_button"></i></a> Account Detail</h5>
+						<div class="collapsable_div">
+				                    <p>
+				                    	Connect with: 
+				                    			<!--  <i class="fa fa-facebook-square fa-2x"></i>-->
+				                    			<fb:login-button data-size="icon" scope="public_profile,email,user_location,user_about_me" onlogin="checkLoginState();">
+</fb:login-button>
+				                    			
+				                        <a  onclick="liAuth()" style="position:relative;top:5px;"><i class="pointer fa fa-linkedin-square fa-2x"></i></a>
+				                    </p>
+				                    {{customer_form.user}}
+				                    <div class="clear pad-10"></div>
+				                    {% if  customer_form.non_field_errors %}
+						                <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ customer_form.non_field_errors }}
+										</div>
+				               		 
+				               		 {%endif%}
+				                    <div class="row collapsable_div">
+				                    	<div class="col-sm-7">
+				                        	<div class="row">
+				                                <div class="form-group col-xs-6">
+				                                    <label for="fnam">First Name*</label>
+				                                    {{customer_form.first_name}}
+				                                    {% if  customer_form.first_name.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.first_name.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                                <div class="form-group col-xs-6">
+				                                    <label for="lnam">Last Name*</label>
+				                                    {{customer_form.last_name}}
+				                                    {% if  customer_form.last_name.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.last_name.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="form-group col-xs-6">
+				                                    <label for="country">Country*</label>
+				                                    {{customer_form.country}}
+				                                    {% if  customer_form.country.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.country.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label for="address">Address*</label>
+				                                {{customer_form.address_line1}}
+				                                <div class="clear pad-5"></div>
+				                                
+				                                {{customer_form.address_line2}}
+				                                {% if  customer_form.address_line1.errors %}
+						                    	 <div class="alert error alert-danger fade in">
+											    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+											    	<strong>Error!</strong>{{ customer_form.address_line1.errors }}
+												</div>
+												{%endif%}
+				                            </div>
+				                            <div class="row">
+				                                <div class="form-group col-xs-4">
+				                                    <label for="city">City*</label>
+				                                    {{customer_form.city}}
+				                                    {% if  customer_form.city.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.city.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                                <div class="form-group col-xs-4">
+				                                    <label for="stat">State*</label>
+				                                    {{customer_form.state_us}}
+				                                    {% if  customer_form.state_us.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.state_us.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                                <div class="form-group col-xs-4">
+				                                    <label for="zip">Zip Code*</label>
+				                                   {{customer_form.zipcode}}
+				                                   {% if  customer_form.zipcode.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.zipcode.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                            </div>
+				                        </div>
+				                        <div class="col-sm-5">
+				                        	<label for="fnam">Phone Number*</label>
+				                        	<div class="row">
+				                                <div class="form-group col-xs-7">                                    
+				                                  	{{customer_form.phone_number_1}}
+				                                  	{% if  customer_form.phone_number_1.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.phone_number_1.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                                <div class="form-group col-xs-5">
+				                                   	{{customer_form.phone_1_type}}
+				                                   	{% if  customer_form.phone_1_type.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.phone_1_type.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                                <div class="form-group col-xs-7">                                    
+				                                  	{{customer_form.phone_number_2}}
+				                                  	{% if  customer_form.phone_number_2.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.phone_number_2.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                                <div class="form-group col-xs-5">
+				                                   	{{customer_form.phone_2_type}}
+				                                   	{% if  customer_form.phone_2_type.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.phone_2_type.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                            </div>
+				                            <div class="row">
+				                               <div class="form-group col-xs-7">                                    
+				                                  	{{customer_form.phone_number_3}}
+				                                  	{% if  customer_form.phone_number_3.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.phone_number_3.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                                <div class="form-group col-xs-5">
+				                                   	{{customer_form.phone_3_type}}
+				                                   	{% if  customer_form.phone_3_type.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.phone_3_type.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                            </div>
+				                            <div class="form-group">
+				                                <label for="mail">Email*</label>
+				                                {{customer_form.email_1}}
+				                                {% if  customer_form.email_1.errors %}
+						                    	 <div class="alert error alert-danger fade in">
+											    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+											    	<strong>Error!</strong>{{ customer_form.email_1.errors }}
+												</div>
+												{%endif%}
+												<div class="clear pad-5"></div>
+				                                {{customer_form.email_2}}
+				                                {% if  customer_form.email_2.errors %}
+						                    	 <div class="alert error alert-danger fade in">
+											    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+											    	<strong>Error!</strong>{{ customer_form.email_2.errors }}
+												</div>
+												{%endif%}
+				                            </div>
+				                            <div class="row">
+				                                <label for="city" class="col-xs-6 mt-10">Preferred method to contact:</label>
+				                                <div class="col-xs-6">
+				                                    {{customer_form.method_of_contact}}
+				                                    {% if  customer_form.method_of_contact.errors %}
+							                    	 <div class="alert error alert-danger fade in">
+												    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+												    	<strong>Error!</strong>{{ customer_form.method_of_contact.errors }}
+													</div>
+													{%endif%}
+				                                </div>
+				                            </div>    
+				                        
+				                          
+				                        </div>
+				                  	</div>
+				                  <div class="row">
+				                          		   <div class="col-xs-6">
+				                        	  			<button type="submit" class="btn btn-info">Save </button>
+				                        	  		</div>
+				                   </div>
+	                    </div>
+	                </div>
+	          </form>
+	              <script type="text/javascript">
+    
+    	$('document').ready(function(){
+			
+			$('#confirm-delete').on('show.bs.modal', function(e) {
+			    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+			});
+			
+    		
+    	});
+  </script>   

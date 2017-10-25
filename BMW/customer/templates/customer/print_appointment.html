@@ -1,0 +1,110 @@
+{% load staticfiles %}
+<div class="col-sm-6">
+        	<div class="bg_wht pad-15">
+        		
+            	{%if appointment.dealer %}
+            		{%if appointment.dealer.logo%}
+            			<img src="{{appointment.dealer.logo.url}}" width="50px" height="50px" style='float:left'/> 
+            		{%endif%}
+            		<h2 style="margin-left:5px;margin-top:15px">{{appointment.dealer.name}}</h2>
+            		<div style="clear:both"></div>
+            	{%else%}
+            		
+            		{%if appointment.advisor.dealer %}
+            			{%if appointment.advisor.dealer.logo%}
+            				<img src="{{appointment.advisor.dealer.logo.url}}" width="50px" height="50px" style='float:left'/> 
+            			
+            			{%endif%}
+            			<h2 style="margin-left:5px;margin-top:15px">{{appointment.dealer.name}}</h2>
+            		{%endif%}
+            		<div style="clear:both"></div>
+            	{%endif%}
+            		
+            	
+            	<h4 class="well well-sm mt-0">
+            	{%if appointment.appointment_status_id == 1%}
+            		Your Appointment is Confirmed
+            	{%else%}
+            		Scheduled Appointment Time
+            	{%endif%}
+            		
+            	</h4>
+                <div class="row">
+                	<div class="col-xs-7 text_14">
+                    	<p>{{appointment.start_time}}</p>
+                    	{%if appointment.way_away%}
+                        	<p>A WAY AWAY: {{appointment.way_away.name}}</p>
+                        {%endif%}
+                    </div>
+                    <div class="col-xs-5">
+                    	<div class="media">
+                        	
+  							<div class="media-body">
+                            	{%if appointment.advisor %}
+								                                    	<div class="media-left">
+								                                        	<a href="#">
+								                                        			{%if appointment.advisor.userprofile.avatar  %}
+								                                        				<img src="{{appointment.advisor.userprofile.avatar.url}}" width="75" class="media-object imgpopup img-thumbnail">
+								                                        			{%else%}
+								                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object imgpopup img-thumbnail">
+								                                        			{%endif%}
+								                                        	</a>
+								                                        </div>
+									                                        <div class="media-body">
+									                                        	<p>Advisor:<br>{{appointment.advisor.first_name}} {{appointment.advisor.last_name}}</p>
+									                                            
+									                                        </div> 
+									                         {%else%}
+									                         			<div class="media-left">
+								                                        	<a href="#">
+								                                        			<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail imgpopup">
+								                                        	</a>
+								                                        </div> 
+								                                       
+									                                       <div class="media-body">
+									                                        	<p>Advisor:<br>None</p>
+									                                            
+									                                        </div> 
+							                             {%endif%}  
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Service Scheduled</h4>
+                <div class="row">
+                	<div class="col-xs-6 text_14">
+                		<p>
+                			{%for service in appointment.appointmentservice.all %}
+                				{{service.service.name}}</br>		
+                			{%endfor%}
+                    	</p>
+                    </div>
+                    <div class="col-xs-6">
+                    	<div class="media">
+                        	<div class="media-left">
+                        				<a href="#">
+                        	
+                        					<img src="{{appointment.vehicle.vehicle.mainimage.url}}" class="imgpopup" width="100">
+                        				</a>
+                        	</div>
+  							<div class="media-body">
+                            	<p><strong>{{appointment.vehicle.vehicle.make.name}}</strong></p>
+                                 <p>
+                                    	Make: &nbsp; {{appointment.vehicle.vehicle.make.name}}<br>
+                                        Model: &nbsp;  {{appointment.vehicle.vehicle.model.name}}<br>
+                                        
+                                  </p>
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Confirmation Code: {{appointment.confirmation_code}}</h4>
+                
+            </div>
+        </div>            	
+        <script>
+        	window.print()
+        </script>
+        

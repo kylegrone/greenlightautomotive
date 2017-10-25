@@ -1,0 +1,100 @@
+{% load flagging_tags %}
+<html>
+<head>
+<style>
+	.fail{
+		color : red;
+	}
+	.pass{
+		color : green;
+	}
+	.warn{
+		color : yellow;
+	}
+    @page {
+        size: a4 portrait;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+        @frame content_frame {    
+             /*-pdf-frame-content: full_content;      /* Content Frame */
+            left: 50pt; width: 512pt; top: 110pt; height: 632pt;
+        }
+    }
+</style>
+<title>{% dealer_title_tag dealer_code  %}</title>
+</head>
+{% load staticfiles %}
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content"><class="logo"><h1 style="vertical-align:middle">{% dealer_title_tag dealer_code  %} Inspection Items</h1></div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+    <!-- HTML Content -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+    <!--  <td style="font-size:12px; vertical-align:top;">
+        Cutomer Name: &nbsp; {{app_details.customer.first_name}} {{app_details.customer.last_name}}<br>
+        Cell Phone #: &nbsp; {{app_details.customer.phone_number_1}}<br>
+        Cutomer #: &nbsp; {{app_details.customer.id}}<br>
+        Email: &nbsp; {{app_details.customer.email_1}}<br>
+        Confirmation Code: &nbsp; {{app_details.confirmation_code}}<br>
+        A Way Away: &nbsp; {{app_details.way_away.name}}<br>
+        DL #: &nbsp; {{app_details.customer.driver_liscens_number}}<br>
+      </td> -->
+ </tr>
+ </table>
+ <p>
+ {% for summary in result_summary %}
+    <p>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+          <thead>
+            <tr>
+              <th bgcolor="#dddddd" style="font-size:12px;color:#222;">{{summary.inspection.item.item}}</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+          <td><b>Observation :</b> {{summary.observation}}
+          </td>
+          </tr>
+          <tr>
+          <td><b>Recommendation :</b> {{summary.recommendations}}
+          </td>
+          </tr>
+          <tr>
+          <td><b>Specification :</b> {{summary.specs}}
+          </td>
+          </tr>
+           <tr>
+          <td><b>Status :</b> 
+          <span class="{{summary.status}}">{{summary.status|capfirst}}</span>
+          </td>
+          </tr>
+          <tr>
+          
+             {% if summary.image %}
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">  <div style="text-align: center; width: 300px; height:300px; display: inline-block;">
+                <img width="100%" height="240" src="{{summary.image.url}}" />
+                <p></p>
+            </div>
+            </td>
+            {% endif %}
+          </tr>
+  
+         </tbody>
+         </table>
+    <p>
+      {% endfor %}
+</body>
+</html>
+    

@@ -1,0 +1,25 @@
+    <div class="container-fluid">
+    	<div class="panel-group mt-15" id="accordion1" role="tablist" aria-multiselectable="true">
+        	<div class="row">
+        		<div class="col-sm-6">
+					<div class="panel panel-Teal">
+						<div class="panel-heading" role="tab" id="s-customer">
+							<h5 class="panel-title text_14">
+								<a role="button" data-toggle="collapse" data-parent="#accordion1" href="#customer-search" aria-expanded="true" 
+				                aria-controls="customer" class="collapsed">Search by Customer</a>
+							</h5>
+						</div>
+						<div id="customer-search" class="panel-collapse collapse absolute" style="width:95%" role="tabpanel" aria-labelledby="s-customer">
+							<div class="panel-body bg_wht">
+								<h5 class="font_regular">Find Customer</h5>
+								{% include "dealership/app/partials/search.html" %} 
+							</div>
+						</div>
+					</div>
+				</div>
+                {% include "dealership/app/partials/capacity.html" %} 
+            </div>    
+    	</div>
+    </div>
+
+<div class="clear pad-10"></div>

@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<div class="col-sm-6 customer_vehicle" id="customer-vehicle-row-{{vehicle.vehicle.id}}">
+        	<div class="well">
+                <h4 class="mt-0">
+                    <a class="text_blck remove_vehicle pointer" cust_id="{{vehicle.profile.id}}" rel="{{vehicle.vehicle.id}}"><span class="glyphicon glyphicon-remove text_red pointer"></span> Delete Vehicle</a>
+                </h4>
+                <div class="row">
+                    <div class="col-xs-6 text-center"><a><img src="{{ vehicle.vehicle.image }}" width="100"></a></div>
+                    <div class="col-xs-6">
+                        <div class="media"> 
+                            <div class="media-left">
+                                <a > 
+                                	<img 
+                                	{% if vehicle.advisor.is == "true" %}
+                                		src="{{ vehicle.advisor.icon }}" 
+                                	{% elif customeradvisor %}
+                                		src="{{ customeradvisor.advisor.userprofile.avatar.url }}" 
+                                	{% else %}
+					            		src="{%static "images/noimage.gif" %}"
+					            	{% endif %}                               	
+                                	class="media-object img-thumbnail" width="75"></a>
+                            </div> 
+                            <div class="media-body advisor-panel">
+                            	<input type="hidden" value="{{ vehicle.appointment.id }}" />
+                            		{% if vehicle.advisor.is == "true" %}
+                                		<p rel="{{vehicle.advisor.id }}">Advisor:<br> {{ vehicle.advisor.first}} {{ vehicle.advisor.last }}</p>
+                                		<a rel="{{vehicle.advisor.id }}" data-customer="{{customer.id}}" class="btn btn-info btn-xs pull-right edit-advisor" data-adtype="appointment" data-toggle="modal" data-target="#select-advisor-modal">Edit</a>
+                                	{% elif customeradvisor %}
+                                		<p rel="{{customeradvisor.advisor.id }}">Advisor:<br>{{ customeradvisor.advisor.userprofile.first_name }} {{ customeradvisor.advisor.userprofile.last_name }}</p>
+                                		<a rel="{{customeradvisor.advisor_id}}" data-customer="{{customer.id}}" class="btn btn-info btn-xs pull-right edit-advisor" data-adtype="user" data-toggle="modal" data-target="#select-advisor-modal">Edit</a>
+									{% else %}
+									<p rel="{{customeradvisor.advisor.id }}">Advisor: None</p>
+										<a  class="btn btn-info btn-xs pull-right edit-advisor" data-customer="{{customer.id}}" data-toggle="modal" data-adtype="user" data-target="#select-advisor-modal">Add</a>
+									{% endif %}
+                                
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="clear pad-5"></div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <p><strong>{{ vehicle.vehicle.vehicle__make__name }} {{ vehicle.vehicle.vehicle__year__name }}</strong></p>
+                        <p>
+                            Make: &nbsp; {{ vehicle.vehicle.vehicle__make__name  }}<br>
+                            Model: &nbsp; {{ vehicle.vehicle.vehicle__model__name  }}<br>
+                            Tirm: &nbsp; XXXXX<br>
+                            Milage: &nbsp; {{ vehicle.vehicle.milage  }}
+                        </p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p>
+                            <strong>VIN #:</strong> &nbsp; {{ vehicle.vehicle.vin_number  }}<br>
+                            <strong>License #:</strong> &nbsp; {{ vehicle.vehicle.lisence_number  }}
+                        </p>
+                    </div>
+                </div>
+                {% if vehicle.appointment.is == "true" %}
+	                <h4>Service Appointment: {{ vehicle.appointment.time }}</h4>
+	                <p><strong>Confirmation Code: &nbsp; {{ vehicle.appointment.code }}</strong></p>
+	            {% else %}
+	            	<h4>Service Appointment: No APPT</h4>
+	                <p></p>
+	            {% endif %}
+                <div class="row">
+                    <div class="col-xs-6">
+                        <a class="btn btn-primary btn-block" target="_blank" href="{% url 'dealership:appointment_history' customer.id vehicle.vehicle.id %}">View Service History</a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a rel="{{vehicle.vehicle.id}}" appt_id="{{vehicle.appointment.id}}" class="btn btn-info btn-block create_appointment">Select</a>
+                        
+                    </div>
+                </div>
+            </div>
+ </div>

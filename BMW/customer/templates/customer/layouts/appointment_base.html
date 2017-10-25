@@ -1,0 +1,37 @@
+{% extends "customer/layouts/second_base.html" %}
+{% load staticfiles %}
+
+{%block main%}
+	 <div class="clearfix">
+			
+						<!-- {%include "customer/appointment/partials/appointment_tabs.html"%} -->
+						{% block submain %}
+						
+						{% endblock%}
+	</div>
+		
+{%endblock%}
+
+{% block js %}
+	{{block.super}}
+	<script src="{% static "js/dealership.js" %}"></script>
+	<script src="{% static "js/dealership_overview.js" %}"></script>
+	<script src="{% static "js/dealership_appointment.js" %}"></script>
+	<script src="{% static "customer/js/cart.js" %}"></script>
+	<script>
+		$(document).ready(function(){
+			{% if appointment %}
+				window.cart= new Cart();
+				window.cart.url = "{% url 'customer:getcart' %}"
+				window.cart.cart_container = $("#cart_main");
+				window.cart.appointment_id = {{appointment.id}}
+				window.cart.dealer_code = "{{dealer_code}}"
+				window.cart.fillCart()
+			{%endif%}
+		});
+	</script>
+{% endblock%}
+
+
+</body>
+</html>

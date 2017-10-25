@@ -1,0 +1,261 @@
+<p class="text_16">Recive notifications for upcoming maintenence or schedule appointments</p>
+<form class="form-inline well" action="{% url 'customer:notifications' %}" method="POST">
+{% csrf_token %}
+<div class="well">	
+					<div class="alert alert-success" id="phone_number_message" style="display:none">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+ 							 <strong>Success!</strong> Phone number saved successfully
+					</div>
+					<div class="alert alert-danger" id="phone_number_message_error" style="display:none">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  						<strong>Error!</strong> Unable to save the number
+					</div>	
+                	<h4>Email Address</h4>
+  					<div class="form-group">
+    					<label for="slc">Select email address for notifications</label>
+    					<select class="form-control" name="active_email" >
+    							<option value="">Select Email</option>
+    							{%for email in emails%}
+    								{%if profile.active_email != email %}
+    									<option value="{{email}}">{{email}}</option>
+    								{%else%}
+    									<option value="{{email}}" selected="selected">{{email}}</option>
+    								{%endif%}
+    							{%endfor%}
+    							
+    					</select>
+  					</div>
+                    <div class="form-group">
+                    	<div class="checkbox">
+                        	<label>
+                        			{%if profile.special_offer_notify%}
+                        				<input type="checkbox" name="special_offer_notify" checked="checked">
+                        			{%else%}
+                        					<input type="checkbox" name="special_offer_notify">
+                        			{%endif%}
+                        		 <span>Send me information on special offers</span>
+                        	</label>
+                        </div>
+                    </div>
+                    <div class="clear pad-5"></div>
+                    <h4>Mobile Number for SMS</h4>
+                    Your mobile number must be
+verified to receive SMS/text notificatons. Please verify your number now.<br/>
+<br/>
+					
+                    <label for="slc">Select Mobile number for notifications</label>
+                    	<select class="form-control" name="carrier_choices" id="carrier_choices">
+    							<option value="">Select Carrier</option>
+    							{%for carrier in carrier_choices%}
+    								{%if profile.carrier_choices != carrier %}
+    									<option value="{{carrier}}">{{carrier}}</option>
+    								{%else%}
+    									<option value="{{carrier}}" selected="selected">{{carrier}}</option>
+    								{%endif%}
+    							{%endfor%}
+    					</select>
+    					<select class="form-control" name="active_phone_number" id="active_phone_number">
+    							<option value="">Select Phone</option>
+    							{%for phone in phonenumbers%}
+    								{%if profile.active_phone_number != phone %}
+    									<option value="{{phone}}">{{phone}}</option>
+    								{%else%}
+    									<option value="{{phone}}" selected="selected">{{phone}}</option>
+    								{%endif%}
+    							{%endfor%}
+    					</select>
+                    
+  					<button type="button" class="btn btn-info" data-toggle="modal" id="main_verify_button" >Verify</button>
+</div>				
+<div class="well">
+                	<h4 class="mt-0">Reminder Settings:</h4>
+                    <div class="table-responsive">
+                    	<table class="table table-bordered table-striped text_14"> 
+                        	<thead> 
+                            	<tr> 
+                                	<th>Email</th> 
+                                    <th>Text</th> 
+                                    <th>Phone</th> 
+                                    <th></th> 
+                                </tr> 
+                            </thead> 
+                            <tbody>
+                            	{%for remindersetting in remindersettings%}
+                            			<tr> 
+		                                	<td>
+		                                		
+		                                		<div class="checkbox">
+		                                				<input type="hidden" name="settings_id" value="{{remindersetting.id}}">
+		                                				<label>
+		                                						{%if remindersetting.email %}
+		                                							<input type="checkbox" checked="checked" name="setting_email_{{remindersetting.id}}">
+		                                						{%else%}
+		                                							<input type="checkbox"  name="setting_email_{{remindersetting.id}}">
+		                                						{%endif%}
+		                                			 			<span>&nbsp;</span>
+		                                			 	</label>
+		                                		</div>
+		                                	</td> 
+		                                    <td>
+		                                    		<div class="checkbox">
+		                                				<label>
+		                                						{%if remindersetting.text %}
+		                                							<input type="checkbox" checked="checked" name="setting_text_{{remindersetting.id}}">
+		                                						{%else%}
+		                                							<input type="checkbox" name="setting_text_{{remindersetting.id}}">
+		                                						{%endif%}
+		                                			 			<span>&nbsp;</span>
+		                                			 	</label>
+		                                		</div>
+		                                    </td> 
+		                                    <td>
+		                                    	<div class="checkbox">
+		                                				<label>
+		                                						{%if remindersetting.phone %}
+		                                							<input type="checkbox" checked="checked" name="setting_phone_{{remindersetting.id}}">
+		                                							<span>&nbsp;</span>
+		                                						{%else%}
+		                                							{%if remindersetting.type_id != 4 %}
+		                                								<input type="checkbox"    name="setting_phone_{{remindersetting.id}}">
+		                                								<span>&nbsp;</span>
+		                                							{%endif%}
+		                                						{%endif%}
+		                                			 			
+		                                			 	</label>
+		                                		</div>
+		                                    </td> 
+		                                    <td>{{remindersetting.type.description}}</td> 
+                               			 </tr>
+                            	{%endfor%} 
+                            	
+                            </tbody> 
+                        </table> 
+                    </div>
+                   
+                </div>
+                <div class="row">
+                   		<div class="col-sm-1 col-sm-offset-11">
+                   				<button type="submit" class='btn btn-success'>Save</button>
+                   		</div>
+                   </div>
+                   
+               </form>
+               
+               
+               
+               
+ <div id="send_verification_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Verify your number</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+        	Clicking verify will send a text message with an activation code to your cell phone
+        </p>
+        <p>
+        	If you do not wish to receive text messages, close this message box. You can later opt-out of text messaging
+        	by changing your notification settings.
+        </p>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-default" id="send_message" >Verify</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+ <div id="verification_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please enter the verification code below</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+        	<input type="text" id="verification_text" class="form-control" placeholder="Enter your verification code"/>
+        </p>
+        
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-default" id="save_number" >Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>  
+
+<script>
+var verification_text_returned = "";
+$(document).ready(function(){
+	
+	$("#main_verify_button").click(function(){
+		if($("#active_phone_number").val()==""){
+			BootstrapDialog.alert('Please select a phone number');
+		}else{
+			$('#send_verification_modal').modal('show');
+		}
+	});
+	$("#send_message").click(function(){
+		$("#loading_page").show();
+		$.ajax({
+			url:"{% url 'customer:send_activation_code' %}",
+			data:{phone_number:$("#active_phone_number").val(),
+			"dealer_code":"{{dealer_code}}"	
+			},
+			success:function(result){
+				if(typeof result["success"] !="undefined" && result["success"]==true)
+				{
+					verification_text_returned = result["text"]
+					$("#loading_page").hide();
+					$('#send_verification_modal').modal('hide');
+					$('#verification_modal').modal('show');
+					
+				}else{
+					BootstrapDialog.alert('Unable to send message');
+				}
+			},error:function(){
+				$("#loading_page").hide();
+			}
+		
+		
+		})
+	});
+		
+		
+	$("#save_number").click(function(){
+		if($("#verification_text").val() ==  verification_text_returned ){
+			$("#loading_page").show();
+				$.ajax({
+					url:"{% url 'customer:save_customer_number' %}",
+					data:{phone_number:$("#active_phone_number").val(),
+					"dealer_code":"{{dealer_code}}","profile":"{{profile.id}}","carrier":$("#carrier_choices").val()	
+				},
+				success:function(result){
+					$("#loading_page").hide();
+					$('#verification_modal').modal('hide');
+					$("#phone_number_message").show()
+				},error:function(){
+					$("#loading_page").hide('hide');
+					$("#phone_number_message_error").show()
+				}
+			})	
+		}else{
+			BootstrapDialog.alert('Verification text not correct');
+		}
+		
+	});
+	
+})
+
+</script>       

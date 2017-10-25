@@ -1,0 +1,18 @@
+.slabs_loader {
+	width: 100%	;
+	text-align: center;
+}
+
+#overview_time_weekly .panel-group
+{
+	height: 500px;
+}
+
+
+.select_advisor                {margin:0; padding:0; list-style:none; text-align:center;}
+.select_advisor > li           {display:inline-block; margin:0 5px;}
+.select_advisor > li > a       {background-color:#f2f2f2; border:#EEE 1px solid; display:block; color:#666; text-decoration:none; padding:5px;}
+.select_advisor > li > a > .fa {color:#f2f2f2; float:left; margin-right:5px;}
+.select_advisor > li > a span  {display:block; overflow:auto; text-align:left;}
+.select_advisor > li > a:focus {background-color:#9accff; color:#FFF;}
+.select_advisor > li.active > a{background-color:#9accff; color:#FFF;}

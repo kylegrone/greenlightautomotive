@@ -1,0 +1,12 @@
+<ul id="myTabs" class="nav nav-tabs"> 
+        	<li role="presentation" {% if tab == "" %} class="active" {%endif%}>
+            	<a href="{% url 'customer:main' %}" id="vehicles-tab">VEHICLE INFORMATION</a>
+            </li> 
+            <li role="presentation" {% if tab == 'account' %} class="active" {%endif%}>
+            	<a href="{% url 'customer:accountsettings' %}">ACCOUNT INFORMATION</a>
+            </li>
+            
+            <li role="presentation" {% if tab == 'notification' %} class="active" {%endif%}>
+            	<a href="{% url 'customer:notifications' %}">NOTIFICATION SETTINGS</a>
+            </li>
+</ul>

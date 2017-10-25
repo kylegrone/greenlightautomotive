@@ -1,0 +1,138 @@
+{% extends "customer/layouts/loggedin_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+
+		
+        <div id="myTabContent" class="tab-content">
+        	<div role="tabpanel" class="tab-pane fade  active in " id="vehicles" aria-labelledby="vehicles-tab" style="overflow:scroll">
+            	<!--  {% include "customer/partials/user_advisor.html"%}-->
+            	<p class="text-right"><a href="{%url 'customer:main'%}" class="btn btn-info vehichle_list_toggle">Back</a></p>
+            	
+            	 <div class="container-fluid text_14 " id="vehicle_list">
+            	 		<div  class ="row" >
+            	 				<div class='col-lg-4'><b>Appointment Date</b></div>
+            	 				<div class='col-lg-2'><b>Advisor</b></div>
+            	 				<div class='col-lg-2'><b>Status</b></div>
+            	 				<div class='col-lg-2'><b>Way away</b></div>
+            	 		</div>
+            	 		<hr/>
+            	 				 {%if appts%}
+				            	 	{%for appt in appts  %}
+				            	 			<div class='row text_14 appt_main'>
+				            	 					<div class='col-lg-4'>
+				            	 					{{appt.start_time|date:'l F d, Y,h:ia'}}
+				            	 					</div>
+				            	 					<div class='col-lg-2'>
+				            	 						{{appt.advisor.userprofile.first_name}} {{appt.advisor.userprofile.last_name}}
+				            	 					</div>
+				            	 					<div class='col-lg-2'>
+				            	 						{{appt.appointment_status.name}}
+				            	 					</div>
+				            	 					<div class='col-lg-2'>
+				            	 						{{appt.way_away.name}}
+				            	 					</div>
+				            	 					<div class='col-lg-2 cursor'>
+				            	 							<a class='appt_service_detail_btn'>Details</a>
+				            	 					</div>
+				            	 			</div>
+				            	 			<div class="row pad-10 appt_service_detail" style="display:none">
+							                	<div class="col-xs-12 text_13">
+							                		
+							                			{%for service in appt.appointmentservice.all %}
+							                			<div class='pad-10'>
+							                				<div class='row pad-5'>
+								                				<div class='col-xs-4'>
+								                						<b>Name :</b> {{service.service.name}}	
+								                				</div>
+								                				<div class='col-xs-4'>
+								                						
+								                						<b>Price :</b> {{service.service.price_unit}}{{service.price}}	
+								                				</div>
+							                				</div>
+							                				<div class='row pad-5'>
+							                					<div class='col-xs-12'>
+							                						<b>Customer Note:</b> {{service.note}}
+							                					</div>
+							                				</div>
+							                				<div class='row pad-5'>
+							                					<div class='col-xs-12'>
+							                						<b>Advisor Note:</b> {{service.desc}}
+							                					</div>
+							                				</div>
+							                			</div> 		
+							                			{%endfor%}
+							                    	
+							                    	
+							                    </div>
+							                </div>
+				            	 			 <hr/>
+				            	 	{% endfor%}
+				            	 {%else%}
+				            	 	No Appointments found
+				            	 {%endif%}
+		            	 </div>
+            	 </div>
+            </div>
+           {% if appts.has_other_pages %}
+				<div style="margin-left : 33%">
+					  <ul class="pagination">
+					    {% if appts.has_previous %}
+					      <li><a class="paging" href="{%url 'customer:service_history' vehicle_id=vehicle_id %}?page={{appts.previous_page_number}}" data-page-num="{{ appts.previous_page_number }}">&laquo;</a></li>
+					    {% else %}
+					      <li class="disabled"><span>&laquo;</span></li>
+					    {% endif %}
+					    {% for i in appts.page_range %}
+					      {% if appts.number == i %}
+					        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+					      {% else %}
+					      	{% if i != False %}
+					        		<li><a class="paging" href="{%url 'customer:service_history' vehicle_id=vehicle_id %}?page={{i}}" data-page-num="{{ i }}">{{ i }}</a></li>
+					        {% else %}
+					        		<li><a>.........</a></li>
+					        {% endif %}
+					      {% endif %}
+					    {% endfor %}
+					    {% if appts.has_next %}
+					      <li><a class="paging" href="{%url 'customer:service_history' vehicle_id=vehicle_id %}?page={{appts.next_page_number}}" data-page-num="{{ appts.next_page_number }}">&raquo;</a></li>
+					    {% else %}
+					      <li class="disabled"><span>&raquo;</span></li>
+					    {% endif %}
+					  </ul>
+					  </div>
+					{% endif %}
+        
+
+ 
+{% endblock %}
+{% block js %}
+{{block.super}}
+ <script>
+ 	$(document).ready(function(){
+ 		$(".appt_service_detail_btn").click(function(){
+ 			
+ 			var pr = $(this).closest(".appt_main");
+ 			if(pr.next().css("display")=="none"){
+ 				pr.next().show();
+ 			}else{
+ 				pr.next().hide();
+ 			}
+ 		})
+ 		
+ 	})
+
+ </script>
+<script src="{% static "customer/js/settings.js" %}"></script>
+
+<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+<link rel="stylesheet" href="{% static "customer/css/bootstrap_dialog.css" %}" />
+   
+ 
+{% endblock%}
+{% block extra %}
+
+
+<!-- -- modals start -->
+
+
+
+{%endblock%}

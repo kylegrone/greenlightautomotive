@@ -1,0 +1,16 @@
+<div class="InspectionAccordionCreate  clearfix">
+            <div class="col-md-5">
+                <select class="form-control" id="packagelistitems">
+                	<option value="" selected>Select Package</option>
+                	{% for obj in packages %}
+                    	<option value="{{obj.id}}">{{obj.package}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+			<div class="col-md-2">
+            <a href="#" class="btn btn-default" data-toggle="modal" data-target=".addnewpackage"><span class="glyphicon glyphicon-plus mr-10" aria-hidden="true"></span>Create New Inspection</a>
+            </div>
+			<div class="col-md-2">
+			<a href="#" class="btn btn-default" data-toggle="modal" data-target=".editpackage"><span aria-hidden="true" class="glyphicon glyphicon-cog"></span>Edit Inspection</a>
+			</div>
+</div>

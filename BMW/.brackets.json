@@ -1,0 +1,6 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/home/shoaib/workspace/bmw/BMW/customer/static/customer/cropper/cropper.min.js",
+        "/home/shoaib/workspace/bmw/BMW/static/js/src/jsgrid.field.date.js"
+    ]
+}

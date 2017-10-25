@@ -1,0 +1,107 @@
+{% load staticfiles %}
+<div class="col-sm-6">
+        	<div class="bg_wht pad-15">
+        		
+            	<h4 class="well well-sm mt-0">
+            	{%if appointment.appointment_status_id == 1%}
+            		Your Appointment is Confirmed
+            	{%else%}
+            		Scheduled Appointment Time
+            	{%endif%}
+            		
+            	</h4>
+                <div class="row">
+                	<div class="col-xs-7 text_14">
+                    	<p>{{appointment.start_time|date:'l F d, Y,h:ia' }}</p>
+                    	{%if appointment.way_away%}
+                        	<p>A WAY AWAY: {{appointment.way_away.name}}</p>
+                        {%endif%}
+                    </div>
+                    <div class="col-xs-5">
+                    	<div class="media">
+                        	
+  							<div class="media-body">
+                            	{%if appointment.advisor %}
+								                                    	<div class="media-left">
+								                                        	<a href="#">
+								                                        			{%if appointment.advisor.userprofile.avatar  %}
+								                                        				<img src="{{appointment.advisor.userprofile.avatar.url}}" width="75" class="media-object imgpopup img-thumbnail">
+								                                        			{%else%}
+								                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object imgpopup img-thumbnail">
+								                                        			{%endif%}
+								                                        	</a>
+								                                        </div>
+									                                        <div class="media-body">
+									                                        	<p>Advisor:<br>{{appointment.advisor.userprofile.first_name}} {{appointment.advisor.userprofile.last_name}}</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment = {{appointment.id}} data-advisor = "{{appointment.advisor.id}}" >Edit</a>
+									                                        </div> 
+									                         {%else%}
+									                         			<div class="media-left">
+								                                        	<a href="#">
+								                                        			<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail imgpopup">
+								                                        	</a>
+								                                        </div> 
+								                                       
+									                                       <div class="media-body">
+									                                        	<p>Advisor:<br>None</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment = {{appointment.id}} data-advisor = {{appointment.advisor.id}}>Edit</a>
+									                                        </div> 
+							                             {%endif%}  
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Service Scheduled</h4>
+                <div class="row">
+                	<div class="col-xs-6 text_14">
+                		<p>
+                			{%for service in appointment.appointmentservice.all %}
+                				{{service.service.name}}</br>		
+                			{%endfor%}
+                    	</p>
+                    </div>
+                    <div class="col-xs-6">
+                    	<div class="media">
+                        	<div class="media-left">
+                        				<a href="#">
+                        	
+                        					<img src="{{appointment.vehicle.vehicle.mainimage.url}}" class="imgpopup" width="100">
+                        				</a>
+                        	</div>
+  							<div class="media-body">
+                            	<p><strong>{{appointment.vehicle.vehicle.make.name}}</strong></p>
+                                 <p>
+                                    	Make: &nbsp; {{appointment.vehicle.vehicle.make.name}}<br>
+                                        Model: &nbsp;  {{appointment.vehicle.vehicle.model.name}}<br>
+                                       {%if appointment.vehicle.customer_vehicle_desc != None %} 
+                                        Desc: &nbsp; {{appointment.vehicle.customer_vehicle_desc}} 
+                                        {%endif%}
+                                        
+                                  </p>
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Confirmation Code: {{appointment.confirmation_code}}</h4>
+                {%if appointment.customer%}
+	                <p class="text_14">
+	                	Sync to your calender &nbsp; 
+	                	<a href="{%url 'customer:sync_gcalendar'%}?appointment_id={{appointment.id}}&refferrer={{ request.get_full_path|urlencode }}" title="Sync to Google">
+	                		<i class="fa fa-calendar fa-lg"></i></a> 
+	                	&nbsp; 
+	                    <a href="{%url 'customer:download_calendar'%}?appointment_id={{appointment.id}}" class="text_blck" title="Add to your Calendar">
+	                    	<i class="fa fa-file-archive-o fa-lg"></i>
+	                    </a> &nbsp; 
+	                    <!--  <a href="#"><i class="fa fa-calendar-plus-o fa-lg"></i></a>-->
+	                    <a target="__blank" href="{%url 'customer:print_appointment'%}?appointment_id={{appointment.id}}" class="btn btn-info pull-right btn-sm">Print</a>
+	                </p>
+                {%endif%}
+            </div>
+        </div>            	
+        
+                    
+                    
+                    
+                    

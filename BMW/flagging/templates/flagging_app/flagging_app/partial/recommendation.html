@@ -1,0 +1,106 @@
+
+
+	<div id="ajax_recommendation">
+				{% if not inspection == None %}
+				<table class="table table-bordered table-headgray">
+					<thead>
+						<tr>
+							<th width="40">PRI</th>
+							<th>INSPECTION ITEM</th>
+							<th class="text-center">RESULT</th>
+							<th class="text-center">RECOMMENDED BY</th>
+							<th class="text-center">LABOR</th>
+							<th class="text-center">PARTS</th>
+							<th class="text-center">TOTAL</th>
+							{% if action_plan == None %}
+							<th class="text-center">APPROVED</th>
+							<th class="text-center">DECLINED</th>
+							{% endif %}
+						</tr>
+					</thead>
+					<tbody>
+						{% for rec in inspection.recommendation %}
+						<tr data-id="{{rec.id}}">
+							<td>{{ forloop.counter }}</td>
+							<td><b> {% if not rec.notes == None %} {{ rec.notes }} {% endif %}
+							</b></td> {% if rec.result == "Fail" %}
+							<td class="text-center bg_red"><strong>FAIL</strong></td> 
+							{% else %}
+							<td class="text-center bg_gr"><strong>success</strong></td> 
+							{% endif %}
+							<td>{{rec.recommnded_by.userprofile.last_name}},{{rec.recommnded_by.userprofile.first_name}}
+							</td>
+							<td class="editable" class="text-center"><span>{{rec.price_unit}}{{rec.labor}}</span><input
+								name="labor" type="number" style="display: none" min="0" value="{{rec.service.labor}}"></td>
+							<td class="editable" class="text-center"><span>{{rec.price_unit}}{{rec.parts}}</span><input
+								name="parts" type="number" style="display: none" min="0" value="{{rec.service.parts}}"></td>
+							<td class="text-center">{{rec.price_unit}}{{rec.price}}</td>
+							{% if action_plan == None %}
+							
+							{% if rec.status == "Accept" %}
+							<td class="text-center"><i
+								class="fa fa-check-circle fa-lg text_grn"></i></td>
+							<td class="text-center"></td>
+							 {% else %}
+							<td class="text-center"></td>
+							<td class="text-center"><i
+								class="glyphicon glyphicon-remove-sign fa-lg text_red"></i></td> 
+							{% endif %}
+							
+							{% endif %}
+							
+						</tr>
+						{% endfor %}
+
+						<tr>
+							<td colspan="6" class="text-right"><strong>RECOMMENDED
+									TOTAL</strong></td>
+							<td class="text-center"><strong>{{inspection.recommendation.0.price_unit}}{{inspection.total}}</strong></td>
+						{% if action_plan == None %}	<td class="text-center"><strong class="text_grn">{{inspection.recommendation.0.price_unit}}{{inspection.approved }}</strong></td>
+							<td class="text-center"><strong class="text_red">{{inspection.recommendation.0.price_unit}}{{inspection.declined }}</strong></td> {% endif %}
+						</tr>
+					</tbody>
+					
+				</table>
+				{% endif %}
+				</div>
+			
+<script>
+	$(function() {
+		$(".editable").off("click").on("click", function() {
+			$(this).find("span").hide();
+			var cell = $(this).find("input");
+			cell.show();
+			cell.focus();
+
+		});
+		$(".editable input").focusout(function(){
+	
+			refreshRecommendationTable($(this).parent().parent(),$(this));
+		});
+		$(".editable input").off("keydown").on("keydown", function(e) {
+			
+			if (e.which == 10 || e.which == 13) {
+				
+				refreshRecommendationTable($(this).parent().parent(),$(this));
+			}
+		});
+	});
+	function refreshRecommendationTable(row,cell) {
+
+		var data = {};
+		data["id"] = row.attr("data-id");
+		data[cell.attr("name")] = cell.val();
+		{% if not action_plan == None %}
+			data["action_plan"] = "true";
+		{% endif %}
+		var url = "{% url  'flagging:edit_recommendation' %}";
+	
+		ajaxRequest(url, "GET", function(result) {
+			console.log(data);	
+			$("#ajax_recommendation").html(result);
+			
+		}, data);
+
+	}
+</script>

@@ -1,0 +1,22 @@
+{% extends "customer/layouts/second_base.html" %}
+{% load staticfiles %}
+
+{%block main%}
+	 <div class="clearfix">
+			
+						{%include "customer/partials/tabs.html"%}
+						{% block submain %}
+						
+						{% endblock%}
+	</div>
+		
+{%endblock%}
+
+{% block js %}
+	{{block.super}}
+	<script src="{% static "customer/js/utility.js" %}"></script>
+{% endblock%}
+
+
+</body>
+</html>

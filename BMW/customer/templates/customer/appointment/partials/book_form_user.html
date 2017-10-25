@@ -1,0 +1,17 @@
+{%if isbooked == False %}
+	<div class="col-sm-offset-10 col-sm-2">
+		<form  method="POST" action="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="form_submit_book">
+				{% csrf_token %}
+				 <input type="hidden" name="submitting_form"/>
+				 <input type="hidden" name="dealer_code" value="{{dealer_code}}"/>      
+			     <input type="hidden" name="appointment_id" value="{{appointment.id}}"/>
+				<div class="text-right mt-10">
+               	 	<button  style="float:right;width:70px" id="book_btn"  data-loggedin="true" class="btn btn-info">Book</button>
+            	</div>
+		</form>
+	</div>
+	
+{%else%}
+{%endif%}
+
+

@@ -1,0 +1,16 @@
+<div class="InspectionAccordionCreate mt-15">
+            <div class="col-md-5">
+                <select class="form-control categorylist" id="cattlist">
+                	<option value="" selected>Select Category</option>
+                	{% for obj in category %}
+                    	<option value="{{obj.id}}">{{obj.category}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+			<div class="col-md-2">
+            <a href="#" class="btn btn-default" data-toggle="modal" data-target=".addnewcategory"><span class="glyphicon glyphicon-plus mr-10" aria-hidden="true"></span>Create New Category</a>
+		    </div>
+			<div class="col-md-2">
+			<a href="#" class="btn btn-default" data-toggle="modal" data-target=".editcategory"><span aria-hidden="true" class="glyphicon glyphicon-cog"></span>Edit Category</a>
+            </div>
+</div>

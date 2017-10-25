@@ -1,0 +1,17 @@
+<<<<<<< HEAD
+.project
+.pydevproject
+*.pyc
+*.prefs
+*.pyo
+bmw_env/*
+/venv
+.DS_Store
+org.eclipse.core.resources.prefs
+BMW/static/*
+*.metadata/*
+*org.eclipse.core.resources.prefs
+*/media/*
+BMW/media/*
+
+

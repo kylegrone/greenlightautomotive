@@ -1,0 +1,36 @@
+<h5 class="text-center text_wht bg_blu m-0 pad-10 font_regular">Scheduled Services & Repair</h5>
+<div class="table-responsive">
+    <table class="table table-bordered table-headgray"> 
+	<thead> 
+	    <tr> 
+	        <th>Service</th> 
+	        <th>Cost</th> 
+	        <th>Action</th>
+	    </tr> 
+	</thead> 
+	<tbody> 
+	{% for obj in app_services %}
+	    <tr> 
+	        <td>{{obj.service.name}}
+	        	{%if obj.note%}
+	        		<br/>Note: {{obj.note}}
+	        	{%endif%}
+	        </td> 
+	        <td>
+	        	<input class="two_decimal_number" type="number" value="{{obj.price |floatformat:2}}" id="serrep_price{{obj.id}}">
+	        	<textarea id="serrep_note{{obj.id}}">{%if obj.desc%}{{obj.desc}}{%endif%}</textarea>
+	        	</td>
+	        <td>
+	        	<button class="btn btn-danger btn-xs removeserrep" type="button" id="{{obj.id}}">Remove</button>
+	        	<button class="btn btn-success btn-xs updateservicerepair" data-priceobj="serrep_price{{obj.id}}" data-noteobj="serrep_note{{obj.id}}" type="button" id="{{obj.id}}">Update</button>
+	        </td> 
+	    </tr>
+	 {% endfor %}
+	    <tr>
+	        <td class="bg_blu"><strong>TOTAL</strong></td>
+	        <td class="bg_blu" style="border:none"><strong>${{totalcost |floatformat:2}}</strong></td>
+	        <td class="bg_blu" style="border:none"></td>
+	    </tr>
+	</tbody> 
+	</table> 
+</div>

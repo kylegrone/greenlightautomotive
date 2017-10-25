@@ -1,0 +1,190 @@
+{% load flagging_tags %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 ">
+<div class="clearfix bg_wht FlaggingFilterForm">
+	<div class="form-inline pad-10">
+    	<div class="form-group">
+        	<input type="search" class="form-control" id="searchRoShopNotes" placeholder="Search RO #" value="{{roNumber}}">
+  		</div>
+         <div class="form-group">
+        	<button id="search"class="btn btn-link"><i class="fa fa-search fa-lg text_grey"></i></button>
+  		</div>  
+  	{% include "flagging_app/partial/ro_details.html"%}
+  		 
+  		</div> 		
+	
+</div></div></div>
+<div class="clear pad-15"></div>
+
+<div class="container-fluid" id="shop_notes_div">
+
+
+  <div class="row">
+      <div class="col-sm-6">
+            <div class="bg_wht pad-10">
+              <h5 class="text_blck mt-0">Add Notes</h5>
+                <div class="form-inline well well-sm">
+                 
+                    
+                    <div class="clear pad-5"></div>
+                    <div id="comment" class="form-control" rows="27" placeholder="Add Notes"></div>
+                    <div class="clear pad-5"></div>
+                    <button id="addNote" class="btn btn-default pull-right">Add Notes</button>
+                    <input type="hidden" id="ro_id" value="{{ ro.id }}">
+                    <input type="hidden" id="ro_number" value="{{ ro.ro_number }}">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" id="printable">	
+            <div class="bg_wht pad-10">
+              <h5 class="text_blck mt-0 pull-left">Notes History</h5>
+                <div class="pull-right">
+                  <input class="form-control input-sm" id="searchAdvisor" placeholder="Search by Tech/Advisor/Manager">
+                </div>
+                <div class="clear pad-5"></div>
+                {% for note in notes %}
+               <div class="well well-sm">
+                  <strong class="pull-left ">{{ note.created_at }} &nbsp; |  <span class="advisorName">&nbsp; {{ note.created_by.user.first_name}} {{ note.created_by.last_name }} </span></strong>
+                    
+                   <!--  {% if note.current_flag == "flag1" %}
+                    
+                    <div class="pull-right text_br text-center">
+                    <strong class="pull-right text_br">PARTS</strong>
+                    <div class="clear pad-5"></div>
+                    
+                    </div>
+                    {% elif note.current_flag == "flag2" %}
+                     <div class="pull-right text_mg text-center">
+                    <strong >MANAGER</strong>
+                    <div class="clear pad-5"></div>
+                    <a href="#" class="actionPlan"><img src="/static/images/ico_app.png" ></a>
+                    </div>
+                    {% else %}
+                    
+                    <div class="pull-right text_tq text-center">
+                    <strong >INSPECTION</strong>
+                    <div class="clear pad-5"></div>
+                    <a href="#" class="inspection"><img src="/static/images/ico_inspection.png"></a>
+                    </div>
+                    {% endif %} -->
+                    <div class="clear pad-5"></div>
+                    <div class = "notes_comments" id="commentDiv_{{ forloop.counter }}">{{ note.comment|generatehtml }}</div>
+                
+                   
+                    
+                  
+                    
+                    
+                </div> 
+                {% endfor %}
+                
+                
+                
+            </div>
+        </div>
+    </div>
+ 
+</div>
+
+ <script>
+
+$(document).ready(function(){
+	$("#comment").Editor();
+	 var shopNotes = new ShopNotes();
+	shopNotes.bindEvents(); 
+	
+
+
+});
+function ShopNotes(){
+	this.bindEvents= function(){
+		$("#searchRoShopNotes").keydown(function(e){
+			
+			  if(e.which == 10 || e.which == 13) {
+				 
+				
+				  getNotes(); 
+				 /*  ajaxRequest(url,"GET",function(response){
+					  
+					  $("#shop_notes_div").html(response); 
+				 },data); */
+			 
+	       }
+		});
+		$("#search").off("click").on("click",function(){
+			getNotes(); 	
+		});
+	
+		
+		$("#searchAdvisor").keydown(function(e){
+			if(e.which == 10 || e.which == 13) {
+				 
+				 $(".advisorName").each(function(){
+					  $(this).parent().parent().show();
+				  });
+				  var text = $("#searchAdvisor").val();
+				  if (text == ""){
+					  $(".advisorName").each(function(){
+						  $(this).parent().parent().show();
+					  });
+				  }
+				  $(".advisorName").each(function(){
+					 
+					  var name = $(this).text().toString().trim();
+					  if(name.toLowerCase().indexOf(text.toLowerCase()) <= -1){
+						  $(this).parent().parent().hide();
+					  }
+				  });
+				 
+			 
+	       }
+		});
+		$("#addNote").click(function(){
+			   var roId = $("#ro_id").val();
+			   var url = "{% url 'flagging:add_note' %}";
+			   var data = {"comment" : $("#comment").Editor("getText"),"roId" :roId };
+			   ajaxRequest(url,"POST",function(response){
+				   $("#ajaxDiv").html(" ");
+			        $("#ajaxDiv").html(response);
+			   },data);
+			   
+		   });
+		$(".actionPlan").click(function(e){
+			e.preventDefault();
+			clickActionPlan($("#ro_number").val());
+			
+		});
+		$(".inspection").click(function(e){
+			e.preventDefault();
+			clickInspection($("#ro_number").val());
+		});
+	
+	}
+}
+ function getNotes(type){
+	 type = type || "ro_number";
+	if(type !=undefined ){
+		var  url = "{% url 'flagging:shop_notes'%}";
+		var data = new Array();
+		if(type == "ro_number"){
+			
+			 var roNumber = $("#searchRoShopNotes").val();
+			  data = {"ro_number" : roNumber, "ajaxRequest" : "true"};
+			 
+		} else if (type == "roId"){
+			
+			data = {"roId" : selectedRow() };
+			
+			
+			
+		} 
+		 ajaxRequest(url,"GET",successFunction,data); 
+		
+	}
+	
+}  
+
+</script>

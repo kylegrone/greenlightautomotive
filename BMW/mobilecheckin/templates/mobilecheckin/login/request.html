@@ -1,0 +1,31 @@
+{% extends 'mobilecheckin/base.html' %}
+{% block main %}
+<div class="clear pad-50"></div>
+<div class="container-fluid">
+	<div class="row">
+    	<div class="col-sm-offset-3 col-sm-6">
+            <div class="LoginBox">
+            	<h3 class="mt-0 text-center">Account Request</h3>
+                <p>Please enter email id that you want to use for registration</p>
+                <form action="{% url 'mobilecheckin:request' %}" method="post"> 
+                	{% csrf_token %}
+                	<div class="form-group">
+                		{% if  form.email.errors %}
+				        	 <div class="alert error alert-danger fade in">
+						    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+						    	<strong>Error!</strong>{{ form.email.errors }}
+							</div>
+						{%endif%}
+                		{{ form.email }}
+                    	<!-- <input type="email" class="form-control" id="" placeholder="c"> -->
+  					</div>  					
+                    <div class="clear pad-5"></div>
+                    <button type="submit" class="btn btn-info">Ok</button> &nbsp; 
+                    <a href="{% url 'mobilecheckin:login' %}?dealer_code={{code}}" class="btn btn-grey">Cancel</a>
+				</form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear pad-5"></div>
+{% endblock %}

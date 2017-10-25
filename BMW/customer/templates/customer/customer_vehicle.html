@@ -1,0 +1,67 @@
+{% extends "customer/layouts/loggedin_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+
+		
+        <div id="myTabContent" class="tab-content">
+        	<div role="tabpanel" class="tab-pane fade  active in " id="vehicles" aria-labelledby="vehicles-tab" style="overflow:scroll">
+            	<!--  {% include "customer/partials/user_advisor.html"%}-->
+            	<p class="text-right"><a href="#" class="btn btn-info vehichle_list_toggle">Add Vehicle</a></p>
+            	{% include "customer/partials/add_vehicles.html"%}
+            	 <div class="container-fluid" id="vehicle_list">
+            	 		<div  class ="row" >
+				            	 {% if customer_vehicles %}
+				            	 		{% include "customer/partials/vehicles_list.html"%} 
+				            	 {% endif%}
+		            	 </div>
+            	 </div>
+            </div>
+           
+        </div>
+
+ 
+{% endblock %}
+{% block js %}
+{{block.super}}
+ <script>
+ function showAdd(){
+		$('#add_vehicle_form').css("display","block");
+		$('#vehicle_list').css("display","none");
+		$('.vehichle_list_toggle').html("Cancel");
+ }
+ function showVehicles(){
+		$('#add_vehicle_form').css("display","none");
+		$('#vehicle_list').css("display","block");
+		$('.vehichle_list_toggle').html("Add Vehicle");
+ }
+ $(document).ready(function(){
+	 
+	 $('.vehichle_list_toggle').click(function(){
+		 
+			if($('#add_vehicle_form').css("display")=="none"){
+				showAdd();
+			}else{
+				showVehicles()	;
+			}
+		})
+	 
+ });
+
+ </script>
+<script src="{% static "customer/js/settings.js" %}"></script>
+<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+<script src="{% static "customer/js/snapshot.js" %}"></script>
+
+<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+<link rel="stylesheet" href="{% static "customer/css/bootstrap_dialog.css" %}" />
+     <script src="{% static "customer/js/advisor_selection.js" %}"></script>
+ 
+{% endblock%}
+{% block extra %}
+
+
+<!-- -- modals start -->
+
+
+
+{%endblock%}

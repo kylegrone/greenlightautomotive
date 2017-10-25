@@ -1,0 +1,46 @@
+<div class="modal fade addnewcategory" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+     <div class="modal-dialog">
+	     <div class="modal-content">
+	         <div class="modal-header">
+	             <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">x</span></button>
+	             <h4 class="modal-title">Create New Category</h4>
+	         </div>
+	         <div class="modal-body">
+	          <form class="form-inline mb-20" id="add_category">
+	         <div class="row">
+			 <div class="col-md-12">
+	             <p>1. Select inspection items from the drop down list <br>
+	                2. Type new title for category <br>
+	                3.  Add Items to the list</b></p>
+	                 <div class="form-group">
+	                 <select id="id_pack" class="form-control mr-10" required="" name="pack">
+	                 	{% for obj in packages %}
+                    	<option value="{{obj.id}}">{{obj.package}}</option>
+                   		 {% endfor %}
+                   	</select>
+	                 </div>
+	                 <div class="form-group">
+	                 	{{catform.cat_name}}
+	                 </div>
+	          </div>
+			 </div>
+	          <div class="row">
+	          	<div class="InspectionAccordionAdd mt-20">
+	                  <div class="col-sm-5">
+	                      <div class="InspectionAccordionAvalaible">
+	                          <p class="InspectionListHead"><b>Available Inspection Items</b></p>
+	                              <select style="width:215px" class="form-control CustListCont" multiple="multiple" name="itemlist">
+	                                  {% for obj in items_all %}
+                                    			<option value="{{obj.id}}">{{obj.item}}</option>
+                               		   {% endfor %}
+	                              </select>
+	                      </div>
+	                  </div>
+                 </div>
+	          </div>
+	                 <button type="submit" class="btn btn-default mt-10"><span aria-hidden="true" class="glyphicon glyphicon-plus mr-10"></span>Add</button>
+	             </form>
+	         </div>
+	     </div>
+ 	</div>
+</div>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load flagging_tags %}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>{% dealer_title_tag dealer_code  %}</title>
+{% load staticfiles %}
+
+<!-- Bootstrap core CSS -->
+<link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="{% static "css/style.css" %}" rel="stylesheet">
+<link href="{% static "customer/css/custom.css" %}" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static "css/font-awesome.css" %}" />
+<link rel="stylesheet" href="{% static "css/jquery.sidr.dark.css" %}">
+<link rel="shortcut icon" href="{% static "images/favicon.png" %}" />
+</head>
+<body>
+<header>
+	{% block mainheader %}
+	<div class="page-header">
+        <div class="container-fluid">
+        	<div class="row">
+            	<div class="col-lg-12">
+                	<h1 class="mt-5"> {%dealer_detail_tag dealer_code%} Flagging</h1>
+                </div>
+            </div>
+        </div>		
+    </div>
+    {% endblock %}
+    
+    {% block messages %}
+    {% if messages %}
+    
+		<div class="error_messages">
+		    {% for message in messages %}
+				<div class="alert alert-success fade in">
+				    <a href="#" class="close" data-dismiss="alert">&times;</a>
+				    <strong>Success!</strong> {{ message }}
+				</div>
+		    {% endfor %}
+		</div>
+	{% endif %}	
+	{% endblock %}
+	{% block breadcrumb %}
+	{% endblock %}	
+	{% block sider %}
+    {% endblock %}
+</header>
+
+{% block main %}
+{% endblock %}
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script>
+
+	
+</script>		
+{% block script %}
+{% endblock %}
+<script src="{% static "js/min.js" %}"></script>
+</body>
+</html>

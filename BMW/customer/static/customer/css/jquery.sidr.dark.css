@@ -1,0 +1,36 @@
+#simple-menu {
+	background:#f8f7fc url(../images/slider-nav.png) center no-repeat; width:45px;
+	display:inline-block; border:none; border:#CCC 2px solid; height:40px; 
+	cursor:pointer; color:#666; text-decoration:none; border-radius:3px;
+}
+
+#simple-menu:hover,
+#simple-menu:focus {
+  color:#333;
+  border-color:#999;
+}
+
+.sidr {
+	display:none;
+	position:fixed;
+	top:0;
+	height:100%;
+	z-index:999999;
+	width:300px;
+	overflow-x:none;
+	overflow-y:auto;
+	font-size:14px;
+	background-color:#0178ca;
+}
+
+.sidr ul {margin:0; padding:0; list-style:none; text-align:left;}
+.sidr ul li {border-bottom:1px solid #026bb4; border-top:1px solid #0d86da;}
+.sidr ul li a {color:#FFF; font-size:16px; display:block; text-decoration:none; padding:10px;}
+.sidr ul li a .fa {margin-right:10px;}
+.sidr ul li a .badge {background-color:#ff9900; color:#FFF;}
+.sidr ul li:hover    {background-color:#026bb4;}
+.sidr ul li.active   {background-color:#004b7e;}
+.sidr ul li:hover a  {color:#FFF;}
+.sidr ul li.active a {color:#FFF;}
+
+.hiddenPanel{left:-1000px}

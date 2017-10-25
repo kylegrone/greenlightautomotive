@@ -1,0 +1,122 @@
+<div class="panel panel-default collaps_main_container" style="overflow:auto;" id="vehicle_not_sure_form">
+            <div class="panel-heading wht-heading" role="tab" id="services">
+                <h5 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#information" aria-expanded="false" aria-controls="information">
+                    	<i class="fa fa-info-circle fa-lg mr-10 text_g999"></i> Not Sure? Send us some information 
+                        <i class="fa fa-plus-circle text_blue pull-right collapse_button" data-minclass="fa-minus-circle" data-plusclass="fa-plus-circle"></i>
+                    </a>
+                </h5>
+            </div>
+            <div id="information" class="panel-collapse collapsable_div" role="tabpanel" style="display:none" aria-labelledby="information">
+                <div class="panel-body">
+                	<textarea class="form-control" rows="5" id="email_comment_box" placeholder="Describe the problem and send it to advisor"></textarea>
+                    <div class="clear pad-10"></div>
+                    <div class="row">
+                    	<div class="col-sm-10">
+                        	<div class="row">
+                    			<div class="col-sm-8">
+                    				<div class="row">
+                    					<div class="col-sm-6">
+		                                    <label for="#email_advisor_check">Email an Advisor: </label><input id="email_advisor_check" type="checkbox" name="Email an advisor">
+		                                   	<select id="advisor_email">
+		                                   		<option value="">Select an Advisor</option>
+		                                   		{%for advisor in all_advisors %}
+		                                   			{%if myadvisor and advisor.id == myadvsior.id %}
+		                                   				<option value='{{advisor.id}}' selected="selected">{{advisor.first_name}} {{advisor.last_name}}</option>
+		                                   			{%else%}
+		                                   				<option value='{{advisor.id}}'>{{advisor.first_name}} {{advisor.last_name}}</option>
+		                                   			{%endif%}
+		                                   			
+		                                   		{%endfor%}
+		                                   	</select>
+	                                   	</div>
+	                                   	<div class="col-sm-6">
+		                                    <div class="dropdown" style="display:inline-block;">
+		                                    	 <label for="#callme_later_check">Call me later: </label>
+		                                    	 <input id="callme_later_check" type="checkbox" name="Email an advisor">
+		                                        
+		                                        <select name="callme_later_check">
+		                                            <option value="Anytime">Anytime</option>
+		                                            <option value="Morning">Morning</option>
+		                                            <option value="Anytime">Anytime</option>
+		                                            <option value="Mid-Day">Mid-Day</option>
+		                                            <option value="Late Afternoon">Late Afternoon</option>
+		                                        </select>
+		                                    </div>
+		                                </div>
+	                                </div>
+                                </div>
+                                <div class="col-sm-4">
+                                		{%if profile%}
+                                			<input type="text" class="form-control" id="phone_number_form" placeholder="Profile Number" value="{{profile.phone_number_1}}">
+                                		{%else%}
+                                			<input type="text" class="form-control" id="phone_number_form" placeholder="Enter Phone Number if not on file" value="">
+                                		{%endif%}
+                                </div>
+                            </div>        
+                        </div>
+                        <div class="col-sm-2 text-right">
+                        	<button type="button" class=" btn btn-info" id="send_email">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+            	$(document).ready(function(){
+            		$("#send_email").click(function(){
+            			var error = false;
+            			var phone_number =$("#phone_number_form").val();
+            			var send_email = $("#email_advisor_check").is(':checked');
+            			var call = $("#callme_later_check").is(':checked');
+            			var comment = $("#email_comment_box").val();
+            			var dealer_code = "{{dealer_code}}"
+            			if(send_email || 
+            					call){
+            				
+	            			if(send_email){
+	            				if(comment == ""){
+	            					BootstrapDialog.alert('Please enter a comment');
+	            					error = true;
+	            				}
+	            			}
+							if(call){
+	            				if(phone_number == ""){
+	            					BootstrapDialog.alert('Please enter a phone number');
+	            					error = true;
+	            				}
+	            			}
+            			}else{
+            				BootstrapDialog.alert('Please select email or call');
+            				error = true;
+            			}
+            			if(error ==false){
+            				$("#loadin_page").show();
+            				$.ajax({
+            					url:"{%url 'customer:sendemail' %}",
+            					data:{"dealer_code":dealer_code,
+            						"send_email":send_email,
+            						"call":call,
+            						"phone_number":phone_number,
+            						"advisor":$("#advisor_email").val(),
+            						"comment":comment,
+            						"appointment_id":"{{appointment.id}}"
+            						
+            					},
+            					success:function(msg){
+            						
+            						$("#loadin_page").hide();
+            						if(msg.success==true){
+            							BootstrapDialog.alert('Your mail has been sent  ');
+            						}else{
+            							BootstrapDialog.alert('Some error occured sending email  ');
+            						}
+            					},error:function(){
+            						$("#loadin_page").hide();
+            					}
+            				})
+            			}
+            			
+            		});
+            	});
+            </script>
+        </div>

@@ -1,0 +1,4 @@
+{% extends 'customer/base.html' %}
+{% block main %}
+<div>Welcome {{name}} <a href="{% url 'customer:logout' %}">logout</a></div>
+{% endblock %}

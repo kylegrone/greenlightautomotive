@@ -1,0 +1,289 @@
+{% extends 'dealership/subbase.html' %}
+{% load staticfiles %}
+{% load flagging_tags %}
+{% block operations %}
+{% endblock %}
+
+{% block content %}
+<div class="clear pad-10"></div>
+<div class="container-fluid">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading wht-heading" role="tab" id="appointments">
+                <h6 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#details" 
+                    aria-expanded="false" aria-controls="details">Details <i class="fa fa-plus-circle text_blue pull-right"></i></a>
+                </h6>
+            </div>
+            <div id="details" class="panel-collapse collapse" role="tabpanel" aria-labelledby="details">
+                <div class="panel-body" id="detailcontact_body">
+                <div class="alert alert-success dtlss" style="display:none; width:100%">
+				  <strong>Success!</strong> 
+				  <a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+				  <div class="sdtlmsg"></div>
+				</div>
+				<div class="alert alert-danger dtlee" style="display:none; width:100%">
+				  <strong>Error!</strong> 
+				  <a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+				  <div class="edtlmsg"></div>
+				</div>
+                    {% include "manage/details.html" %} 
+                </div>	
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading wht-heading" role="tab" id="details">
+                <h5 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#contacthrs" 
+                    aria-expanded="false" aria-controls="contacthrs">Contact and Hours <i class="fa fa-plus-circle text_blue pull-right"></i></a>
+                </h5>
+            </div>
+            <div id="contacthrs" class="panel-collapse collapse" role="tabpanel" aria-labelledby="contacthrs">
+                <div class="panel-body" id="contactbody">
+                    {% include "manage/contacts.html" %}    
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading wht-heading" role="tab" id="services">
+                <h5 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#UTA" 
+                    aria-expanded="false" aria-controls="UTA">Users, Teams, Advisor <i class="fa fa-plus-circle text_blue pull-right"></i></a>
+                </h5>
+            </div>
+            <div id="UTA" class="panel-collapse collapse" role="tabpanel" aria-labelledby="UTA">
+                <div class="panel-body">
+                	<div class="alert alert-success suta" style="display:none; width:100%">
+				  <strong>Success!</strong> 
+				  <a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+				  <div class="sutamsg"></div>
+					</div>
+					<div class="alert alert-danger euta" style="display:none; width:100%">
+				  <strong>Error!</strong> 
+				  <a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+				  <div class="eutamsg"></div>
+					</div>
+                	{% include "manage/userteamadvisor.html" %}
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading wht-heading" role="tab" id="amenity">
+                <h5 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#amenities" 
+                    aria-expanded="false" aria-controls="amenities">Amenities <i class="fa fa-plus-circle text_blue pull-right"></i></a>
+                </h5>
+            </div>
+            <div id="amenities" class="panel-collapse collapse" role="tabpanel" aria-labelledby="amenity">
+                <div class="panel-body">
+                	{% include "manage/amenities.html" %}
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading wht-heading" role="tab" id="inspection">
+                <h5 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#inspections" 
+                    aria-expanded="false" aria-controls="inspections">Inspections <i class="fa fa-plus-circle text_blue pull-right"></i></a>
+                </h5>
+            </div>
+            <div id="inspections" class="panel-collapse collapse" role="tabpanel" aria-labelledby="inspection">
+                <div class="InspectionsAccordionPanel panel-body">
+                	<div class="alert alert-success sinsp" style="display:none; width:100%">
+						  <strong>Success!</strong> 
+						  <a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+						  <div class="sinspmsg"></div>
+					</div>
+					<div class="alert alert-danger einsp" style="display:none; width:100%">
+						<strong>Error!</strong> 
+				  		<a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+				  		<div class="einspmsg"></div>
+					</div>
+					<div id="inspmain">
+                	{% include "manage/inspections.html" %}  
+                	</div>                  
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading wht-heading" role="tab" id="flag">
+                <h5 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#flags" 
+                    aria-expanded="false" aria-controls="flags">Flags <i class="fa text_blue pull-right fa-plus-circle"></i></a>
+                </h5>
+            </div>
+            <div id="flags" class="panel-collapse collapse" role="tabpanel" aria-labelledby="flag">
+                <div class="panel-body">
+                	<div class="alert alert-success sflag" style="display:none; width:100%">
+						  <strong>Success!</strong> 
+						  <a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+						  <div class="sflagmsg"></div>
+					</div>
+					<div class="alert alert-danger eflag" style="display:none; width:100%">
+						<strong>Error!</strong> 
+				  		<a href="#" class="close" data-hide="alert" aria-label="close">&times;</a>
+				  		<div class="eflagmsg"></div>
+					</div>
+                	<div id="flagmain">
+                	{% include "manage/flags.html" %}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading wht-heading" role="tab" id="BMWresource">
+                <h5 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#BMW" 
+                    aria-expanded="false" aria-controls="capasity">{% dealer_title %} Resource Links <i class="fa text_blue pull-right fa-plus-circle"></i></a>
+                </h5>
+            </div>
+            <div id="BMW" class="panel-collapse collapse" role="tabpanel" aria-labelledby="BMWresource">
+                <div class="panel-body">
+                    
+                    <div class="table-responsive"> 
+                    <div id="resourcegrid"></div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear pad-5"></div>
+
+<div class="modal fade" id="addfavorites" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Favorites</h4>
+      		</div>
+      		<div class="modal-body">
+        		<div class="col-sm-6"><input type="text" class="form-control" placeholder="Search"></div>
+                <div class="clear pad-10"></div>
+                <div class="col-sm-7">
+                	<select class="form-control">
+                    	<option>Add Favorites</option>
+                        <option>Appointments</option>
+                        <option>Customers</option>
+                        <option>Dealership Hours</option>
+                        <option>Dealership Advisor</option>
+                        <option>Dealership Capacity</option>
+                        <option>Dealership Vahicles</option>
+                        <option>Services</option>
+                        <option>Repair</option>
+                        <option>Customers Portal</option>
+                        <option>Marketing Portal</option>
+                        <option>etc</option>
+                    </select>
+                </div>
+                <div class="clear pad-10"></div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> &nbsp; 
+                <button type="button" class="btn btn-success">Add</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+<div class="clear pad-5"></div>
+
+{% endblock %}
+
+{% block script %}
+
+	{{ block.super }}
+	<script src="{% static "js/bootstrap-timepicker.min.js" %}"></script>
+	<script src="{% static "js/bootstrap-editable.min.js" %}"></script>
+	<script src="{% static "js/db.js" %}"></script>
+	<script src="{% static "js/shopcontacts.js" %}"></script>
+	<script src="{% static "js/evol-colorpicker.min.js" %}"></script>
+	<script src="{% static "js/marketing.js" %}"></script>
+	<script src="{% static "js/feedback.js" %}"></script>
+	<script src="{% static "js/serviceemail.js" %}"></script>
+	<script src="{% static "js/sms.js" %}"></script>
+	<script src="{% static "js/shophrs.js" %}"></script>
+	<script src="{% static "js/holiday.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.core.js" %}"></script>
+ 	<script src="{% static "js/src/jsgrid.load-indicator.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.load-strategies.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.sort-strategies.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.validation.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.field.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.field.text.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.field.number.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.field.select.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.field.checkbox.js" %}"></script>
+	<script src="{% static "js/src/jsgrid.field.control.js" %}"></script>
+
+	<script src="{% static "js/dealership_manage.js" %}"></script>
+	
+	<script>	
+		var url_page = "{% url 'dealership:manage' %}";
+		var url_details = "{% url 'dealership:manage_details' %}";
+		var url_add_amenities = "{% url 'dealership:add_amenities' %}";
+		var url_delete_amenities = "{% url 'dealership:delete_amenities' %}";
+		var get_resource = "{% url 'dealership:get_resource_link' %}" ;
+		var add_resource = "{% url 'dealership:add_resource_link' %}" ;
+		var delete_resource = "{% url 'dealership:delete_resource_link' %}" ;
+		var update_resource = "{% url 'dealership:update_resource_link' %}" ;
+		var get_shopcontacts = "{% url 'dealership:get_shopcontacts' %}" ;
+		var add_shopcontacts = "{% url 'dealership:add_shopcontacts' %}" ;
+		var delete_shopcontacts = "{% url 'dealership:delete_shopcontacts' %}" ;
+		var update_shopcontacts = "{% url 'dealership:update_shopcontacts' %}" ;
+		var get_marketing = "{% url 'dealership:get_marketing' %}" ;
+		var add_marketing = "{% url 'dealership:add_marketing' %}" ;
+		var get_feedback = "{% url 'dealership:get_feedback' %}" ;
+		var add_feedback = "{% url 'dealership:add_feedback' %}" ;
+		var get_serviceemail = "{% url 'dealership:get_serviceemail' %}" ;
+		var add_serviceemail = "{% url 'dealership:add_serviceemail' %}" ;
+		var delete_email = "{% url 'dealership:delete_email' %}" ;
+		var update_email = "{% url 'dealership:update_email' %}" ;
+		var get_sms = "{% url 'dealership:get_sms' %}" ;
+		var add_sms = "{% url 'dealership:add_sms' %}" ;
+		var delete_sms = "{% url 'dealership:delete_sms' %}" ;
+		var update_sms = "{% url 'dealership:update_sms' %}" ;
+		var get_shphrs = "{% url 'dealership:get_shophrs' %}" ;
+		var add_shphrs = "{% url 'dealership:add_shophrs' %}" ;
+		var delete_shphrs = "{% url 'dealership:delete_shophrs' %}" ;
+		var update_shphrs = "{% url 'dealership:update_shophrs' %}" ;
+		var get_holiday = "{% url 'dealership:get_holidays' %}" ;
+		var add_holiday = "{% url 'dealership:add_holiday' %}" ;
+		var delete_holiday = "{% url 'dealership:delete_holiday' %}" ;
+		var update_holiday = "{% url 'dealership:update_holiday' %}" ;
+		var add_user_advisor = "{% url 'dealership:add_user_advisor' %}" ;
+		var get_ua_form = "{% url 'dealership:get_uaform' %}" ;
+		var get_editviewuaform = "{% url 'dealership:get_editviewuaform' %}";
+		var edit_user_advisor = "{% url 'dealership:edituaform' %}";
+		var add_team = "{% url 'dealership:add_team' %}";
+		var edit_team = "{% url 'dealership:edit_team' %}";
+		var add_team_members = "{% url 'dealership:add_team_members' %}";
+		var delete_team_members = "{% url 'dealership:delete_team_members' %}";
+		var remove_team = "{% url 'dealership:remove_team' %}";
+		var remove_user_advisor = "{% url 'dealership:remove_user_advisor' %}";
+		var search = "{{ qstring.search }}";
+		var criteria = "{{ qstring.criteria }}";
+		var panel = "{{ qstring.panel }}";
+		var add_package = "{% url 'dealership:add_package' %}"
+		var add_category = "{% url 'dealership:add_category' %}"
+		var get_category = "{% url 'dealership:get_category' %}"
+		var get_insp_items = "{% url 'dealership:get_insp_items' %}"
+		var add_cat_items = "{% url 'dealership:add_cat_items' %}"
+		var remove_cat_items = "{% url 'dealership:remove_cat_items' %}"
+		var add_new_item = "{% url 'dealership:add_new_item' %}"
+		var edit_flag = "{% url 'dealership:edit_flag' %}"
+		var add_flag = "{% url 'dealership:add_flag' %}"
+		var del_flag = "{% url 'dealership:del_flag' %}"
+		var get_package_detail = "{% url 'dealership:get_package_detail' %}"
+		var edit_package = "{% url 'dealership:edit_package' %}"
+		var delete_package = "{% url 'dealership:delete_package' %}"
+		var get_edit_cat = "{% url 'dealership:get_edit_cat' %}"
+		var edit_cat = "{% url 'dealership:edit_cat' %}"
+		var delete_cat = "{% url 'dealership:delete_cat' %}"
+		var delete_items = "{% url 'dealership:delete_items' %}"
+	</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+
+<div class="modal fade" id="error-appointment-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4> Information Missing</h4>
+            </div>
+            <div class="modal-body" >
+            	<ul>
+            			
+	              Your appointment is not complete.
+	              {% if appointment.start_time == None %}
+	              <li>
+					Way away information is missing 
+						<a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&accordion=wayaway&appointment_id={{appointment.id}}" >
+						Back
+						</a>
+						<br/>
+					</li>
+	              <li>
+					Date information is missing 
+						<a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&accordion=date&appointment_id={{appointment.id}}" >
+						Back
+						</a>
+						<br/>
+					</li>
+					{%endif%}
+					{% if appointment.way_away == None %}
+	              
+				  {%endif%}
+			  
+			  
+		
+               </ul>
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+        </div>
+    </div>
+</div>		
+<script>
+$(document).ready(function(){
+	$('#error-appointment-modal').modal('show');
+});
+</script>

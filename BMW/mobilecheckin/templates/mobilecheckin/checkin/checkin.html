@@ -1,0 +1,92 @@
+{% extends 'mobilecheckin/base.html' %}
+{% load staticfiles %}
+{% block main %}
+<div class="bg_wht  ChkinStatusArea">
+	<div class="container-fluid">
+    	<div class="table-responsive">
+        	<table class="table">
+            	<tbody> 
+                	<tr> 
+                        <td class="StatusTimeLeft" id="counter_status"><div class="ChkinStatusTitle">Time Left</div><div  id="countdown" class="ChkinStatusInfo" min={{time_left.min}} sec={{time_left.sec}}>0:00</div></td> 
+                        <td><div class="ChkinStatusTitle">APPT. for</div><div class="ChkinStatusInfo">{{app_details.start_time|date:"d-m-Y"}}</div></td> 
+                        <td><div class="ChkinStatusTitle">{{app_details.customer.first_name}} {{app_details.customer.last_name}}</div><div class="ChkinStatusInfo">VIN#. <span class="font_light">{% if app_details.vehicle %}{{app_details.vehicle.vin_number}}{% else %}&lt;Vin#&gt;{%endif%}</span></div></td>
+                        <td><div class="ChkinStatusTitle">{% if app_details.vehicle%}{{app_details.vehicle.vehicle.make.name}} {{app_details.vehicle.vehicle.model.name}} {{app_details.vehicle.vehicle.year.name}}{% else %}&lt;Make/Model/Year&gt;{%endif%}</div><div class="ChkinStatusInfo">Mileage. <span class="font_light">{%if app_details.vehicle%}{{app_details.vehicle.milage}}{% else%}&lt;Milage&gt;{%endif%}</span></div></td>
+                        <td><div class="ChkinStatusTitle">{% if app_services %}{%for obj in app_services %}{% if forloop.last %} & {% endif %} {{obj.service.name}} {% endfor %} {% else%}&lt;Services&gt;{%endif%}</div><div class="ChkinStatusInfo">License Plate# {%if app_details.vehicle%}{{app_details.vehicle.lisence_number}}{% else %}&lt;License Plate&gt;{%endif%}</div></td>
+                        <td><div class="ChkinStatusTitle">{% if app_details.advisor %}{{app_details.advisor.userprofile.first_name}} {{app_details.advisor.userprofile.last_name}}{% else %}&lt;Advisor&gt;{%endif%}</div><div class="ChkinStatusInfo">{% if app_details.way_away %}{{app_details.way_away.name}}{% else %}&lt;Way Away&gt;{%endif%}</div></td>
+                        <td class="StatusInprogress"><div class="ChkinStatusTitle">In Progress</div><div id="timmer_checkin" class="ChkinStatusInfo">0:00</div></td> 
+                    </tr> 
+                </tbody> 
+            </table>
+        </div>
+    </div>
+</div>
+<div class="clear pad-5"></div>
+<div class="container-fluid">
+	<div class="row">
+	{% include "mobilecheckin/messages.html" %}
+	</div>	
+    <div class="row">
+        <div class="col-xs-2 ChkInLftNav">
+        	<ul class="left_nav">
+            	<li><a href="{% url 'mobilecheckin:index' %}"><i class="fa fa-home fa-3x"></i></a></li>
+                <li class="active" id="odoscreen"><a href="#">ODOMETER & VIN# CAPTURE</a></li>
+                <li id="walkarscreenmain"><a href="#">WALK AROUND</a>
+                <ul class="left_Sub_nav">
+                    <li id="walkarscreen"><a href="#">View Vehicle</a></li>
+                    <li id="walkarmedia"><a href="#">View Images Captured</a></li>
+                    <li id="tirethread"><a href="#">Tire Tread</a></li>
+                </ul></li>
+                <!-- li id="walkarnotes"><a href="#">View Notes</a></li-->
+                <li id="serscreen"><a href="#">SERVICES & REPAIR</a></li>
+                <li id="reviewscreen"><a href="#">REVIEW<br>& SIGN</a></li>
+            </ul>
+        </div>
+        <div id="checkincurrent" class="ChkInCur">
+        {% include "mobilecheckin/checkin/odovin.html" %}
+       </div>
+    </div>
+</div>
+
+<div class="clear pad-10"></div>
+{% endblock %}
+{% block js %}
+{{ block.super }}
+<script src="{% static "js/exif.js" %}"></script>
+<script src="{% static "js/capture.js" %}"></script>
+<script src="{% static "js/jquery.imagemapster.js" %}"></script>
+<script src="{% static "js/html2canvas.js" %}"></script>
+<script src="{% static "js/jquery.plugin.html2canvas.js" %}"></script>
+<script src="{% static "lightbox/js/lightbox.js" %}"></script>
+<script src="{% static "js/sketch.js" %}"></script>
+<script src="{% static "js/checkin.js" %}"></script>
+<script>
+	var main_page ="{% url 'mobilecheckin:index' %}"
+	var get_odo = "{% url 'mobilecheckin:get_odo' app_details.id %}"
+	var save_vin = "{% url 'mobilecheckin:save_vin' app_details.id %}"
+	var get_service_repair = "{% url 'mobilecheckin:get_service_repair' app_details.id %}"
+	var get_review = "{% url 'mobilecheckin:get_review' app_details.id %}"
+ 	var get_odo_history = "{% url 'mobilecheckin:get_odo_history' app_details.id %}"
+ 	var get_service_repair_list = "{% url 'mobilecheckin:get_service_repair_list' %}"
+ 	var add_service_repair = "{% url 'mobilecheckin:add_service_repair' app_details.id %}"
+ 	var remove_service_repair = "{% url 'mobilecheckin:remove_service_repair' app_details.id %}" 
+ 	var update_service_repair = "{% url 'mobilecheckin:update_service_repair' app_details.id %}" 
+ 	var get_by_name_service_repair = "{% url 'mobilecheckin:get_by_name_service_repair' %}"
+ 	var get_walkaround = "{% url 'mobilecheckin:get_walkaround' app_details.id %}"
+ 	var add_walkaround_notes = "{% url 'mobilecheckin:add_walkaround_notes' app_details.id %}"
+ 	var get_walkaround_media = "{% url 'mobilecheckin:get_walkaround_media' app_details.id %}"
+ 	var get_walkaround_notes = "{% url 'mobilecheckin:get_walkaround_notes' app_details.id %}"
+ 	var get_selected_vehicle = "{% url 'mobilecheckin:get_selected_vehicle' %}"
+ 	var add_initials = "{% url 'mobilecheckin:add_initials' app_details.id %}"
+ 	var accept_appointment = "{% url 'mobilecheckin:accept_appointment' app_details.id %}"
+ 	var cancel_appointment = "{% url 'mobilecheckin:cancel_appointment' app_details.id %}"
+ 	var image_proxy = "{% url 'mobilecheckin:image_proxy' %}"
+ 	var get_selected_vehicle_map = "{% url 'mobilecheckin:get_selected_vehicle_map' %}"
+ 	var get_tire_thread = "{% url 'mobilecheckin:get_tire_thread' app_details.id  %}"
+ 	var add_tire_notes = "{% url 'mobilecheckin:add_tire_notes' app_details.id  %}"
+ 	var beep_url = "{% static 'js/beep-05.wav' %}"
+ 	lightbox.option({
+        'resizeDuration' : 200,
+        'wrapAround' : true
+    });
+</script>
+{% endblock %}

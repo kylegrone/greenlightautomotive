@@ -1,0 +1,47 @@
+{% load staticfiles %}
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Appointment Confirmed</h4>
+</div>
+<div class="modal-body">
+	<div class="row">
+    	<div class="col-sm-6">
+        	<h5>Customer: {{ customer.name }}</h5>
+            <p>Home Phone: &nbsp; {{ customer.Home }}</p>
+            <p>Cell Phone: &nbsp; {{ customer.Mobile }}</p>
+            <p>Email: &nbsp; <a href="#">{{ customer.email_1 }}</a></p>
+        </div>
+        <div class="col-sm-6">
+        	<h5>Appointment Details</h5>
+            <p>Appt: &nbsp; <strong>{{ time2 }}</strong></p>
+            <p>A Way away: &nbsp; {{ wayaway }}</p>
+            <p>{{ advisor }}</p>
+        </div>
+    </div>
+    <div class="clear pad-10"></div>
+    <div class="row">
+    	<div class="col-sm-6">
+        	<h5>Vehicle: {{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h5>
+            <img src="{{ vehicle.image }}" class="img-responsive">
+        </div>
+        <div class="col-sm-6">
+            <p>approx mileage: &nbsp; {{ vehicle.milage }}</p>
+            <p>VIN#: &nbsp; {{ vehicle.vin }}</p>
+            <p>License#: &nbsp; {{ vehicle.lisence }}</p>
+            <a href="#">R.O Information</a>
+            
+        </div>
+        
+    </div>
+    <div class="row">
+    	<div class="col-sm-6">
+        	<span><input id="confirmation_checkbox" type="checkbox" /> I relayed all this information to the client</span>
+    	</div>
+    </div>
+    <div class="clear pad-10"></div>
+    <ul>
+    	<li>Please allow 30 minutes to meet with your advisor.(Please allow additional time if you have a loaner or rental reservation). Must be 25 years or older and we require following documentation. A current and valid proof of insurance, valid driver's lisence and major credit card</li>
+    	<li>A $250 dollar security deposit will be placed on your card. I apologize, we do not accept American Express</li>
+    	<li>If you are running more than 15 minutes late, could you give us a call and we'd be more than happy to reschedule your appointment for you?</li>
+	</ul>
+</div>

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Email Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+        body {
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+        
+        p {
+            margin: 0;
+        }
+        
+        table {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0;">
+<div>
+
+
+
+
+<table width="650" cellspacing="0" cellpadding="0" border="0">
+  <tbody><tr>
+    <td colspan="2" align="center"><table width="100%" cellspacing="0" cellpadding="0" border="0">
+      <tbody><tr>
+        <td valign="top" align="center">
+ <a span="" style="text-decoration:none" href="{{main_site_url}}" target="_blank"><font size="1" face="Verdana">DEALER WEBSITE</font></a> &nbsp;|&nbsp; 
+ <a span="" style="text-decoration:none" href="http://maps.google.com/?q={{dealer_address}}" target="_blank"><font size="1" face="Verdana">DIRECTIONS</font></a> &nbsp;| &nbsp;
+ <a span="" style="text-decoration:none" href="{{appointment_change_url}}" target="_blank"><font size="1" face="Verdana">MAKE APPOINTMENT CHANGES</font></a></td>
+      </tr>
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td align="center"><font size="2" face="Verdana"><a href="#" target="_blank"><br>
+      <br>
+    <img src="cid:header_{{dealer_id}}.png" alt="{{dealer_name}} -- ONLINE SERVICE SCHEDULING" width="650" border="0" height="73"></a></font></td>
+  </tr>
+  <tr>
+    <td rowspan="2"></td>
+    <td align="center"><p><font size="3" face="Verdana"><b><br>
+		</b></font></p></td></tr>
+  <tr>
+    <td colspan="2" align="center"><p>&nbsp;</p></td>
+  </tr>
+  <tr>
+<td rowspan="2"></td>
+<td align="center"><p><font size="3" face="Verdana"><b>Service Reservation Details</b></font></p>
+      <p>
+</p>
+    <font size="2" face="Verdana">&nbsp;</font></td>
+  </tr>
+<tr>
+    <td><p>
+	<font size="2" face="Verdana">Confirmation Code:</font>&nbsp;&nbsp;
+	<font size="2" face="Verdana"><b>{{c_code}}</b></font> <br>
+	<font size="2" face="Verdana"> Date and Time:</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	<font size="2" face="Verdana"><strong>{{start_time}}</strong></font><br>
+	<font size="2" face="Verdana">Vehicle:</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font size="2" face="Verdana"><strong>{{vehicle}}</strong></font><br>
+	<font size="2" face="Verdana">Advisor:</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font size="2" face="Verdana"><b>{{advisor}}</b></font><br>          
+    <font size="2" face="Verdana">Requested Arrangement:&nbsp;&nbsp;</font>
+	<font size="2" face="Verdana"><strong>{{wayaway}}</strong></font><br>
+    </p>
+
+Dear {{name}},<br><br>
+
+This is an automated appointment confirmation for your {{start_time}} service appointment.<br>
+
+{% if service_name %}
+<p>The following services have been selected for this appointment: </p>
+
+      <p><u><b>Maintenance Services:</b></u></p>
+      {% for obj in service_name %}
+      <pre>{{obj}}</pre>
+		{% endfor %}
+{% endif %}
+
+      <p>Note: Repair times and costs vary based upon the nature of the repair, parts availability, your warranty status, and other factors. Once your vehicle is in the shop, we will diagnose your problem and contact you as soon as we can to provide details and specific time and cost estimate. Diagnostic and/or repair fees may apply if work to be performed is not covered under warranty.</p>
+
+      <p>Visit us <a href="{{main_site_url}}" target="_blank">here</a> for your general appointment taking needs. To quickly register for this exciting new service, simply click the link provided below and set your password!</p>
+<b><a href="{{account_url}}" target="_blank">My Account</a></b>
+<p><u></u>Add this appointment to your Outlook calendar using the attached file, if present, or by clicking a link below:<u></u><br><br>
+</p><center>
+<img src="cid:google.png" border="0" align="absmiddle">&nbsp;
+<a href="{{g_cyl}}" style="text-decoration:none" target="_blank">
+<span style="color:#3333ff;font-family:Arial,Helvetica,sans-serif;font-size:12px">Google</span>
+</a>&nbsp;&nbsp;&nbsp;<b>|</b> &nbsp;&nbsp;
+<img src="cid:yahoo.png" border="0" align="absmiddle">&nbsp;
+&nbsp;&nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;&nbsp;<img src="cid:windows.png" border="0" align="absmiddle">&nbsp;<a href="{{o_cyl}}" style="text-decoration:none" target="_blank"><span style="color:#660099;font-family:Arial,Helvetica,sans-serif;font-size:12px">Windows Live/Hotmail</span></a>
+</center> 
+<br><p></p>
+
+      <p>We look forward to seeing you. If you have any questions, please contact us using the information listed below. </p>
+	  <p>Sincerely,</p>
+      {{dealer_name}} <br> 
+      <p>Directions:</p>
+        Map to <a href="http://maps.google.com/?q={{dealer_address}}">Dealership</a>
+{{dealer_address}}
+<p></p>
+    </td>
+  </tr>
+  <tr>
+    <td align=""></td>
+    <td align=""><br><font size="2" face="Verdana"><i>Note: This is an automated message and please do not reply to it.</i></font></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  
+  
+</tbody></table>
+
+If you would like to stop receiving these emails, please click here to <a href="{{notification_url}}">UNSUBSCRIBE</a>.
+<img src="#" width="1" border="0" height="1"><span><font color="#888888">
+
+
+</font></span></div>
+</body>
+
+</html>

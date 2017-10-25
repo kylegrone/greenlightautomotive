@@ -1,0 +1,73 @@
+
+<form method="POST" url="{% url 'customer:accountsettings' %}">
+{% csrf_token %}
+{{driver_form.user}}
+<input type="hidden" name="type" value="driver"/>
+	<div class="well collaps_main_container">
+                	<h5 class="mt-0">
+                    	<a href="#" class="text_blck"><i class="fa fa-minus-square-o fa-lg mr-10 collapse_button"></i></a> 
+                        Drivers License and Insurance Information
+                    </h5>
+                    <div class="collapsable_div">
+		                    <div class="clear pad-10"></div>
+		                    
+		                    
+		                    	<div class="col-sm-6 =">
+		                            <label>Drivers License:</label>
+		                        	<div class="row form-group">
+		                            	<label class="col-sm-2 mt-10">State:</label>
+		                                <div class="col-xs-5">
+		                                   {{driver_form.state_us}}
+			                                    {% if  driver_form.state_us.errors %}
+						                    	 <div class="alert error alert-danger fade in">
+											    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+											    	<strong>Error!</strong>{{ driver_form.state_us.errors }}
+												</div>
+												{%endif%}
+		                                </div>
+		                                <div class="col-xs-5">
+		                                   {{driver_form.driver_liscens_number}}
+			                                    {% if  driver_form.driver_liscens_number.errors %}
+						                    	 <div class="alert error alert-danger fade in">
+											    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+											    	<strong>Error!</strong>{{ driver_form.driver_liscens_number.errors }}
+												</div>
+												{%endif%}
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="col-sm-6">
+		                        	<label>Insurance Information:</label>
+		                        	<div class="row form-group">
+		                                <div class="col-xs-6">                                    
+		                                    {{driver_form.insurance_company_name}}
+			                                    {% if  driver_form.insurance_company_name.errors %}
+						                    	 <div class="alert error alert-danger fade in">
+											    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+											    	<strong>Error!</strong>{{ driver_form.insurance_company_name.errors }}
+												</div>
+												{%endif%}
+		                                </div>
+		                                <div class="col-xs-6">
+		                                    {{driver_form.insurance_card_number}}
+			                                    {% if  driver_form.insurance_card_number.errors %}
+						                    	 <div class="alert error alert-danger fade in">
+											    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+											    	<strong>Error!</strong>{{ driver_form.insurance_card_number.errors }}
+												</div>
+												{%endif%}
+		                                </div>
+		                            </div>
+		                        </div>
+		                    
+		                     <div class="row">
+			                          		   <div class="col-xs-6">
+			                        	  			<button type="submit" class="btn btn-info">Save </button>
+			                        	  		</div>
+			                         
+			                    
+			                </div>
+		               
+               		</div>
+                </div>
+           </form>

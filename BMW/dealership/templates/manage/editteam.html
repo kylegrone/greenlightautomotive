@@ -1,0 +1,49 @@
+ <div id="addeditteam" class="hidden">
+                    
+                    <h4 class="font_regular">ADD/EDIT TEAM</h4>
+                    
+                    <form class="row form-horizontal">
+                    	<div class="col-sm-4">       
+                            <div class="form-group">
+                            	<label class="col-sm-3 control-label">Add User/Advisor</label>
+                                <div class="col-sm-9">
+                                	<input type="hidden" value="{{team.id}}" name="team_id" id="id_team_id">
+                                	<select placeholder="Add User/Advisor" name="add_team_advisors" id="id_advisors" class="form-control" multiple="multiple">
+									{% for usr in not_members %}
+									<option value="{{usr.user.id}}">{{usr.first_name}} {{usr.last_name}}</option>
+									{% endfor %}
+									</select>
+									<div class="clear pad-5"></div>
+									<span class="input-group-btn">
+                                            <button class="btn btn-default addteammember" type="button">ADD</button>
+                                     </span> 
+                                </div>
+                            </div>
+                            
+                            <p>Advisoris on Team</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                    {% if team_users %}
+	                                    {% for adv in team_users %}
+	                                        <tr id="{{adv.id}}"> 
+	                                            <td>{{adv.advisor.userprofile.first_name}} {{adv.advisor.userprofile.last_name}}</td> 
+	                                            <td class="text-right">
+	                                            	<a href="#" class="text_red"><span class="glyphicon glyphicon-trash deleteteammembers"></span></a>
+	                                            </td>
+	                                        </tr>
+	                                      {% endfor %}
+	                                 {% else%}
+	                                 <tr> 
+	                                            <td>No Members</td>
+	                                 {% endif %}
+	                                 </tbody> 
+                                </table> 
+                            </div>
+                        </div>
+                        <div class="clear pad-10"></div>
+                        <div class="text-right mr-20">
+                        	<button type="button" class="btn btn-warning cancelteam">Back</button> &nbsp; 
+                        </div>
+                    </form>
+                </div>    

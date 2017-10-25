@@ -1,0 +1,35 @@
+{% load staticfiles %}
+	<script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+  	
+	<script src="{% static "js/sock.js" %}"></script>
+	<script src="{% static "js/sha.js" %}"></script>
+	
+	<script src="{% static "js/centrifuge.js" %}"></script>
+	<script src="{% static "js/puller.js" %}"></script>
+	
+	<script> 
+			$(document).ready(function(){
+				
+				var puller = new messagePuller()	;
+				puller.centrifuge_url ="{{CENTRIFUGE_URL}}";
+				puller.secret = "{{CENTRIFUGE_SECRET}}";
+				puller.channel = "{{dealer.id}}" 
+				puller.addWidgets(
+									{"name":"test widget","callback":testingRespnse,
+									"services_listening_to":["appointments"]
+									}
+									
+					)
+				puller.user = "demo"
+				puller.setCentrifuge();
+				puller.connect()
+				
+				function testingRespnse(obj){
+					alert("i received a message")
+					console.info("listener called");
+					console.info(obj)
+					
+				}
+			});
+	</script>

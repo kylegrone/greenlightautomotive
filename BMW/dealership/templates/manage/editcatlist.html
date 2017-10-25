@@ -1,0 +1,20 @@
+<div class="row">
+	<label for="NewInspTitle" class="col-sm-3 control-label">Select Category</label>
+    <select id="id_edit_cat" class="form-control mr-10" required="" name="cat_edit">
+  		<option>Select Category</option>
+  			{% for obj in cat %}
+    			<option value="{{obj.id}}">{{obj.category}}</option>
+   		 	{% endfor %}
+   	</select>
+</div>
+ <div class="row etcat hidden">
+	<label for="NewInspTitle" class="col-sm-3 control-label">Category Title</label>
+    <input type="text" required="" placeholder="New Category Title" name="cat_name" id="id_cat_edit_name" class="form-control" >
+    
+ </div>
+ <div class="row">
+ 	<div class="text-right mr-20">
+	       <button type="button" class="btn btn-success saveeditcat">Save</button> &nbsp; 
+	       <button type="button" class="btn btn-danger deletecat">Delete Category</button>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+<ul class="steps">
+	{% for obj in flages %}
+    <li {% if appt.ro.flag3.id == obj.id %}class="active" {% endif %} value="{{obj.id}}">
+        <a href="#"><span></span>{{obj.name}}</a></li>
+    {% endfor %}
+    </ul>
+  
+
+    		<div class="clear pad-5"></div>
+            <h4>Service Status: 
+            {% if appt.ro.flag3 and appt.ro.flag3.customer_facing == True %}
+            	<span class="text_red">{{appt.ro.flag3.name}}</span>
+            {% else %}
+            <span class="text_red">No Status Available</span>
+            {% endif %}
+            </h4>
+            <img src="{{MEDIA_URL}}{{appt.vehicle.vehicle.mainimage}}" class="img-responsive">
+            <h5 class="mt-0">{{appt.vehicle.vehicle.year.name}} ,{{appt.vehicle.vehicle.make.name}} & {{appt.vehicle.vehicle.model.name}} </h5>
+            <div class="clear pad-10"></div>
+            <div id="status_notfy">
+           {% if appt.ro.flag3.id == appt.dealer.approval_needed_flag_id %}
+           		{% include "customer/statusalert/vehicles/approval.html" %}
+           {% elif appt.ro.flag3.id == appt.dealer.carwash_flag_id %}
+            	{% include "customer/statusalert/vehicles/carwash.html" %}
+			{% else %}
+            	{% include "customer/statusalert/vehicles/servicecomplete.html" %}
+			{% endif %}
+			</div>           
+            

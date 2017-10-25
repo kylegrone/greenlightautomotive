@@ -1,0 +1,20 @@
+<ul id="myTabs" class="service_menu "> 
+        	<li role="dropdown" class="dropdown dropdown-hover {% if tab == '' %} active {%endif%}">
+            	<a href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="vehicles-tab">Vehicles</a>
+            	<ul class="dropdown-menu" style="display: none;">
+           			 <li><a href="#">Service and Repair Added to Cart</a></li>
+     		   </ul>
+            
+            </li> 
+            <li role="dropdown" {% if tab == 'service' %} class="active" {%endif%}>
+            	<a href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Service and Repair </a>
+            </li>
+            
+            <li role="dropdown" {% if tab == 'appointment' %} class="active" {%endif%}>
+            	<a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Appointment</a>
+            </li>
+            <li role="dropdown" {% if tab == 'book' %} class="active" {%endif%}>
+            	<a href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Review and Book</a>
+            </li>
+</ul>
+<div class="clear pad-10"></div>

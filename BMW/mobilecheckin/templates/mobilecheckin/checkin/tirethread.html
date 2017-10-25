@@ -1,0 +1,57 @@
+ <div class="col-xs-10">
+                    <div class="bg_wht pad-10 clearfix">
+                        <div class="row">
+                            <div class="clearfix SelectTires" id="selecttires">
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="RF">
+                                        <option value="">RF Tread</option>
+										{% for obj in rf%}
+											<option value="{{obj.id}}">{{obj.width}}</option>
+										{% endfor %}
+									</select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="RR">
+                                        <option value="">RR Tread</option>
+											{% for obj in rr%}
+												<option value="{{obj.id}}">{{obj.width}}</option>
+											{% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="LF">
+                                        <option value="">LF Tread</option>
+											{% for obj in lf%}
+											<option value="{{obj.id}}">{{obj.width}}</option>
+											{% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="LR">
+                                        <option value="">LR Tread</option>
+										{% for obj in lr%}
+											<option value="{{obj.id}}">{{obj.width}}</option>
+										{% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12">
+                            <textarea class="form-control mt-10" rows="2" id="TireAddNotes" placeholder="Add Notes"></textarea>
+                        </div>
+                        <div class="col-sm-12 mt-10" align="right">
+                            <button class="btn tireaddnotes btn-info" type="button"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> Add Note</button>
+                        </div>
+                        <div class="col-sm-12">
+                           	<div class="MCDispleNotes mt-10">
+                           	<h5>Notes:</h5>
+                           	 {% for obj in tirenote %}
+                        		<li>Notes: {{obj.appointment.start_time.date}} {{obj.notes}} {% if obj.RF.width %} RF:{{obj.RF.width}}{% endif %} {% if obj.RR %}RR:{{obj.RR.width}}{% endif %} {% if obj.LF %}LF:{{obj.LF.width}}{% endif %} {% if obj.LR %}LR:{{obj.LR.width}}{% endif %}</li>
+                        	{% endfor %}
+                           	</div>
+                        </div>
+                            </div>
+
+                    </div>
+                </div>

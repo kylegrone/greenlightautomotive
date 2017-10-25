@@ -1,0 +1,155 @@
+<div id="viewedit" class="hidden">
+                    <h4 class="font_regular">VIEW/EDIT USER OR ADVISOR</h4>
+                    <form class="form-horizontal" id="edit_user_advisor_form">
+    	<div class="row">
+        	<div class="col-sm-6">
+            	<div class="form-group">
+                    <label for="fnam" class="col-sm-4 control-label">First:</label>
+                    <div class="col-sm-8">
+                    	{{enud.user_id}}
+                        {{enud.first}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lnam" class="col-sm-4 control-label">Last:</label>
+                    <div class="col-sm-8">
+                        {{enud.last}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mail" class="col-sm-4 control-label">Email:</label>
+                    <div class="col-sm-8">
+                        {{enud.email}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fon1" class="col-sm-4 control-label">Phone 1:</label>
+                    <div class="col-sm-8">
+                        {{enud.phone1}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fon2" class="col-sm-4 control-label">Phone 2:</label>
+                    <div class="col-sm-8">
+                        {{enud.phone2}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="employee" class="col-sm-4 control-label">Employee#:</label>
+                    <div class="col-sm-8">
+                        {{enud.employee}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rol" class="col-sm-4 control-label">Role:</label>
+                    <div class="col-sm-8">
+                        {{enud.role}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="team" class="col-sm-4 control-label">Team:</label>
+                    <div class="col-sm-8">
+                        {{enud.team}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                       <input type='file' id="edit_image" name="adv_img"/>
+                    </label>
+                    <div class="col-sm-6"><img id="editadvimg" src="{{MEDIA_URL}}{{avatar}}" class="img-thumbnail img-responsive" width="100"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Disable Consumer Address:</label>
+                    <div class="col-sm-8">
+                        {{enud.reserve}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+            	<div class="form-group">
+                    <label for="unam" class="col-sm-3 control-label">User Name:</label>
+                    <div class="col-sm-8">
+                        {{edituser.username}}
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label for="tpass" class="col-sm-3 control-label">Temp Password:</label>
+                    <div class="col-sm-8">
+					<input type="password" placeholder="Create Temporary Password" name="password" max_length="30" id="id_password" class="form-control">
+                    </div>
+                </div>
+             </div>
+          </div>
+         <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <p>Set Advisor Capacity</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped text_14" id="edit_capacitytable"> 
+                                <thead> 
+                                    <tr> 
+                                        <th>Day</th> 
+                                        <th>M</th> 
+                                        <th>T</th> 
+                                        <th>W</th>
+                                        <th>Th</th>
+                                        <th>F</th>
+                                        <th>S</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr id={{cap.id}}> 
+                                        <td>Shop</td> 
+                                        <td id="ecM"><a href="#" class="ecM" data-type="select" data-value="{{cap.monday}}"></a></td> 
+                                        <td id="ecT"><a href="#" class="ecT" data-type="select" data-value="{{cap.tuesday}}"></a></td> 
+                                        <td id="ecW"><a href="#" class="ecW" data-type="select" data-value="{{cap.wednesday}}"></a></td>
+                                        <td id="ecTh"><a href="#" class="ecTh" data-type="select" data-value="{{cap.thursday}}"></a></td> 
+                                        <td id="ecF"><a href="#" class="ecF" data-type="select" data-value="{{cap.friday}}"></a></td> 
+                                        <td id="ecS"><a href="#" class="ecS" data-type="select" data-value="{{cap.saturday}}"></a></td>
+                                    </tr>
+                                </tbody> 
+                            </table> 
+                        </div>
+                     </div>
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <p>Set Advisor Restrictions</p>
+                        <a href=# id="edit_restriction">Add Restriction</a>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped text_14 CusEditableTbl" id="edit_restriction_table"> 
+                                <thead> 
+                                    <tr> 
+                                        <th>Name</th> 
+                                        <th>Start Date</th> 
+                                        <th>Days</th> 
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Repeat</th>
+                                        <th>End Date</th>
+                                        <th>Del</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                {% for rest in restrictions %}
+                                    <tr id={{rest.id}}> 
+                                        <td id="er_type"><a href="#" class="er_type" data-type="text" data-value="{{rest.type}}" ></a></td> 
+                                        <td id="er_sdate"><a href="#" class="er_sdate" data-type="combodate" data-value="{{rest.start_date|date:'d-m-Y'}}"></a></td> 
+                                        <td id="er_days"><a href="#" class="er_days" data-type="checklist" data-value="{{rest.days}}" data-pk="{{forloop.counter}}"></a></td> 
+                                        <td id="er_stime"><a href="#" class="er_stime" data-type="combodate" data-template="hh:mm a" data-format="hh:mm a" data-viewformat="hh:mm a" data-value="{{rest.start_time}}" ></a></td>
+                                        <td id="er_etime"><a href="#" class="er_etime" data-type="combodate" data-template="hh:mm a" data-format="hh:mm a" data-viewformat="hh:mm a" data-value="{{rest.end_time}}" ></a></td> 
+                                        <td id="er_repeat"><a href="#" class="er_repeat" data-type="select" data-value="{{rest.repeat}}"></a></td> 
+                                        <td id="er_edate"><a href="#" class="er_edate" data-type="combodate" data-value="{{rest.end_date|date:'d-m-Y'}}"></a></td>
+                                        <td><a href="#" id="del_rest"><span class="glyphicon glyphicon-minus"></span></a></td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody> 
+                            </table> 
+                     </div>
+                </div>
+            </div>
+                        <div class="clear pad-10"></div>
+                        <div class="text-right mr-20">
+                        	<button type="button" class="btn btn-default cancleadv">Cancel</button> &nbsp; 
+                            <button type="submit" class="btn btn-success saveeditadv">Save</button> &nbsp; 
+                            <button type="button" class="btn btn-danger deleteadv" {% if request.user.id == enud.user_id.value %}disabled{% endif %}>Delete User or Advisor</button>
+                        </div>
+                    </form>
+                    </div>

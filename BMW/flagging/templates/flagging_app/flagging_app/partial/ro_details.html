@@ -1,0 +1,26 @@
+{% load flagging_tags %}
+	<div class="form-group pull-right" >
+     	<div id="ro_details">
+     	{% if not roDetails == None %}
+        	<strong style="color:{{roDetails.roNumber|getColor}}">RO# {{ roDetails.roNumber }}</strong> &nbsp; 
+            <strong style="color:{{roDetails.roNumber|getColor}}">VIN# {{ roDetails.vin }}</strong> &nbsp; 
+            <strong style="color:{{roDetails.roNumber|getColor}}">Owner: {{ roDetails.owner }}</strong> &nbsp; 
+            <strong style="color:{{roDetails.roNumber|getColor}}">Phone: {{ roDetails.phone }}</strong> &nbsp;
+          {% endif %} 
+            
+            <div class="form-group pull-right" ><button id="print" type="button" class="btn btn-grey">Print</button>
+            {% if not action_plan == None %}
+            <button id="viewPdf" class="btn btn-grey" >View</button>
+  			<button id="email" class="btn btn-grey">Email</button>
+  			{% endif %} 	
+  		</div>
+           <!--  <button type="button" class="btn btn-grey">Print</button>  -->
+           </div> 
+  		</div> 
+  		<script>
+  		$(function(){
+  			$("#print").off("click").on("click",function(){
+  				print($("#printable"));
+  			});
+  		});
+  		</script>

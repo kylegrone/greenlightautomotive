@@ -1,0 +1,128 @@
+{% extends "customer/layouts/index.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+	{%if selected_type == "existing_customer"%}
+		{%include 'customer/partials/book_now_exisitng.html' %}
+	{%else%}
+		{%include 'customer/partials/book_now_new.html' %}
+	{%endif%}
+	
+	<script>
+		var current_date_index = 0;
+		var current_date = "";
+		var dealer_code = "{{dealer_code}}";
+		$(document).ready(function(){
+			
+			 current_date = moment().format('YYYY-MM-DD');
+			
+			function selectDate(all_date,index,el,dealer_code,current_index){
+				el.val(all_date[index]["name"]);
+				el.data("value",all_date[index]["value"]);
+				setAdvisors(el.data("value"),dealer_code);
+			}
+		 	
+		 	function fillDates(date,dealer_code,trynext,counter){
+		 			current_date_index =0
+		 			current_date = date
+		 			if (typeof counter == "undefined"){
+		 				counter = 0
+		 			}
+					$("#loading_page").show();
+					$.ajax({
+						"url":"{%url 'customer:get_available_slabs_for_date'%}",
+						"data":{"date":date,"dealer_code":dealer_code},
+						"success":function(resp){
+							if(resp["success"]==true){
+								window.all_dates = resp["slabs"];
+								console.info(window.all_dates)
+								if (window.all_dates.length > 0 ){
+									selectDate(window.all_dates,0,$("#slab_date"),dealer_code);
+								}else{
+									if(typeof trynext !="undefiend" && counter <4){
+										
+										 fillDates(moment().add(1, 'days').format('YYYY-MM-DD'),dealer_code,trynext,counter+1)
+									
+										
+									}else{
+										BootstrapDialog.alert('Unable to find slabs for the selected date. Please change the date to check for slabs');
+										$("#slab_date").val("");
+									}
+								}
+								$("#loading_page").hide();
+							}
+						}
+						
+					})
+					
+				} 
+		 	function setAdvisors(slab_time,dealer_code){
+		 		$("#loading_page").show();
+		 		$.ajax({
+		 			url:"{%url 'customer:get_available_adivsors_for_date'%}",
+		 			data:{"slab_time":slab_time,dealer_code:dealer_code},
+		 			success:function(resp){
+		 				if(resp["success"]==true){
+		 					$("#appointment_advisor").html("");
+		 					$("#appointment_advisor").append("<option value=''>*Select an Advisor</option>");
+		 					$.each(resp["advisors"],function(k,v){
+		 						$("#appointment_advisor").append("<option value='"+v["id"]+"'>"+v["first_name"]+" "+v["last_name"]+"</option>");
+		 					});
+		 					$("#loading_page").hide();
+							
+						}else{
+							$("#appointment_advisor").html("");
+		 					$("#appointment_advisor").append("<option value=''>*Select an Advisor</option>");
+						}
+		 			},error:function(){
+		 				$("#appointment_advisor").html("");
+	 					$("#appointment_advisor").append("<option value=''>*Select an Advisor</option>");
+		 			}
+		 		})
+		 	}
+		 	
+		 	var nowDate = new Date();
+	 		var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
+	 		$.fn.datepicker.defaults.format = "yyyy-mm-dd";
+	 		
+	 		window.all_dates = []
+	 		
+	 		var phone_valid = false;
+	 		fillDates(current_date,dealer_code,true,0);
+	 		$('#datepicker_main').datepicker({
+	 			startDate:today,
+	 		});
+	 		$('#datepicker_main').on("changeDate", function() {
+	 			fillDates(  $('#datepicker_main').datepicker('getFormattedDate'),dealer_code)
+	 		});
+	 		
+	 		$("body").on("change","#slab_date",function(){
+	 			alert("iam called")
+	 			
+	 		})
+	 		
+	 		$("body").on("click",".prev_date_btn",function(){
+	 			if (current_date_index !=null &&  current_date_index>0 && window.all_dates.length >0){
+	 				current_date_index = current_date_index-1
+	 				selectDate(all_dates,current_date_index,$("#slab_date"),dealer_code)
+	 			}
+	 		});
+	 		$("body").on("click",".next_date_btn",function(){
+	 			
+	 			
+	 			if (current_date_index != all_dates.length && window.all_dates.length >0){
+	 				
+	 				current_date_index = current_date_index+1
+	 				selectDate(all_dates,current_date_index,$("#slab_date"),dealer_code)
+	 			}
+	 		});
+		});
+		
+	</script>
+{%endblock%}
+{% block js %}
+{{block.super}}
+
+<script src="{% static "customer/js/settings.js" %}"></script>
+
+{%endblock%}
+

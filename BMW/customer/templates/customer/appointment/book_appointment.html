@@ -1,0 +1,295 @@
+{% extends "customer/layouts/appointment_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+		<ul id="myTabs" class="service_menu "> 
+	        	<li role="dropdown" class="dropdown dropdown-hover ">
+		            	<a href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="vehicles-tab">Vehicles</a>
+		            	<ul class="dropdown-menu" style="display: none;width:100%">
+		           			 <li>
+		           			 		{%if appointment.vehicle%}
+		           			 			{{appointment.vehicle.vehicle.make.name}} {{appointment.vehicle.vehicle.model.name}} 
+		           			 		{%else%}
+		           			 			Please select a vehcile
+		           			 		{%endif%}
+		           			 </li>
+		     		   </ul>
+          		  </li> 
+          		  
+	            <li role="dropdown"  class="dropdown dropdown-hover ">
+	          	  
+	            	  <a href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Service and Repair </a>
+            		<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+	            						
+	            						{%if services_list  %}
+	            							Services and Repairs Added
+	            						{%else%}
+	            							No Service or Repair Added
+	            						{%endif%}
+		           			 		
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            
+	            <li role="dropdown" class="dropdown dropdown-hover ">
+	            	
+	            	 <a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Appointment</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+		           			 		{%if appointment.advisor or appointment.start_time  or appointment.way_away %}
+		           			 			{%if appointment.start_time%}
+		           			 				Date time{%if appointment.start_time or appointment.way_away%},
+		           			 				{%endif%}
+		           			 			{%endif%}
+		           			 			{%if appointment.advisor%}
+		           			 				&nbsp;Advisor
+		           			 				{%if appointment.way_away%},
+		           			 				{%endif%}
+		           			 			{%endif%}
+		           			 			{%if appointment.way_away%}
+		           			 			&nbsp;Way away 
+		           			 			{%endif%}
+		           			 			selected
+		           			 		{%else%}
+		           			 			Select Date, Advisor, Way away
+		           			 		{%endif%}
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            <li role="dropdown" class="dropdown dropdown-hover active">
+	            	
+	            	 <a href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Review and Book</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+	            					{%if appointment.appointment_status_id == 1%}
+	            						Booked
+	            					{%else%}
+		           			 			In progress
+		           			 		{%endif%}
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	</ul>
+	<div class="pad-10"></div>
+	<ul class="pager">
+    		
+    		
+    				<li class="previous pointer">
+ 						 <a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}&accordion=date" >
+ 						 <span aria-hidden="true">←</span> Previous</a>
+ 					</li>
+		    		
+  	</ul>
+		<div class="container-fluid">
+          				
+          				{%if appointment.start_time and appointment.way_away %}
+          					<div class="row">
+				      					{%include 'customer/appointment/partials/appoint_detail.html' %}
+				      						{%if logged_in %}
+				      							{%include 'customer/appointment/partials/dealer_map.html'%}
+				      							{%include 'customer/appointment/partials/book_form_user.html' %}
+				      						{%else%}
+				      							{% if profile %}
+				      								{%include 'customer/appointment/partials/dealer_map.html'%}
+				      							{%else%}
+				      								{%include 'customer/appointment/partials/book_form.html' %}
+				      							{%endif%}
+				      						
+				      						{%endif%}
+				          	</div>	
+						         {% if profile %}
+						          			{%if profile.user == None %}
+						      						{%include 'customer/appointment/partials/create_user.html'%}
+						      				{%else%}
+						      					{%if isbooked == True %}
+						      							<div class="pad-10"></div>
+						      							<div class="row">
+													    	<div class="col-sm-offset-11 col-sm-2">
+													           				 <a  href="{% url 'customer:search_by_code_phone'%}?dealer_code={{dealer_code}}&&profile_id={{profile.id}}"  data-loggedin="true" class="btn btn-info">Done</a>
+													       	</div>
+													     </div>
+													{%endif%}
+						      				{%endif%}
+						      	{%endif%}
+				      	{%else%}
+				      				{%include 'customer/appointment/partials/book_error.html'%}
+				      	{%endif%}
+      	
+ 	<ul class="pager">
+    		
+    		
+    				<li class="previous pointer">
+ 						 <a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}&accordion=date" >
+ 						 <span aria-hidden="true">←</span> Previous</a>
+ 					</li>
+		    		
+  	</ul>
+  			<!-- <div id="check_user_exist_id" data-url="{% url 'customer:check_username' %}"></div> -->
+ </div>
+{% endblock %}
+{% block js %}
+{{block.super}}
+ 
+		
+	<script src="{% static "customer/js/bootstrap_dialog.js" %}"></script>
+	<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+	<script src="{% static "customer/js/advisor_selection.js" %}"></script>
+	<script src="{% static "customer/js/create_user.js" %}"></script>
+	<script src="{% static "customer/js/settings.js" %}"></script>
+<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_KEY}}&callback=initMap">
+    </script> 
+    <script type="text/javascript">
+   	 
+	    function initMap() {
+	    	geocoder = new google.maps.Geocoder();
+	    	  var latlng = new google.maps.LatLng(53.3496, -6.3263);
+	    	  var mapOptions = 
+	    	  {
+	    	    zoom: 14,
+	    	    center: latlng
+	    	  }
+	    	  map = new google.maps.Map(document.getElementById('dealeraddress_map'), mapOptions);
+	    	  codeAddress("{{dealer.country.name}} {{dealer.city}} {{dealer.address_line1}}");//call the function
+	  	}
+	    function codeAddress(address) 
+	    {
+	      geocoder.geocode( {address:address}, function(results, status) 
+	      {
+	        if (status == google.maps.GeocoderStatus.OK) 
+	        {
+	          map.setCenter(results[0].geometry.location);//center the map over the result
+	          //place a marker at the location
+	          var marker = new google.maps.Marker(
+	          {
+	              map: map,
+	              position: results[0].geometry.location
+	          });
+	        } else {
+	          //alert('Geocode was not successful for the following reason: ' + status);
+	       }
+	      });
+	    }
+    	$('document').ready(function(){
+    		disableButton();
+    		var advisor_selection = new AdvisorSelection();
+    		advisor_selection.panel = "#advisor-appointment";
+    		
+			advisor_selection.dealer_code = "{{dealer_code}}"
+			advisor_selection.pagination_container = "#advisor_pagination"
+			advisor_selection.select_listener = advisor_selection.selectAdvisor;
+			advisor_selection.advisor_fetch_url = "{% url 'customer:get_all_advisors_ajax'%}"
+			advisor_selection.advisor_save_url = "{% url 'customer:save_advisor_ajax'%}";
+			
+			
+			$('#confirm-edit-advisor').on('show.bs.modal', function(e) {
+				
+				var advisor_id = $(e.relatedTarget).data("advisor");
+    			var appointment_id = $(e.relatedTarget).data("appointment");
+    			advisor_selection.appointment_id = appointment_id;
+    			advisor_selection.setAdvisors();
+			});
+			
+			$('#confirm-edit-advisor').on('hide.bs.modal', function(e) {
+					
+				window.location.href ="{{request.get_full_path}}"// window.location.href
+			});
+			
+			$("body").on("change",'input',function(){
+				
+				disableButton();
+			});
+		$("body").on("focusout",'input',function(){
+				
+				disableButton();
+			});
+			$("#book_btn").click(function(){
+					$("#form_submit_book").submit();
+			})
+			
+			$("body").on("click",'.contact_me',function(){
+				
+				if($(this).is(':checked')){
+					$(".contact_me_time_container").show();
+				}else{
+					
+					$(".contact_me_time_container").hide();
+				}
+					
+			});
+			$("body").on("click",'.reminder_settings',function(){
+				
+				if($(this).is(':checked')){
+					$(".reminder_setting_container").show();
+				}else{
+					
+					$(".reminder_setting_container").hide();
+				}
+					
+			});
+			
+			function disableButton(){
+				
+				if ($("#book_btn").data("loggedin")!=true){
+					var enable_book = true;
+					$("#book_btn").attr("disabled","disabled");
+					$(".error_input").removeClass(".error_input");
+					
+					if($.trim($("#first_name_id").val())==""){
+						enable_book = false;
+						
+					}
+					
+					if($.trim($("#last_name_id").val())==""){
+						enable_book = false;
+						
+					}
+					
+					if($.trim($("#id_phone_number_1").val())==""){
+						enable_book = false;
+					}
+					
+					if($.trim($("#id_email_1").val())==""){
+						enable_book = false;
+					}
+					
+					if(enable_book == true){
+						$("#book_btn").removeAttr("disabled");
+					}
+					console.info(enable_book)
+				}
+			}
+    		
+    	});
+    </script>
+	{% endblock%}
+	{% block extra %}
+	<div class="modal fade" id="confirm-edit-advisor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4> Select Advisor</h4>
+            </div>
+            <div class="modal-body" >
+               <div class="row" >
+               		<ul class="select_advisor" id ="advisor-appointment">
+               		</ul>
+               </div>
+               <nav class="text-center"> 
+					     			   <ul id="advisor_pagination" class="pagination">
+					     			   </ul>
+			     					</nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>		
+{%endblock%}

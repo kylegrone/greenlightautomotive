@@ -1,0 +1,13 @@
+{
+    "projects": [
+        {
+            "name": "bmw",
+            "secret": "demo",
+            "namespaces": [],
+	    "web_password": "demo",
+	    "password": "demo",
+    	    "web_secret": "demo"
+	
+        }
+    ]
+}

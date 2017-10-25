@@ -1,0 +1,15 @@
+
+<form id="searchcust_form" class="form-inline">
+	{% for choice in searchform.search %}
+		<div  class="radio">
+            <label>{{ choice.tag }} <span>{{ choice.choice_label }}</span></label>
+        </div>
+	{% endfor %}
+    <div class="clear pad-5"></div>
+    <div class="col-sm-10">{{ searchform.criteria }}</div>
+    <div class="col-sm-2"><button type="submit" class="btn btn-block btn-default">Submit</button></div>
+</form>
+<div class="cust-search-error col-sm-12">
+    <p class="text_red hidden">Customer not found. Try another option</p>
+</div>
+

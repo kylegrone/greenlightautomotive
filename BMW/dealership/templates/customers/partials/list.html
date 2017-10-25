@@ -1,0 +1,21 @@
+<div class="panel panel-default Cus-Acc">
+	<div class="panel-heading wht-heading" role="tab" id="customer-tab-{{ row.id }}" >
+	    <a rel="{{ row.id }}" id="customer-{{ row.id }}" class="customer-list-row collapsed row text_blck" role="button" data-toggle="collapse" data-parent="#accordion-customer" href="#customer-list-detail-{{ row.id }}" aria-expanded="false" aria-controls="customer-list-detail-{{ row.id }}">
+	    	<span class="col-sm-7">
+		    	<h5 class="panel-title col-sm-5 cuseditname-{{row.id}}">{{ row.name }}</h5>
+		    	<h5 class="panel-title col-sm-3">VEHICLES ({{ row.vehicle.count }})</h5>
+		        <h5 class="panel-title col-sm-4">{{ row.advisor }}</h5>
+	        </span>
+	        <span class="col-sm-5">
+	        	<h5 class="panel-title col-sm-6">APPT: {{ row.appt }}</h5>	        
+	        	<h5 class="panel-title col-sm-5">PROFILE: {{ row.profile }}</h5>
+	        	<span class="col-sm-1 text-right"><i class="fa fa-plus-circle text_blue fa-lg"></i></span>
+			</span>
+	        
+	    </a>
+	</div>
+	<div id="customer-list-detail-{{ row.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="customer-tab-{{ row.id }}">
+	    <div class="ajax-content panel-body">
+	    </div>
+	</div>
+</div>

@@ -1,0 +1,103 @@
+<div class="modal fade addflag" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+ <div class="modal-dialog" style="width:800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">x</span></button>
+                <h4 class="modal-title">ADD Flag</h4>
+            </div>
+            <div class="modal-body" style="height:405px">
+                <div class="row">
+                    <div class="col-md-7">
+                        <form class="form-horizontal" id="addnewflag">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Flag Title</label>
+                                <div class="col-sm-9">
+                                    {{nfform.flag_name}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Flag Type</label>
+                                <div class="col-sm-9">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="aflagtype" value="1" checked> Flag 1
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="aflagtype" value="2"> Flag 2
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="aflagtype" value="3"> Flag 3
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group FlagColorPickerGroup">
+                                <label class="col-sm-3 control-label">Flag Color</label>
+                                <div class="col-sm-9">
+                                    <div class="FlagColorPickWrapper">
+                                                <input name="aflagcolor" title="Click to open ColorPicker" id="bar" class="jscolor form-control" value="#FFFFF">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Customer facing</label>
+                                <div class="col-sm-9">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="acfacing" value="1" checked> Yes
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="acfacing" value="2"> No
+                                    </label>
+                                </div>
+                            </div>
+							<div class="form-group approval_required_radio" style="display:none">
+                                <label class="col-sm-3 control-label">*Approval Required</label>
+                                <div class="col-sm-9">
+                                    <label class="radio-inline"> 
+                                        <input type="radio" name="approvalRequired" value="yes" > Yes
+                                    </label>
+                                     <label class="radio-inline">
+                                        <input type="radio" name="approvalRequired" value="no" checked> No
+                                    </label> 
+                                 </div>
+                            </div>
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus mr-10" aria-hidden="true"></span>ADD Flag</button>
+                        </form>
+                    </div>
+                    <div class="col-md-5">
+                        <p><b>Current Flag Color:</b></p>
+                        <div class="FlagCurrentColorsWrap">
+                            {% for oj in flags  %}
+                            <ul class="FlagCurrentColors">
+                                <p>Flag{{oj.type}}</p>
+                                {% for o in oj.data %}
+                                <li style="background-color:{{o.color}}";color:white" class="CurrentColorItem">{{o.label}}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                       		{% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function(){
+	 $(".addflag").find("input[name=aflagtype]").on("change",function(){
+		 		if($(this).val() == "3" && $(".addflag").find("input[name=acfacing]:checked").val() == "1" ){
+					$(".addflag").find(".approval_required_radio").show();
+				}else{
+					$(".addflag").find(".approval_required_radio").hide();
+				}
+	 	});
+	 $(".addflag").find("input[name=acfacing]").on("change",function(){
+			if($(this).val() == "1" && $(".addflag").find("input[name=aflagtype]:checked").val() == "3" ){
+				$(".addflag").find(".approval_required_radio").show();
+			}else{
+				$(".addflag").find(".approval_required_radio").hide();
+			}
+			});
+	 
+		});
+ 
+</script>

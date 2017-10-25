@@ -1,0 +1,115 @@
+<div bgcolor="#878787" style="background:#878787;height:100%!important;margin:0;padding:30px 0 0 0;width:100%!important">
+
+    <table style="background-color:#878787;border-collapse:collapse!important;height:100%!important;margin:0;padding:0;width:100%!important" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+        <tbody>
+            <tr>
+                <td style="height:100%!important;margin:0;padding:0 20px;width:100%!important" valign="top" align="center">
+                    <table style="border-collapse:collapse!important;width:600px;padding:0px;margin:0px" width="600" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                            <tr>
+                                <td style="background-color:#3e3e3e" valign="middle" height="26" bgcolor="#3e3e3e" align="left">
+                                    <span style="color:#ffffff;font-family:helvetica,arial,sans-serif;font-size:10px;padding:0 0 0 30px;margin:0">Your BMW Service Appointment.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center">
+                                    <table style="background:#f4f4f4;background-color:#f4f4f4;border-collapse:collapse!important" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:#505050;font-family:Helvetica;font-size:20px;font-weight:bold;line-height:100%;padding:0;text-align:left;vertical-align:middle" valign="top" align="left">
+                                                    <img src="cid:header_bmw.jpg" alt="BMW Service" style="border:0;height:auto;line-height:100%;max-width:600px;outline:none;text-decoration:none" tabindex="0">
+                                                    <div dir="ltr" style="opacity: 0.01; left: 659px; top: 753px;">
+                                                        <div role="button" tabindex="0" aria-label="Download attachment">
+                                                            <div></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #e5e5e5;padding:0;margin:0" valign="top" align="center">
+                                    <table style="background:#fff;background-color:#fff;border-collapse:collapse!important" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:#000000;font-family:Helvetica;font-size:14px;line-height:150%;padding:0 30px 20px 30px;text-align:left" valign="top" align="left">
+                                                    <h1 style="color:#000000!important;display:block;font-family:Helvetica,arial,sans-serif;font-size:30px;font-style:normal;font-weight:bold;letter-spacing:normal;line-height:100%;margin:50px 0 5px 0;padding:0;text-align:left"><strong>Appointment Recommendations Details</strong></h1>
+                                                    <p style="font-family:Helvetica;font-size:24px;font-weight:bold;line-height:100%;padding:0;margin:0"><strong>BMW OF SAN FRANCISCO</strong> </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="color:#000000;font-family:Helvetica;font-size:14px;line-height:150%;padding:0 30px 20px 30px;text-align:left" valign="top" align="left">
+                                                Details Of Your Appointment Recommandations:
+												<table class="table table-bordered table-headgray">
+								                    <thead>
+								                    	<tr>
+								                        	<th></th>
+								                            <th>INSPECTION NOTES</th>
+								                            <th>PART PRICE</th>
+								                            <th>LABOUR PRICE</th>
+								                            <th class="text-center">TOTAL</th>
+								                            <th class="text-center">STATUS</th>
+								                        </tr>
+								                    </thead>
+								                    <tbody>
+								                    {% for obj in status %}
+								                    	<tr>
+								                        	<td>{{forloop.counter}}</td>
+								                            <td>{{obj.name}}</td>
+								                            <td>${{obj.part_price}}</td>
+								                            <td>${{obj.labour_price}}</td>
+								                            <td class="text-center">${{obj.price}}</td>
+								                            <td>{{obj.status}}</td>
+								                        </tr>
+								                       {% endfor %}
+								                    </tbody>
+								                </table>
+												</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="color:#000000;font-family:Helvetica;font-size:14px;line-height:150%;padding:0 30px 55px 30px;text-align:left" valign="top" align="left">
+                                                    <p>Sincerely,</p>
+                                                    <p><span><strong>BMW OF SAN FRANCISCO</strong><br>
+														1675 HOWARD STREET<br>
+														SAN FRANCISCO, California 94103<br>
+														<a href="tel:(415)%20863-9000" value="+14158639000" target="_blank">(415) 863-9000</a><br>
+														<strong>Website: <a href="#" target="_blank">BMW OF SAN FRANCISCO</a></strong><br>
+														<a href="#" target="_blank"><strong>Map to Dealership</strong></a></span></p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#3e3e3e;font-family:Helvetica,arial,sans-serif;line-height:125%;font-size:10px;color:#fff;font-weight:bold;text-decoration:none;padding:10px 0" valign="middle" height="26" bgcolor="#3e3e3e" align="center">THIS IS AN AUTOMATED MESSAGE &ndash; <span style="white-space:nowrap">PLEASE DO NOT REPLY DIRECTLY TO THIS EMAIL.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center">
+                                    <table style="background:#e6e6e6;background-color:#e6e6e6;border-collapse:collapse!important;margin:15px 0 0 0" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="color:#808080;font-family:Helvetica,arial,sans-serif;font-size:10px;line-height:150%;margin-top:0;padding:30px;text-align:left" valign="top" align="left">
+                                                    <p>&copy; 2016 BMW of North America, LLC. The BMW name, model names and logo are&nbsp;registered trademarks.</p>
+                                                    <p>Repair times and costs vary based upon the nature of the repair, parts availability, your warranty status, and other factors. Once your vehicle is in the shop, we will diagnose your problem and contact you as soon as we can to provide details and specific time and cost estimate. Diagnostic and/or repair fees may apply if work to be performed is not covered under warranty.
+                                                        <br>
+                                                        <br>Please use the <a href="#" target="_blank">My Account</a> link to unsubscribe or adjust your privacy preferences.</p>
+                                                    <p>Please note we are located at 1675 HOWARD STREET, SAN FRANCISCO, California 94103.</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>

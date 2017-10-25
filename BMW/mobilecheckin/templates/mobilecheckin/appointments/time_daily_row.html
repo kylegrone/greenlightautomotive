@@ -1,0 +1,28 @@
+<tr class="appointment_row" rel="{{ row.id }}" id="appointment_{{ row.id }}">
+  <td class="col-lg-3">
+  	<a class="customer pointer" appt_status="{{row.appointment.appointment_status.name}}" vehicle_id="{{ row.vehicle.id }}" customer_id="{{ row.customer.id }}" rel="{{ row.id }}">{{ row.customer.name }}</a>
+  </td>
+  <td class="col-lg-3">{{row.vehicle.detail}}</td>
+  
+  <td class="dropdown dropdown-hover col-lg-3">
+    <a href="#" class="dropdown-toggle text_grey dd_wayaway_title" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ row.wayaway }}</a>
+    <ul rel="way_away_id" class="dropdown-menu">
+    </ul>
+  </td>
+  
+  <td class="col-lg-2">{{row.advisor}}</td>
+  <td class="dropdown dropdown-hover col-lg-1">
+  	{% if row.status == 'Scheduled'%}
+  		<a href="{% url 'mobilecheckin:checkin' row.id %}" class="dropdown-toggle btn btn-success btn-xs dd_status_title" data-toggle="" role="button" aria-haspopup="true" aria-expanded="false">CHECK-IN</a>
+  	{% elif row.status == 'In Progress' %}
+  		<a href="{% url 'mobilecheckin:checkin' row.id %}" class="dropdown-toggle text_grn dd_status_title" role="button" aria-haspopup="true" aria-expanded="false">{{row.status}}</a>
+  	{% else %}
+  	<a href="#" class="dropdown-toggle text_grn dd_status_title" role="button" aria-haspopup="true" aria-expanded="false">{{row.status}}</a>
+    	<!-- a href="#" class="dropdown-toggle text_grn dd_status_title" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{row.status}}</a-->
+  	{% endif %}   
+ 	<ul rel="appointment_status_id" class="dropdown-menu dropdown-menu-status pull-right">
+	</ul>
+  </td>
+</tr>
+<tr class="hidden" id="appointment_detail_{{ row.id }}">
+</tr>          

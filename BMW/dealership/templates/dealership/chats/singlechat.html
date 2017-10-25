@@ -1,0 +1,9 @@
+{% extends 'dealership/base.html' %}
+
+{% block main %}
+	{% if channel %}
+			{{channel.id}}
+			{% include "livechat/advisorchat.html" %}
+	{%endif%}
+
+{% endblock %}

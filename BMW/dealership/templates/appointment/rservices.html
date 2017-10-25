@@ -1,0 +1,32 @@
+{% load staticfiles %}
+{% load dealership_tag %}
+<div class="col-sm-3 pull-right"><input id="dealership_services_search"  class="form-control" placeholder="Search" type="search"></div>
+<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+	<li class="active">
+    	<a href="#srvc_tab" data-toggle="tab">Services</a>
+    </li>
+	<li ><a href="#repair_tab" data-toggle="tab">Repairs</a></li>
+</ul>
+<!-- Tab panes -->
+<div id="my-tab-content" class="tab-content">
+   	<div class="tab-pane active" id="srvc_tab">  
+   		<div id="service-appointment-tab" role="listbox" class="row">
+		</div>
+		   
+		<nav class="text-center"> 
+		   <ul id="service-pagination-tab" class="pagination">
+		   </ul>
+		</nav>
+	</div>
+	<div class="tab-pane" id="repair_tab">
+    	<div id="repair-appointment-tab" role="listbox" class="row">
+		</div>
+		   
+		<nav class="text-center"> 
+		   <ul id="repair-pagination-tab" class="pagination">
+		   </ul>
+		</nav>
+  	</div>
+</div>
+
+

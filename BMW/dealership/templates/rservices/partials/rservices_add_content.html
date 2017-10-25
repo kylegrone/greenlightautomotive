@@ -1,0 +1,73 @@
+<form id="add-service-form" class="form-horizontal">
+
+	{{ form.dealer }}
+	<input type="hidden" id="existing_id" name="id" />
+	<div class="form-group">
+		<div id="type-container" class="col-sm-offset-3 col-sm-9">  							
+			{% for choice in form.type %}
+		    	<label class="radio">{{ choice.tag }} <span>{{ choice.choice_label }}</span></label>
+			{% endfor %}
+        </div>
+    </div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Name</label>
+		<div class="col-sm-9">
+			{{ form.name }}
+            <div id="name_error" class="alert-danger"></div>
+		</div>
+        
+	</div>
+    <div class="form-group">
+		<label class="col-sm-3 control-label">DMS OpCode</label>
+		<div class="col-sm-9">
+			{{ form.dms_opcode }}
+		</div>
+        <div id="dms_opcode_error" class="alert-danger"></div>
+	</div>
+    <div class="form-group">
+		<label class="col-sm-3 control-label">Duration</label>
+		<div class="col-sm-9">
+			{{ form.duration }}
+            <div id="duration_error" class="alert-danger"></div>
+		</div>
+	</div>
+    <div class="form-group">
+		<label class="col-sm-3 control-label">Price</label>
+		<div class="col-sm-9">
+			{{ form.price }}
+            <div id="price_error" class="alert-danger"></div>
+		</div>
+	</div>
+    <div class="form-group">
+		<label class="col-sm-3 control-label">Flag Service (On/Off)</label>
+		<div class="col-sm-9">
+			{{ form.flag_service }}
+			<a class="flag_icon text_red hidden"><span class="glyphicon glyphicon-flag text_20"></span></a> &nbsp; 
+            <a class="flag_icon text_grey hidden"><span class="glyphicon glyphicon-flag text_20"></span></a>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Image</label>
+		<div class="col-sm-9">
+			{{ form.image }}
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">Price Unit</label>
+		<div class="col-sm-9">
+			{{ form.price_unit }}
+		</div>
+	</div>
+    <div class="form-group">
+    	<div class="col-sm-offset-3 col-sm-9">
+    		{{ form.description }}  
+            <div id="description_error" class="alert-danger"></div>
+        </div>
+	</div>
+	
+    <div class="form-group">
+    	<div class="col-sm-offset-3 col-sm-9">
+			<button class="btn btn-success">Save</button> &nbsp; <span data-dismiss="modal" class="btn btn-danger">Cancel</span>
+        </div>
+	</div>
+</form>

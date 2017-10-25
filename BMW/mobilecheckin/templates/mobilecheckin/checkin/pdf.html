@@ -1,0 +1,220 @@
+<html>
+<head>
+<style>
+    @page {
+        size: a4 portrait;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+        @frame content_frame {    
+         	/*-pdf-frame-content: full_content;      /* Content Frame */
+            left: 50pt; width: 512pt; top: 110pt; height: 632pt;
+        }
+    }
+</style>
+<title>PDF VIEW</title>
+</head>
+
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content"><class="logo"><h1 style="vertical-align:middle"><img width='60' src='{{domain}}{{dealer.logo.url}}'/>&nbsp;&nbsp;{{dealer.name}} Appointment Review</h1></div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+    <!-- HTML Content -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+    <td style="font-size:12px; vertical-align:top;">
+	    Cutomer Name: &nbsp; {{app_details.customer.first_name}} {{app_details.customer.last_name}}<br>
+	    Cell Phone #: &nbsp; {{app_details.customer.phone_number_1}}<br>
+	    Cutomer #: &nbsp; {{app_details.customer.id}}<br>
+	    Email: &nbsp; {{app_details.customer.email_1}}<br>
+	    Confirmation Code: &nbsp; {{app_details.confirmation_code}}<br>
+        A Way Away: &nbsp; {{app_details.way_away.name}}<br>
+  	</td>
+  	<td style="font-size:12px; vertical-align: top;">
+    	<table width="100%" border="0" cellspacing="0" cellpadding="5">
+    		<thead>
+         	<tr>
+			  <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Services</th>
+			  <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Cost</th>
+			</tr>
+			</thead>
+             <tbody>
+             {% for obj in app_services %}
+               <tr>
+                 <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">{{obj.service.name}}
+                 							{%if obj.note %}
+                                          		<br/>Note (Customer): {{obj.note}}
+                                          	{%endif%}
+                                          	{%if obj.desc %}
+                                          		<br/>Note (Advisor): {{obj.desc}}
+                                          	{%endif%}
+                 </td>
+                 <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">${{obj.price|floatformat:2}}</td>
+               </tr>
+              {% endfor %}
+               <tr>
+                <td bgcolor="#dddddd" style="font-size:12px;color:#222;"><strong>TOTAL</strong></td>
+                <td bgcolor="#dddddd" style="font-size:12px;color:#222;">${{totalcost|floatformat:2}}</td>
+               </tr>
+               </tbody>
+         </table>
+    </td>
+ </tr>
+ </table>
+ <p>
+ <table width="100%" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+    <td style="font-size:12px; vertical-align: top;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="5">
+		  <thead>
+		    <tr>
+		    {% if app_details.vehicle.vin_image %}
+		      <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Vin Image </th>
+		    {% endif %}
+		      <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Vin Number </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+          <tr>
+          {% if app_details.vehicle.vin_image %}
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid"><img src="{{domain}}{{app_details.vehicle.vin_image.url}}"/></td>
+         {% endif %}
+         	<td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">{{app_details.vehicle.vin_number}}</td>
+          </tr>
+		 </tbody>
+		 </table>
+	</td>
+	<td style="font-size:12px; vertical-align: top;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="5">
+		  <thead>
+		    <tr>
+		    {% if app_details.odometer_image %}
+		      <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Odometer Image</th>
+		    {% endif %}
+		      <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Odometer Reading</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+          <tr>
+          {% if app_details.odometer_image %}
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid"><img src="{{domain}}{{app_details.odometer_image.url}}" /></td>
+		{% endif %}
+          <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">{{app_details.odometer_reading}}</td>
+          </tr>
+		 </tbody>
+		 </table>
+	</td>
+	</tr>
+	</table>
+ </p>
+ <p>
+  <table width="100%" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+    <td style="font-size:12px; vertical-align: top;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="5">
+		  <thead>
+		    <tr>
+		      <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Walk Around Details</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  {% for obj in wlkarnd_details %}
+		  {% if obj.type != "Tires" %}
+          <tr>
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">{{obj.image_name}}</a><br>{{obj.notes}}</td>
+          </tr>
+          {% endif %}
+         {% endfor %}
+		 </tbody>
+		 </table>
+	</td>
+	<td style="font-size:12px; vertical-align: top;">
+		<table width="100%" border="0" cellspacing="0" cellpadding="5">
+		  <thead>
+		    <tr>
+		      <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Tire Details</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  {% for obj in wlkarnd_details %}
+      		{% if obj.type == "Tires" %}
+          <tr>
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">RR Tire {{obj.RR.width}}</td>
+
+          </tr>
+          <tr>
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">RF Tire {{obj.RF.width}}</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">LR Tire {{obj.LR.width}}</td>
+            
+          </tr>
+          <tr>
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">LF Tire {{obj.LF.width}}</td>
+          </tr>
+      {% endif %}
+    {% endfor %}
+		 </tbody>
+		 </table>
+	</td>
+	</tr>
+	</table>
+	<p>
+		<table width="100%" border="0" cellspacing="0" cellpadding="5">
+		  <thead>
+		    <tr>
+		      <th bgcolor="#dddddd" style="font-size:12px;color:#222;">Walk Around Images</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  <tr>
+		  {% for obj in wlkarnd_details %}
+      		{% if obj.type != "Tires" %}
+      		 {% if obj.image %}
+            <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid">  <div style="text-align: center;  display: inline-block;">
+		        <img src="{{domain}}{{obj.image.url}}" />
+		        
+		        <p>{{obj.image_name}}</p>
+            {% endif %}
+		    </div>
+		    </td>
+      	{% endif %}
+      	</tr>
+    {% endfor %}
+		 </tbody>
+		 </table>
+	<p>
+	<table width="100%" border="0" cellspacing="0" cellpadding="5">
+     <thead>
+       <tr>
+         <th bgcolor="#dddddd" style="font-size:12px;color:#222;" align="left">
+         	<div class="form-group">
+           	<label for="signature">CUSTOMER SIGNATURE</label>
+				&nbsp; &nbsp;{{app_details.customer.first_name}} {{app_details.customer.last_name}}
+			</div>
+          </th>
+       </tr>
+      </thead>
+      <tbody>
+      <tr>
+         <td align="left" valign="top" style="font-size:12px;border-right:1px #F1F1F1 solid;border-bottom:1px #F1F1F1 solid; padding-bottom:0px;">
+        	<p style="font-size:8px">Repair authorization & vehicle depository receipt (AB 409 amending civil code)
+I hereby authorize the repair work to be done along with necessary materials. You and your employees may operate vehicle for purposes of testing, inspection or delivery at my risk. An express mechanic's lien is acknowledged on vehicle to secure the amount of repairs thereto. In the event legal action is necessary to enforce this contract, I will pay reasonable attorney's fees and costs. I acknowledge this deposited property is not insured or protected in the amount of cash value thereof by the dealer against loss occasioned by theft fire and vandalism while such property remains with the depository. I also acknowledge no articles of personal property have been left in the vehicle and that dealer is not responsible for the inspection thereof.</p>
+        <img src="{{app_details.customer_signatures}}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
+    

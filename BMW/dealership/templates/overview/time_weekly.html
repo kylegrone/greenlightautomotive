@@ -1,0 +1,85 @@
+{% block breadcrumbs %}
+	{% include "dealership/app/breadcrumb.html" %}  
+{% endblock %}
+
+<span class="open-time hidden">{{timings.open_time_string}}</span>
+<span class="close-time hidden">{{timings.close_time_string}}</span>
+<span class="slot-duration hidden">{{timings.slot}}</span>
+
+<div id="ajax_main_content">
+	<div id="overview_time_weekly" class="table-responsive" style="overflow-x:auto;">
+		<table class="table">
+	    	<tr>
+		        <td>
+		        	<div id="Monday" class="well weekly_day" style="width:400px;">
+						{% include "overview/loader.html" %} 
+					</div>
+		        </td>                
+		        <td>
+		        	<div id="Tuesday" class="well weekly_day" style="width:400px;">
+						{% include "overview/loader.html" %} 
+					</div>
+		        </td>
+		        <td>
+		        	<div id="Wednesday" class="well weekly_day" style="width:400px;">
+						{% include "overview/loader.html" %} 
+					</div>
+		        </td>
+		        <td>
+		        	<div id="Thursday" class="well weekly_day" style="width:400px;">
+						{% include "overview/loader.html" %} 
+					</div>
+		        </td>
+		        <td>
+		        	<div id="Friday" class="well weekly_day" style="width:400px;">
+						{% include "overview/loader.html" %} 
+					</div>
+		        </td>
+		        <td>
+		        	<div id="Saturday" class="well weekly_day" style="width:400px;">
+						{% include "overview/loader.html" %} 
+					</div>
+		        </td>
+		    </tr>
+		</table>
+	</div>
+</div>
+<!--
+<div id="overview_time_weekly" class="row" style="overflow-x:auto;">
+	<div class="col-sm-4">
+		<div id="Monday" class="well">
+			{% include "overview/loader.html" %} 
+		</div>
+	</div>
+	
+	<div class="col-sm-4">
+		<div id="Tuesday" class="well">
+			{% include "overview/loader.html" %} 
+		</div>
+	</div>
+	
+	<div class="col-sm-4">
+		<div id="Wednesday" class="well">
+			{% include "overview/loader.html" %} 
+		</div>
+	</div>
+	
+	<div class="col-sm-4">
+		<div id="Thursday" class="well">
+			{% include "overview/loader.html" %} 
+		</div>
+	</div>
+	
+	<div class="col-sm-4">
+		<div id="Friday" class="well">
+			{% include "overview/loader.html" %} 
+		</div>
+	</div>
+	
+	<div class="col-sm-4">
+		<div id="Saturday" class="well">
+			{% include "overview/loader.html" %} 
+		</div>
+	</div>
+</div>
+-->

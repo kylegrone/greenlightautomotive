@@ -1,0 +1,229 @@
+<div class="col-xs-10">
+	<div class="bg_wht pad-10">
+	   	<div class="row">
+	   		<div class="col-sm-6">
+		   		<a href="#"><span class="glyphicon glyphicon-camera text_20" id="snap_enable_button_1"></span>
+		   		 <input type="file" id="snap_image_sf_1" style="display:none" />
+		   		</a>
+				<h4 class="font_regular text-center mt-0">Odometer Snapshot</h4>
+					<div class="video_main_container" id="camera_main_container_1">
+	              			<!--   <textarea class="form-control mb-15" rows="5" placeholder="Position by VIN# within the box"></textarea>-->
+	               		
+	               	</div>
+	               	
+	              <div id="canvas_and_button_container_1"> 
+	               <p class="text-center"><br>When ready click SNAP</p>
+	               <div class="clear pad-5"></div>
+	               <div class="row">
+	               	<div class="col-sm-offset-3 col-sm-6">
+	                   	<div class="row">
+	                      
+	                       </div>
+	                       <div class="clear pad-5"></div>
+	                      	<div class="row">
+	                           	<div class="col-xs-6">
+	                           		<button  id="snap_main_button_1" class="btn btn-info btn-block" disabled="disabled" type="button">SNAP</button>
+	                           		
+	                           	</div>
+	                           	<div class="col-xs-6">
+	                           		<button  id="snap_cancel_button_1" class="btn btn-danger btn-block" disabled="disabled" type="button">Cancel</button>
+	                           	</div>
+	                           <!--   <div class="col-xs-6"><a href="#" class="btn btn-danger btn-block">CANCEL</a></div>-->
+	                         </div>
+	                   </div>
+               
+               
+               
+              		 </div>
+               
+               </div>
+			</div>
+			<div class="col-sm-6">
+		   		<a href="#"><span class="glyphicon glyphicon-camera text_20" id="snap_enable_button"></span>
+		   		 <input type="file" id="snap_image_sf" style="display:none" />
+		   		</a>
+				<h4 class="font_regular text-center mt-0">VIN Snapshot</h4>
+					<div class="video_main_container" id="camera_main_container">
+	              			<!--   <textarea class="form-control mb-15" rows="5" placeholder="Position by VIN# within the box"></textarea>-->
+	               		
+	               	</div>
+	               	
+	    		<div id="canvas_and_button_container">           
+	               <p class="text-center"><br>When ready click SNAP</p>
+	               <div class="clear pad-5"></div>
+	               <div class="row">
+	               	<div class="col-sm-offset-3 col-sm-6">
+	                   	<div class="row">
+	                      
+	                       </div>
+	                       <div class="clear pad-5"></div>
+	                      	<div class="row">
+                             	<div class="col-xs-6">
+                             		<button  id="snap_main_button" class="btn btn-info btn-block" disabled="disabled" type="button">SNAP</button>
+                             		
+                             	</div>
+                             	<div class="col-xs-6">
+                             		<button  id="snap_cancel_button" class="btn btn-danger btn-block" disabled="disabled" type="button">Cancel</button>
+                             	</div>
+                                <!--   <div class="col-xs-6"><a href="#" class="btn btn-danger btn-block">CANCEL</a></div>-->
+	                         </div>
+	                   </div>
+               </div>
+				</div>
+		
+			</div>
+		
+		
+		
+		
+		
+		
+		
+		 
+		
+		<div class="clear pad-5"></div>
+			<div class="col-sm-6">
+					<label class="control-label col-lg-12" for="vin">Enter Odometer Reading</label>
+					{%if app_details.odometer_reading != None %}
+						<input type="text" class="form-control" id="odometer_manual" name="odometer_manual" value="{{app_details.odometer_reading}}">
+					{%else%}
+						<input type="text" class="form-control" id="odometer_manual" name="odometer_manual" >
+					{%endif%}
+					<div class="clear pad-5"></div>
+					<button class="btn btn-sm btn-success saveodo" type="button" >Enter</button>
+					<textarea id="odo_data" name="odo_data">{{app_details.odometer_data}}</textarea>
+					{% if app_details.odometer_image  %}
+						<img id="odo_image_preview" src="{{app_details.odometer_image.url}}" style="height:100px;width:100px" />
+					{%else%}
+						<img id="odo_image_preview" style="display:none;height:100px;width:100px" />
+					{%endif%}
+					
+			</div>
+			
+			<div class="col-sm-6">
+				<label class="control-label col-lg-12" for="vin">Enter VIN#</label>
+				{%if app_details.vehicle.vin_number != None %}
+					<input type="text" class="form-control" id="vin_manual" name="vin_manual" value="{{app_details.vehicle.vin_number}}">
+				{%else%}
+					<input type="text" class="form-control" id="vin_manual" name="vin_manual" >
+				{%endif%}
+				<div class="clear pad-5"></div>
+				<button class="btn btn-sm btn-success savevin" type="button" >Enter</button>
+				<textarea id="vin_data" name="vin_data"></textarea>
+				{% if app_details.vehicle.vin_image  %}
+					<img id="vin_image_preview" src="{{app_details.vehicle.vin_image.url}}" style="height:100px;width:100px" />
+				{%else%}
+					<img id="vin_image_preview" style="display:none;height:100px;width:100px" />
+				{%endif%}
+				
+			</div>
+			
+		<div class="clear pad-5"></div>
+		<div id="odometerhistory" class="hidden">
+		 {% include "mobilecheckin/checkin/odohistory.html" %} 
+		 </div>
+   	</div>
+</div>
+<script>
+$(document).ready(function(){
+	
+	
+	
+	
+	
+	
+	
+	
+	var camera =  new SnapShot();
+	camera.video = "#snap_video_1";
+	camera.snap_button = $("#snap_main_button_1");
+	camera.video_id = "video_orig_1";
+	camera.image_div = $("#snap_container_1");
+	camera.auto_flash_on_button  = $("#snap_flash_on_button_1");
+	camera.auto_flash_off_button  = $("#snap_flash_off_button_1");
+	camera.snap_enable_button = $("#snap_enable_button_1");
+	camera.snap_process_url = null;
+	camera.crop_selector = $("#snap_selector_1");
+	camera.canvas = "#snap_container_1";
+	camera.canvas_name = "snap_container_1"
+	camera.canvas_2_name = "snap_container_1_2"
+	camera.canvas_2 = "#snap_container_1_2";
+	camera.canvas_and_button_container = "canvas_and_button_container_1";
+	camera.image_control_sf = "snap_image_sf_1";
+	camera.video_main_id = "camera_main_container_1"
+	camera.snap_process_url = "{%url 'customer:ocr_snap' %}";
+	camera.clip_y = 100;
+	camera.crop_selector_id = "snap_selector_1"
+	camera.crop_image_modal_id = "crop_image_modal_1";
+	camera.cancel_button = $("#snap_cancel_button_1")
+	camera.vin_image_data_control = $("#odo_data")
+	camera.vin_image_preview = $("#odo_image_preview")
+	camera.initiate()
+	camera.attachObservers(receiveOdo);
+	
+	function receiveOdo(text){
+		$("#odometer_manual").val(text)
+	}
+	 var camera1 =  new SnapShot();
+	camera1.video = "#snap_video";
+	camera1.snap_button = $("#snap_main_button");
+	camera1.video_id = "video_orig";
+	camera1.image_div = $("#snap_container");
+	camera1.auto_flash_on_button  = $("#snap_flash_on_button");
+	camera1.auto_flash_off_button  = $("#snap_flash_off_button");
+	camera1.snap_enable_button = $("#snap_enable_button");
+	camera1.snap_process_url = null;
+	camera1.crop_selector = $("#snap_selector");
+	camera1.canvas = "#snap_container";
+	
+	camera1.canvas_2 = "#snap_container_2";
+	camera1.video_main_id = "camera_main_container"
+	camera1.snap_process_url = "{%url 'customer:ocr_snap' %}";
+	camera1.clip_y = 100;
+	
+	camera1.cancel_button = $("#snap_cancel_button")
+	camera1.initiate()
+	camera1.attachObservers(receiveVin); 
+
+	function receiveVin(text){
+		$("#vin_manual").val(text)
+	}
+		
+})
+</script>	
+
+<style>
+#snap_selector,#snap_selector_1{
+	position:absolute;
+	border:dotted 3px black;
+	width:100%;
+	height:100px;
+	display:none;
+	top:100px;
+	
+}
+/* #snap_container,#snap_container_2{
+	width:100%;
+} */
+#snap_video,#snap_video_1{
+	position:absolute;
+	
+}
+.video_main_container,.video_main_container_1{
+	width:100%;
+	position:relative;
+	height:350px
+}
+#snap_container,#snap_container_1{
+	display:none
+
+}
+#snap_flash_on_button,#snap_flash_off_button{
+width:45%;
+}
+#snap_enable_button{
+1;
+}
+/* #snap_main_button,#snap_main_button_1{
+width:150px;} */
+</style>

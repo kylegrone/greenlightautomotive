@@ -1,0 +1,150 @@
+
+                <div class="text-center">
+                    <a href="{%url 'customer:book_appointment_now_new'%}?dealer_code={{dealer_code}}" class="btn btn-default">I'm a New Customer</a> 
+                    <a href="{%url 'customer:book_appointment_now_ext'%}?dealer_code={{dealer_code}}" class="btn btn-info disabled"> I'm a Existing Customer</a>
+                </div>
+                <div class="clear pad-10"></div>
+                <p>Please select how you plan to leave after dropping off your car (A Way Away). If you need a loaner, please select Loaner from the list.</p>
+                <div class="clear pad-10"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <select class="form-control" id="way_away">
+                        		<option value="">*Select a way away</option>
+                        		{%for way in way_away%}
+                        			{% if way.dealer %}
+                        				<option value="{{way.dealer.id}}">{{way.dealer.name}}</option>
+                        			{% else %}
+                        				<option value="{{way.default.id}}">{{way.default.name}}</option>
+                        			{%endif%}
+                        		{%endfor%}
+                        </select>
+                        <div class="clear pad-10"></div>
+                        <p><strong>The Next Available app is:</strong></p>
+                        <div class="input-group ">                        
+                            <input  class="form-control slab_date_field" type="text" id="slab_date" required="required" disabled="disabled">
+                            <span class="input-group-btn">
+                                <a href="#" class="btn btn-default">
+                                	<span class="glyphicon glyphicon-calendar" id='datepicker_main'></span>
+                                </a>
+                            </span>          			
+                        </div>
+                        <a class="pointer prev_date_btn">Back</a>
+                        <a  class="pointer pull-right next_date_btn">Next</a>
+                    </div>
+                    <div class="col-sm-6">
+                        <select name="advisor" id="appointment_advisor" class="form-control mb-10"  data-toggle="tooltip" title="Pick an Advisor of your choice">
+                        	<option value="">*Select an Advisor</option>
+                        </select>
+                        <input type="text" class="form-control mb-10" id="phone_number" placeholder="*Enter Phone" >
+                        
+                        <div class="clear pad-10"></div>
+                        <p class="checkbox"><label><input type="checkbox" checked="" id='contact_me'>
+                        		<span>BMW may contact me about this appointment</span></label>
+                        </p>
+                        <p class="checkbox"><label>
+                        	<input type="checkbox" checked="" id="email_copy"><span>Please email me a copy of this appointment</span></label>
+                        </p>
+                   
+                   		<input type="text" name='profile' id="profile" style="display:none">
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <p>Add additional comments (optional)</p>
+                <textarea class="form-control mb-10" placeholder="Add Comments" id="comments"></textarea>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-info" id="book_button">Book It</button>
+                </div>
+                
+ <script>
+ 	
+ 	
+ 	
+ 	
+ 	$(document).ready(function(){
+ 		var phone_valid = false
+ 		$("#book_button").click(function(){
+ 			
+ 			var error =false;
+ 			$("#phone_number").removeClass("error");
+ 			$("#way_away").removeClass("error");
+ 			$("#appointment_advisor").removeClass("error")
+ 			if(phone_valid==false){
+ 				$("#phone_number").addClass("error");
+ 				error=true
+ 				BootstrapDialog.alert('Please re-enter your phone number, we could not locate the number provided');
+ 			}
+ 			if($("#way_away").val()==""){
+ 				$("#way_away").addClass("error");
+ 				error  = true
+ 				
+ 			}
+ 			if($("#appointment_advisor").val()==""){
+ 				$("#appointment_advisor").addClass("error");
+ 				error  = true
+ 				
+ 			}
+ 			if($("#slab_date").val()==""){
+ 				$("#slab_date").addClass("error");
+ 				error  = true
+ 			}
+ 			
+ 			if(error == false){
+ 				
+ 				$("#loading_page").show();
+ 					$.ajax({
+ 						url:"{%url 'customer:save_appointment_now_ext'%}",
+ 						data:{"slab_time":$("#slab_date").data("value"),
+ 							"dealer_code":dealer_code,"advisor":$("#appointment_advisor").val(),
+ 							"way_away":$("#way_away").val(),"profile_id":$("#profile").val()
+ 							,"contact_me":$("#contact_me").is(":checked"),
+ 							"email_copy":$("#email_copy").is(":checked"),"comments":$("#comments").val()
+ 						}
+ 						,success:function(resp){
+ 							if(resp["success"]==false){
+ 								alert("Unable to save")
+ 							}else{
+ 								window.location = resp["redirect"]
+ 							}
+ 							$("#loading_page").hide();
+ 						},error:function(){
+ 							alert("There was an error saving result.Please try later")
+ 							$("#loading_page").hide();
+ 						}
+ 					})
+ 			}
+ 			
+ 		});
+ 		$("#phone_number").blur(function(){
+ 			$("#phone_number").addClass("error");
+ 			$("#loading_page").show();
+ 			$.ajax({
+ 				url:"{%url 'customer:check_userprofile'%}",
+ 				data:{"phone_number":$("#phone_number").val()},
+ 				success:function(resp){
+ 					if(resp["success"]==false){
+ 						$("#phone_number").addClass("error");
+ 						phone_valid = false;
+ 						BootstrapDialog.show({
+ 				            title: 'Phone number error',
+ 				            message: 'Please re-enter your phone number, we could not locate the number provided'
+ 				        });
+ 				        
+ 						
+ 					}else{
+ 						$("#phone_number").removeClass("error");
+ 						phone_valid=true
+ 						$("#profile").val(resp["profile_id"])
+ 					}
+ 					$("#loading_page").hide()
+ 				},
+ 				error:function(){
+ 					$("#loading_page").hide();
+ 				}
+ 			})
+ 		})
+ 		
+ 		
+ 	})
+ 
+ </script>
+     

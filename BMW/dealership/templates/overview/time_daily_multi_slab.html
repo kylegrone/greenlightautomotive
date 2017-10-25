@@ -1,0 +1,5 @@
+{% for slab in slabs %}
+	<div id="time_daily_slab_{{ slab.id }}" class="GridRow daily_view_table" > <tbody id=>
+		{% include "overview/time_daily_slab.html" %} 
+	</div>
+{% endfor %}

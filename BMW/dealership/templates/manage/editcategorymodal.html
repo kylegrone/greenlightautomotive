@@ -1,0 +1,25 @@
+<div class="modal fade editcategory" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+     <div class="modal-dialog">
+	     <div class="modal-content">
+	         <div class="modal-header">
+	             <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">x</span></button>
+	             <h4 class="modal-title">Edit Category</h4>
+	         </div>
+	         <div class="modal-body">
+	         <form>
+	                 <div class="form-group">
+	                 <label for="NewInspTitle" class="control-label">Select Package</label>
+	                 <select id="id_edit_cpackage" class="form-control mr-10" required="" name="cpack_edit">
+	                 	<option>Select Package</option>
+	                 	{% for obj in packages %}
+                    	<option value="{{obj.id}}">{{obj.package}}</option>
+                   		 {% endfor %}
+                   	</select>
+	                 </div>
+	          </form>
+	          <div id="editcat">
+	          </div>
+	     	</div>
+ 		</div>
+	</div>
+</div>

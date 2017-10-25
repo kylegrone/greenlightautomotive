@@ -1,0 +1,142 @@
+{% extends 'dealership/base.html' %}
+{% load staticfiles %}
+
+  
+{% block main %}
+
+
+	<!-- {% for channel in channels %}
+		
+    	<a href="{% url 'dealership:chat' %}?channel={{channel.channel|urlencode}}&guest_user={{channel.guest_user|urlencode}}&advisor={{channel.advisor.id}}" target="_blank" >Chat number {{channel.id}}</a>
+	{% endfor %} -->
+
+
+<div class="row">
+	<div class='col-sm-2'>
+		{% for channel in channels %}
+			<div class='row'>
+					<div class='col-sm-12'>
+							<a data-showchat='chat_box_{{channel.id}}' class='show_chat'>Chat with  {{channel.guest_user}} </a>
+					</div>
+			</div>
+		{%endfor%}
+	</div>
+	<div class='col-sm-8'>
+			
+			{% for channel in channels %}
+					<div class='row'>
+						<div class='col-sm-12'>
+							
+							<div id='chat_box_{{channel.id}}' class='chat_containers'>
+									<div class="loading_chatbox">Loading</div>
+									<script type="text/javascript">
+									$(document).ready(function(){
+										var livechat_{{channel.id}} = new liveChat()	;
+										livechat_{{channel.id}}.centrifuge_url ="{{CENTRIFUGE_URL}}";
+										livechat_{{channel.id}}.secret = "{{CENTRIFUGE_SECRET}}";
+										livechat_{{channel.id}}.user = "{{advisor.username}}";
+										livechat_{{channel.id}}.user_nick = "{{advisor.username}}";
+										livechat_{{channel.id}}.chat_box = $("#chat_box_{{channel.id}} .chat_box_inner");
+										livechat_{{channel.id}}.chat_message_box = $("#chat_box_{{channel.id}} .message_box");
+										livechat_{{channel.id}}.send_button = $("#chat_box_{{channel.id}} .sendchat_button")
+										livechat_{{channel.id}}.channel = "{{channel.channel}}" 
+										livechat_{{channel.id}}.setCentrifuge();
+										livechat_{{channel.id}}.loading_el = $("#chat_box_{{channel.id}} .loading_chatbox");
+										livechat_{{channel.id}}.extra_detials_el = $("#chat_box_{{channel.id}} .extra_details_chatbox");
+										livechat_{{channel.id}}.setEvents();
+										livechat_{{channel.id}}.upload_form = $("#chat_box_{{channel.id}} .upload_form");
+										livechat_{{channel.id}}.connect();
+										$("#chat_box_{{channel.id}} .upload_form").submit(livechat_{{channel.id}}.upload);/*  */
+									  	/* $("#chat_box_{{channel.id}} .upload_form .submit_btn").click(function(e){
+									  		livechat_{{channel.id}}.upload(e)
+									  	}) */
+									});
+									</script>
+									<div class='row'>
+										<div class="chat_box_inner col-sm-12">
+										</div>
+									</div>
+									<div class="loading_chatbox">Loading...</div>
+							        <div class="extra_details_chatbox">Loading...</div>
+							        <div class='row'>
+							        	<div class="col-sm-12">
+								            <div class="media">
+								                <div class="media-left">
+								                    <a href="#"><span src="{% static "images/noimage.gif" %}" width="50" class="glyphicon glyphicon-camera image_upload media-object img-circle" alt=""></span></a>
+								                </div>
+								                <div class="media-body">
+								                		<textarea class="form-control message_box"   disabled="disabled"></textarea>
+								                </div>
+								                <div class="media-right">
+								                    <input type="button" disabled="disabled" href="#" class="btn btn-sm btn-info sendchat_button" value="send"/>
+								                </div>    					
+								            </div>
+								        </div>
+							       </div>
+							       <div class="hdn_form">
+												<form action="{% url 'livechat:upload' %}" method="post" class="upload_form" enctype="multipart/form-data">
+													{% csrf_token %} 
+													{{imgform}} 
+													<input type="submit" value="Upload" class="submit_btn"/>
+												</form>
+								   </div>
+							</div>
+						</div>
+					</div>
+			{%endfor%}
+		
+			
+	</div>
+
+</div>
+<style>
+.chat_containers
+{
+display:none
+
+}
+
+</style>
+
+{% endblock %}
+{% block script %}
+	<link href="{% static "css/custom_chat.css" %}" rel="stylesheet">
+	
+	<script src="{% static "js/sock.js" %}"></script>
+	<script src="{% static "js/sha.js" %}"></script>
+	
+	<script src="{% static "js/centrifuge.js" %}"></script>
+	<script src="{% static "js/livechat.js" %}"></script>
+	<script>
+$(document).ready(function(){
+	$("body").on("click",".show_chat",function(){
+		
+		$(".chat_containers").hide();
+		var show_chat_cont = "#"+$(this).data("showchat");
+		$(show_chat_cont).show();
+		$(show_chat_cont).find('.chat_box_main').show();
+		$(show_chat_cont).find('.live_support_main').hide();
+		
+	});
+	  $('.image_upload').click(function(){
+		 	
+	    	$(this).closest(".chat_containers").find(".upload_form .upload_pic_button").trigger("click")
+	    });
+	    
+	    $(".upload_pic_button").change(function(){
+	    	$(this).closest(".chat_containers").find(".upload_form .submit_btn").trigger("click");
+	    })
+	    
+	    $(".close_chat").click(function(){
+	    	$('.chat_box_main').hide();
+			$('.live_support_main').show();
+			
+	    });
+	
+})
+
+
+
+
+</script>
+{% endblock %}

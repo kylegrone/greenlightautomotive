@@ -1,0 +1,74 @@
+
+<tr class="appointment_row" rel="{{ row.id }}" id="appointment_{{ row.id }}">
+  <td class="col-lg-1">
+  	<a href="#" class="dropdown-toggle text_grey" data-toggle="dropdown" role="button" aria-haspopup="true" 
+    aria-expanded="false">{{ row.time }}</a>
+    <ul class="dropdown-menu">
+        <li><a datetime="{{ row.datetime }}" rel="{{ row.id }}" class="time-carryover pointer">Carry Over</a></li>
+        <li><a datetime="{{ row.datetime }}" rel="{{ row.id }}" class="time-adjust pointer">Adjust Time</a></li>
+        <li><a class="time-manage-override pointer">Manage Override</a></li>
+    </ul> 
+  	
+  </td>
+  <td class="col-lg-2"><a class="customer pointer"  vehicle_id="{{ row.vehicle.id }}" customer_id="{{ row.customer.id }}" rel="{{ row.id }}">{{ row.customer.name }}</a></td>
+  <td class="col-lg-2">{{ row.vehicle.detail }}</td>
+  <td class="col-lg-1">
+  	<a href="#" class="dropdown-toggle text_grey" data-toggle="dropdown" role="button" aria-haspopup="true" 
+    aria-expanded="false">{{ row.vehicle.vin }}</a>
+    <ul class="dropdown-menu">
+        <li><a href="#">RO History</a></li>
+    </ul>  	
+  </td>
+  
+  
+  <td class="dropdown dropdown-hover col-lg-2">
+    <a href="#" class="dropdown-toggle text_grey" data-toggle="dropdown" role="button" aria-haspopup="true" 
+    aria-expanded="false">
+    {% if row.service.combined_name%}
+    	{{ row.service.combined_name }}
+    {% else %}
+    	Select Services
+    {% endif %}
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="{% url 'dealership:appointment' %}?panel=service&customer_id={{ row.customer.id }}&appointment_id={{ row.id }}&vehicle_id={{ row.vehicle.id }}">Change Service/Repair</a></li>
+    </ul>
+  </td>
+  <td class="dropdown dropdown-hover col-lg-1">
+    <a href="#" class="dropdown-toggle text_grey dd_wayaway_title" data-toggle="dropdown" role="button" aria-haspopup="true" 
+    aria-expanded="false">
+    {% if row.wayaway %}
+    	{{ row.wayaway }}
+    {% else %}
+    	Select Wayaway
+    {% endif %}
+    </a>
+    <ul rel="way_away_id" class="dropdown-menu dropdown-change-apt">
+    </ul>
+  </td>
+  <td class="dropdown dropdown-hover col-lg-2">
+  	<a href="#" class="dropdown-toggle text_grey dd_advisor_title" time="{{ row.datetime }}" data-toggle="dropdown" role="button" aria-haspopup="true" 
+    aria-expanded="false">
+	  	{% if row.advisor %}
+	    	{{ row.advisor }}
+	    {% else %}
+	    	Select Advisor
+	    {% endif %}  
+	 </a>
+	 <ul rel="advisor_id" class="dropdown-menu dropdown-change-apt">
+    </ul>
+  	</td>
+  <td class="dropdown dropdown-hover col-lg-1">    
+    <a href="#" class="dropdown-toggle text_grn dd_status_title" data-toggle="dropdown" role="button" aria-haspopup="true" 
+    aria-expanded="false">{{ row.status }}</a>
+    <ul rel="appointment_status_id" class="dropdown-menu dropdown-change-apt dropdown-menu-status pull-right">
+    </ul>
+  </td>
+</tr>
+
+
+
+<tr class="hidden" id="appointment_detail_{{ row.id }}">
+	
+</tr>
+	

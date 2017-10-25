@@ -1,0 +1,118 @@
+{% load staticfiles %}
+					{% if forloop.counter0|divisibleby:2 %}
+		        		</div>
+		        		<div class="row">
+		        	{%endif%}
+<div class="col-sm-6" id="main_appointment_{{tmpappointment.id}}" style="padding-bottom:20px">
+        	<div class="bg_wht pad-15">
+            	<h4 class="well well-sm mt-0">Your Appointment For {{tmpappointment.vehicle.vehicle.make.name}}/{{tmpappointment.vehicle.vehicle.model.name}}/{{tmpappointment.vehicle.vehicle.year.name}}</h4>
+                <div class="row">
+                	<div class="col-xs-7 text_14">
+                    	<p>{{tmpappointment.start_time|date:'l F d, Y,h:ia' }}</p>
+                        {%if appointment.way_away%}
+                        	<p>A WAY AWAY: {{appointment.way_away.name}}</p>
+                        {%endif%}
+                    </div>
+                    <div class="col-xs-5">
+                    	<div class="media">
+                        	
+  							<div class="media-body">
+                            	{%if tmpappointment.advisor %}
+								                                    	<div class="media-left">
+								                                        	<a href="#">
+								                                        			{%if tmpappointment.advisor.userprofile.avatar  %}
+								                                        				<img src="{{tmpappointment.advisor.userprofile.avatar.url}}" width="75" class="media-object img-thumbnail">
+								                                        			{%else%}
+								                                        				<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+								                                        			{%endif%}
+								                                        	</a>
+								                                        </div>
+									                                        <div class="media-body">
+									                                        	<p>Advisor:<br>{{tmpappointment.advisor.userprofile.first_name}} {{tmpappointment.advisor.userprofile.last_name}}</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment = {{tmpappointment.id}} data-advisor = "{{tmpappointment.advisor.id}}" >Edit</a>
+									                                        </div> 
+									                         {%else%}
+									                         			<div class="media-left">
+								                                        	<a href="#">
+								                                        			<img src="{%static 'images/noimage.gif' %}"  width="75" class="media-object img-thumbnail">
+								                                        	</a>
+								                                        </div> 
+								                                       
+									                                       <div class="media-body">
+									                                        	<p>Advisor:<br>None</p>
+									                                            <a  class=" pointer btn btn-info btn-xs pull-right advisor_selector" data-toggle="modal" data-target="#confirm-edit-advisor" data-appointment = {{tmpappointment.id}} data-advisor = {{tmpappointment.advisor.id}}>Add</a>
+									                                        </div> 
+							                             {%endif%}  
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Service Scheduled</h4>
+                <div class="row">
+                	<div class="col-xs-6 text_14">
+                		<p>
+                			{%for service in tmpappointment.appointmentservice.all %}
+                				{{service.service.name}}</br>		
+                			{%endfor%}
+                    	</p>
+                    </div>
+                    <div class="col-xs-6">
+                    	<div class="media">
+                        	<div class="media-left">
+                        				<a href="#">
+                        	
+                        					<img src="{{tmpappointment.vehicle.vehicle.mainimage.url}}" width="100">
+                        				</a>
+                        	</div>
+  							<div class="media-body">
+                            	<p><strong>{{tmpappointment.vehicle.vehicle.make.name}}</strong></p>
+                                 <p>
+                                    	Make: &nbsp; {{tmpappointment.vehicle.vehicle.make.name}}<br>
+                                        Model: &nbsp;  {{tmpappointment.vehicle.vehicle.model.name}}<br>
+                                        
+                                  </p>
+  							</div>
+						</div>
+                    </div>
+                </div>
+                <div class="clear pad-10"></div>
+                <h4 class="well well-sm">Confirm Code: {{tmpappointment.confirmation_code}}</h4>
+                <div class="row">
+                	{%if tmpappointment  %}
+                            	<div class="col-xs-6">
+                                	<a href="{%url 'customer:search_by_code_phone'%}?dealer_code={{dealer_code}}&appointment_id={{tmpappointment.id}}&profile_id={{request.GET.profile_id}}&code={{request.GET.code}}" class="btn btn-default  btn-block " id="select_appt_btn_{{tmpappointment.id}}">Edit appointment</a>
+                                </div>
+                                <div class="col-xs-6">
+                                	<a data-href="{%url 'customer:cancel_appointment'%}?dealer_code={{dealer_code}}&appointment_id={{tmpappointment.id}}&profile_id={{tmpappointment.customer.id}}&dealer_code={{dealer_code}}&referer={{ request.get_full_path|urlencode }}" id="cancel_appt_btn_{{tmpappointment.id}}" class="btn btn-danger btn-block " data-toggle="modal" data-target="#confirm-cancel-appointment">Cancel appointment</a>
+                                </div>
+		                                      
+		                            
+		             {%endif%}
+                </div>
+                <div class="pad-20"></div>
+                <p class="text_14">
+                	Sync to your calender &nbsp; 
+                	<a href="{%url 'customer:sync_gcalendar'%}?appointment_id={{tmpappointment.id}}&refferrer={{ request.get_full_path|urlencode }}" title="Sync to Google">
+                		<i class="fa fa-calendar fa-lg"></i></a> 
+                	&nbsp; 
+                    <a href="{%url 'customer:download_calendar'%}?appointment_id={{tmpappointment.id}}" class="text_blck" title="Add to your Calendar">
+                    	<i class="fa fa-file-archive-o fa-lg"></i>
+                    </a> &nbsp; 
+                    <!--  <a href="#"><i class="fa fa-calendar-plus-o fa-lg"></i></a>-->
+                    <a target="__blank" href="{%url 'customer:print_appointment'%}?appointment_id={{tmpappointment.id}}" class="btn btn-info pull-right btn-sm">Print</a>
+                </p>
+            </div>
+        </div>    
+        
+        <script>
+        	{%if appointment and tmpappointment.id == appointment.id%}
+        		$("#select_appt_btn_{{tmpappointment.id}}").prop("href","#");
+        		$("#cancel_appt_btn_{{tmpappointment.id}}").prop("href","#");
+        		$("#main_appointment_{{tmpappointment.id}}").css("opacity","0.4");
+        		$("#main_appointment_{{tmpappointment.id}}").find("button").prop("disable","disabled")
+        		$("#main_appointment_{{tmpappointment.id}}").find("a").prop("a","#")
+        	{%endif%}
+        	
+        	
+        </script>       

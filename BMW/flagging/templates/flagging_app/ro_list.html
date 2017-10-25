@@ -1,0 +1,286 @@
+
+
+
+{% load flagging_tags %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+<div class="clearfix bg_wht FlaggingFilterForm">
+	<div class="form-inline pad-10" >
+    	<div class="form-group">
+        	<input type="search" class="form-control" id="search" placeholder="Search" value="{{ro_number}}">
+  		</div>
+       <div class="form-group">
+        	<button id="searchButton" class="btn btn-link"><i class="fa fa-search fa-lg text_grey"></i></button>
+  		</div> 
+  		<div class="form-group">
+        	<select class="form-control" id="search_filter_type">
+        	<option value="roNumber" {% if type == "roNumber" %} selected {% endif %}>Search By ROs</option>
+        	<option value="advisor" {% if type == "advisor" %} selected {% endif %}>Search By Advisor</option>
+        	<option value="flags" {% if type == "flags" %} selected {% endif %}>Search By Flags</option>
+        	
+        	
+        	</select>
+        	
+  		</div>
+  		<div class="radio">
+        	<label>
+            	<input type="radio" name= "status" value="active" {% if status == "active" %} checked {% endif %} 	>  <span>Active ROs</span>
+            </label>
+		</div>
+        <div class="radio">
+        	<label>
+            	<input type="radio" name ="status" value="inActive" {% if status == "inActive" %} checked {% endif %}> <span>Inactive ROs</span>
+            </label>
+		</div>
+		
+
+     {% include "flagging_app/partial/ro_details.html" %}
+
+  		
+  		
+  		<!-- <button type="submit" style="display :none"></button> -->
+	</div>
+	
+</div>
+
+
+
+
+</div>
+</div>
+</div>
+<div id="content"></div>
+<div class="clear pad-15"></div>
+<div id="printable" class="container-fluid">
+	<div  class="row">
+		<div class="col-lg-12">
+			<div class="table-responsive">
+				<table  class="table table-bordered table-striped table-headblck table-hover">
+					<thead>
+						<tr>
+							
+						<th >Color.<a href="#" class="pull-right text_wht"><i
+									class="fa"></i></a></th>
+							<th data-field = "ro_number">RO Number<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort" ></i></a></th>
+							<th data-field="ro_date">RO Date<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="rfid_tag">TAG/RFID<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="customer">CUSTOMER<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="year">YEAR<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="make">MAKE<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="model">MODEL<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="model">Detail<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="odometer">ODOMETER<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="advisor">ADVISOR<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th data-field="inspector">INSPECTOR<a href="#" class="pull-right text_wht"><i
+									class="fa fa-sort"></i></a></th>
+							<th><i class="fa fa-flag"></i><a href="#"
+								class="pull-right text_wht"></a></th>
+							<th><i class="fa fa-clock-o"></i><i class="fa fa-flag"></i> </th>
+							<th><i class="fa fa-flag"></i> <i class="fa fa-flag"></i><a
+								href="#" class="pull-right text_wht"></a></th>
+							<th><i class="fa fa-clock-o"></i><i class="fa fa-flag"></i><i class="fa fa-flag"></i> </th>
+							<th><i class="fa fa-flag"></i> <i class="fa fa-flag"></i> <i
+								class="fa fa-flag"></i><a href="#" class="pull-right text_wht"></a></th>
+							<th>NOTES</th>
+							<th>INS. STATUS</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{% for appointment in ro_list %}
+						<tr  id="ro_{{ appointment.ro.id }}" ro_number="{{ appointment.ro.ro_number }}"	>
+							 {% include "flagging_app/partial/ro_row_data.html" %}
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				{% if ro_list.has_other_pages %}
+				<div style="margin-left : 33%">
+					  <ul class="pagination">
+					    {% if ro_list.has_previous %}
+					      <li><a class="paging" href="#" data-page-num="{{ ro_list.previous_page_number }}">&laquo;</a></li>
+					    {% else %}
+					      <li class="disabled"><span>&laquo;</span></li>
+					    {% endif %}
+					    {% for i in ro_list.page_range %}
+					      {% if ro_list.number == i %}
+					        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+					      {% else %}
+					      	{% if i != False %}
+					        		<li><a class="paging" href="#" data-page-num="{{ i }}">{{ i }}</a></li>
+					        {% else %}
+					        		<li><a>.........</a></li>
+					        {% endif %}
+					      {% endif %}
+					    {% endfor %}
+					    {% if ro_list.has_next %}
+					      <li><a class="paging" href="#" data-page-num="{{ ro_list.next_page_number }}">&raquo;</a></li>
+					    {% else %}
+					      <li class="disabled"><span>&raquo;</span></li>
+					    {% endif %}
+					  </ul>
+					  </div>
+					{% endif %}
+				<!-- <div class="pagination">
+			    <span class="step-links">
+			        {% if ro_list.has_previous %}
+			            <a  class="paging" href="#" data-page-num= "{{ ro_list.previous_page_number }}">previous</a>
+			        {% endif %}
+			
+			        <span class="current">
+			            Page {{ ro_list.number }} of {{ ro_list.paginator.num_pages }}.
+			        </span>
+			
+			        {% if ro_list.has_next %}
+			            <a class="paging" href="#" data-page-num="{{ ro_list.next_page_number }}">next</a>
+			        {% endif %}
+			    </span>
+			</div> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="flaggingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add Record</h4>
+      		</div>
+      		<div class="modal-body text-center" id="flaggingModalBody">
+        		
+      		</div>
+            <div class="modal-footer">
+            	<button id="submitFlag" type="button" class="btn btn-danger">Submit</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
+<div class="clear pad-5"></div>
+<script type="text/javascript">
+
+
+
+	$(function(){
+		 var flags = {};
+		 $('[data-toggle="popover"]').popover({
+		        placement : 'right',
+		        trigger : 'hover'
+		    });
+		 window.flags = flags;
+		 {% if ro_list|length == 1 %}
+		 setTimeout(function(){
+			 $("#ro_{{ ro_list.0.ro.id }}").trigger("click");
+		 }, 50); 
+		 {% endif %}
+		var obj = new ro_list();
+		obj.applySorting();
+		obj.bindEvents();
+	});
+	function ro_list(){
+	this.bindEvents = function(){
+		$(".paging").on("click",function(e){
+			e.preventDefault();
+			var order = "{{ order }}";
+			var orderBy = "{{ orderBy }}";
+			var page = $(this).attr("data-page-num");
+			searchRos(orderBy,order,page);
+			
+		});
+		$("#searchButton").on("click",function(){
+			searchRos();
+		});
+		$('input[name=status]').change(function(){
+			searchRos();
+		});
+		$("#search").keydown(function(e){
+			 if(e.which == 10 || e.which == 13) {
+				 searchRos(); 
+	         }
+		});
+		var DELAY = 200, clicks = 0, timer = null;
+		$("tr").on( "click", function(){
+		         if($(this).find("th").length > 0) {
+		        	 return;
+		         }
+		         var $this = $(this);
+		         clicks++;  //count clicks
+		         if(clicks === 1) {
+		             timer = setTimeout(function() {
+		            	 $("tr").removeClass("success");
+		            	 $this.addClass("success") ;
+				         var id = parseInt($this.attr('id').split("_")[1]);
+				         var roNumber = $this.attr("ro_number");
+				         selectedRoNumber(roNumber);
+				         selectedRow(id);
+				         var url = "{% url 'flagging:ro_details'%}";
+				          ajaxRequest(url,"GET",function(result){
+				        	 $("#ro_details").html(result);
+				         },{"roId":id}); 
+		                 clicks = 0;
+		             }, DELAY);
+		         } else {
+		             clearTimeout(timer);    //prevent single-click action
+		             var id = parseInt($(this).attr('id').split("_")[1]);
+			         var roNumber = $($this.find("td")[1]).text();
+			         selectedRoNumber(roNumber);
+			         selectedRow(id);
+					 $("#shopNotes").trigger("click");
+		             clicks = 0;             
+		         }
+		    }); 
+		$("tr").dblclick(function(event){
+			event.preventDefault()
+		});
+	$(".fa-sort, .fa-sort-desc, .fa-sort-asc").click(function(event){
+		event.preventDefault();
+		var obj  = $(this).closest("th").attr("data-field");
+		var orderBy = obj;
+		var order = $(this).attr("data-order") == undefined ?"asc" :$(this).attr("data-order") ;
+		searchRos(orderBy,order);
+			});
+		}
+	this.applySorting=function(){
+		var isSorted = "{{ isOrdered }}" == "False" ? false : true;
+		if (isSorted){
+			var orderBy = "{{ orderBy }}";
+			var order = "{{ order }}";
+			/* var selector = "th[contains(" + orderBy + ")"; */
+			var selector =`th[data-field=${orderBy}]`; 
+			$(selector).find("i").attr("data-order",order);
+			$(selector).find("i").removeClass("fa-sort").addClass("fa-sort-"+order);
+			}
+		}
+	}
+	
+	function searchRos(orderBy,order,page){
+		orderBy = orderBy || "{{ orderBy }}";
+		order = order || ("{{ order }}" === "asc" ? "desc" : "acs");
+		page = page || "{{ page }}"
+		var url = "{% url 'flagging:search_ros'%}?";
+		url = url + "order="+ order + "&orderBy="+orderBy+"&";
+		url += `page=${page}&`; 
+		var roNumber = $("#search").val().trim();
+		var type = $("#search_filter_type").val();
+		url = url + type + "=" + roNumber + "&";
+		var status = $('input[name=status]:checked').val();
+		url = url +"status=" + status; 
+		url = encodeURI(url);
+		ajaxRequest(url,"GET",successFunction);
+	}
+</script>

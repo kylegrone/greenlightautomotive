@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% load dealership_tag %}
+<div class="col-sm-3 pull-right"><input class="form-control" placeholder="Search" type="search"></div>
+<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+	<li class="active">
+    	<a href="#srvc_tab" data-toggle="tab">Services</a>
+    </li>
+	<li ><a href="#repair_tab" data-toggle="tab">Repairs</a></li>
+</ul>
+<!-- Tab panes -->
+<div id="my-tab-content" class="tab-content">
+	<div class="tab-pane active" id="srvc_tab">
+       {% include "appointment/partials/rservices_services.html" %} 
+	</div>
+
+ 	<div class="tab-pane" id="repair_tab">
+        {% include "appointment/partials/rservices_repairs.html" %} 
+  	</div>
+</div>
+<script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/dealership_custom.js" %}"></script>
+

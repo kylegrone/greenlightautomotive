@@ -1,0 +1,92 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{% block html_header %}
+			{% include 'customer/includes/htmlheader.html' %}
+		{%endblock%}
+	</head>
+	<body class="bg LoginBg">
+			{%block header%}
+				{%include 'customer/includes/header.html'%}
+			{%endblock%}
+			<div class="container">
+				<div class="row relative">
+					{%block messages%}
+						{%include 'customer/includes/messages.html' %}
+					{%endblock%}
+				</div>
+			</div>
+			<div class="container-fluid">
+
+				<div class="row">
+						<div class="pad-20"></div>
+				    	<div class="col-sm-6">
+				            <h3 class="mt-0">{{page_title}}</h3>
+				        </div>
+			        	<div class="col-sm-6 mt-15">
+			        	
+			        					
+								    	<div class="dropdown pull-right " id="cart_main">
+								        	
+								        </div>
+								        <div class="pull-right">  
+								        	 {% if user.is_authenticated and user.groups.all.0|lower == "customer" %}
+							           				 Welcome {{user.userprofile.first_name}} {{user.userprofile.last_name}} &nbsp;
+							            			 <a href="{%url 'customer:main'%}"> (My Details/ Account)</a>  &nbsp;
+							            			 <a href="{%url 'customer:logout'%}?dealer_code={{dealer_code}}">Log Out</a>  &nbsp; 
+							           		 {%else%}
+							            		
+							            		<a href="{%url 'customer:login' dealer_code=dealer_code%}?dealer_code={{dealer_code}}">Login (My Details/ Account)</a>  &nbsp; 
+							            	{%endif%}
+						            	</div>
+								     
+								    	
+						</div>
+			        		
+				        
+				</div>
+	        	{% block main %}
+	
+				{% endblock%}
+			
+				
+			</div>
+			<div id="loading_page">
+ 				 <img id="loading-image-page" src="{% static "customer/images/ajax-loader.gif" %}" alt="Loading..." />
+			</div>
+			{% block js %}
+			
+			<!-- <script src="{% static "js/jquery-1.10.2.min.js" %}"></script> -->
+			<!-- <script src="{% static "js/bootstrap.js" %}"></script> -->
+			<script src="{% static "customer/js/bootstrap_dialog.js" %}"></script>
+			<script src="{% static "customer/js/utility.js" %}"></script>
+			<script src="{% static "customer/chosen/chosen.jquery.js" %}"></script>
+			<script src="{% static "js/moment.min.js" %}"></script>
+			<script src="{% static "js/bootstrap-datepicker.min.js" %}"></script>
+			{% endblock%}
+			{% block extra %}
+				 {% if chatadvisor and chatposition == "bottom" %}
+					{% include "livechat/chat.html" %}
+				{%endif%}
+			{%endblock%}
+			<div class="modal fade" id="modelimagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			        <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+			      </div>
+			      <div class="modal-body">
+			        <img src="" id="imagepreviewmodal" style="width: 400px; height: 264px;" >
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+</div>	
+</body>
+</html>
+

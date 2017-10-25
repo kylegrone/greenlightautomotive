@@ -1,0 +1,5 @@
+Your Vehicle has been flagged to {{flag_name}}
+{%if notes%}
+Notes:  {{notes}}
+{%endif%}
+

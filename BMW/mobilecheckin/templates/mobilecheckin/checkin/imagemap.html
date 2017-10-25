@@ -1,0 +1,58 @@
+{% load checkin_tag %}
+<!-- {% if map_image %}
+<div id="imagemap">
+	<img id="bmwmap" src="{{MEDIA_URL}}{{wlk_veh_image.image}}" usemap="#bmwmap" style="width:100%">
+</div>
+<map id="bmwimage_map" name="bmwmap">
+	{% for obj in map_image %}
+		<area shape="{{obj.type}}" name="{{obj.name}}" coords="{{obj.coords}}" href="#">
+	{% endfor %}
+	<area shape="circle" name="damage" coords="0,0,0" href="#">
+</map>
+{% endif %}-->
+<div id="imagemap">
+<div style="width:700px" class="WorkAroundCar container">
+  <div data-ride="carousel" class="carousel slide" id="myCarousel">
+  <input id="mapcounter" type="hidden" value="{{map_image|length }}">
+    <!-- Indicators -->
+    
+    <!-- Wrapper for slides -->
+    <div role="listbox" class="carousel-inner">
+	{% for obj in map_image %}
+      <div class="map item {% if forloop.first %}active {% endif %}">
+        <img id="bmwmap_{{forloop.counter}}" width="700" height="531" src="{{MEDIA_URL}}{{obj.veh_img.image}}" usemap="#bmwmaparea_{{forloop.counter}}">
+  	  <map id="bmwimage_map" name="bmwmaparea_{{forloop.counter}}">
+			{% for ob in obj.map %}
+				<area shape="{{ob.type}}" name="{{ob.name}}" coords="{{ob.coords}}" href="#">
+			{% endfor %}
+  	  </map>
+  	   </div>
+  	 {% endfor %}	
+    </div>
+  </div>
+</div>
+<div class="clear pad-10 "></div>
+<div  style="width:700px" class="WorkAroundCar container">
+        <div id="thumbcarousel" class="carousel thumbcarousel slide" data-interval="false">
+            <div class="carousel-inner">
+                <div class="item active">
+                {% for obj in thumbnails %}
+                    <div data-target="#myCarousel" data-slide-to="{{forloop.counter0}}" class="thumb"><img src="{{MEDIA_URL}}{{obj.image}}"></div>
+					{% if forloop.counter|checkincounter:4 %}
+					</div>
+						{% if not forloop.last %}
+							<div class="item">
+						{%endif%}
+					{% endif %}
+			{% endfor %}             		
+            </div><!-- /carousel-inner -->
+            <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#thumbcarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div> <!-- /thumbcarousel -->
+    </div><!-- /clearfix -->
+</div>
+</div>

@@ -1,0 +1,189 @@
+<div class="container-fluid hidden" id="adduseradvisor">
+    <h3 class="mt-0">Set Up New User or Advisor</h3>
+    <div class="bg_wht pad-15">
+    	<form class="form-horizontal" id="new_user_advisor_form">
+    	<div class="row">
+        	<div class="col-sm-6">
+            	<div class="form-group">
+                    <label for="fnam" class="col-sm-4 control-label">First:</label>
+                    <div class="col-sm-8">
+                        {{nud.first}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lnam" class="col-sm-4 control-label">Last:</label>
+                    <div class="col-sm-8">
+                        {{nud.last}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mail" class="col-sm-4 control-label">Email:</label>
+                    <div class="col-sm-8">
+                        {{nud.email}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fon1" class="col-sm-4 control-label">Phone 1:</label>
+                    <div class="col-sm-8">
+                        {{nud.phone1}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fon2" class="col-sm-4 control-label">Phone 2:</label>
+                    <div class="col-sm-8">
+                        {{nud.phone2}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="employee" class="col-sm-4 control-label">Employee#:</label>
+                    <div class="col-sm-8">
+                        {{nud.employee}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rol" class="col-sm-4 control-label">Role:</label>
+                    <div class="col-sm-8">
+                        {{nud.role}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="team" class="col-sm-4 control-label">Team:</label>
+                    <div class="col-sm-8">
+                        {{nud.team}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                       <input type='file' id="new_image" name="adv_img"/>
+                    </label>
+                    <div class="col-sm-6"><img id="advimg" src="" class="img-thumbnail img-responsive" width="100"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Disable Consumer Address:</label>
+                    <div class="col-sm-8">
+                        {{nud.reserve}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+            	<div class="form-group">
+                    <label for="unam" class="col-sm-3 control-label">User Name:</label>
+                    <div class="col-sm-8">
+                        {{nud.username}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tpass" class="col-sm-3 control-label">Temp Password:</label>
+                    <div class="col-sm-8">
+                        {{nud.password}}
+                    </div>
+                </div>
+             </div>
+          </div>
+         <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <p>Set Advisor Capacity</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped text_14 CusEditableTbl" id="capacitytable"> 
+                                <thead> 
+                                    <tr> 
+                                        <th>Day</th> 
+                                        <th>M</th> 
+                                        <th>T</th> 
+                                        <th>W</th>
+                                        <th>Th</th>
+                                        <th>F</th>
+                                        <th>S</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr> 
+                                        <td>Shop</td> 
+                                        <td id="cM"><a href="#" class="cM" data-type="select"></a></td> 
+                                        <td id="cT"><a href="#" class="cT" data-type="select"></a></td> 
+                                        <td id="cW"><a href="#" class="cW" data-type="select"></a></td>
+                                        <td id="cTh"><a href="#" class="cTh" data-type="select"></a></td> 
+                                        <td id="cF"><a href="#" class="cF" data-type="select"></a></td> 
+                                        <td id="cS"><a href="#" class="cS" data-type="select"></a></td>
+                                    </tr>
+                                </tbody> 
+                            </table> 
+                        </div>
+                     </div>
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <p>Set Advisor Restrictions</p>
+                        <a href=# id="add_restriction">Add Restriction</a>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped text_14 CusEditableTbl" id="restriction_table"> 
+                                <thead> 
+                                    <tr> 
+                                        <th>Name</th> 
+                                        <th>Start Date</th> 
+                                        <th>Days</th> 
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Repeat</th>
+                                        <th>End Date</th>
+                                        <th>Del</th>
+                                    </tr> 
+                                </thead> 
+                                <tbody> 
+                                    <tr> 
+                                        <td id="r_type"><a href="#" class="r_type" data-type="text"></a></td> 
+                                        <td id="r_sdate"><a href="#" class="r_sdate" data-type="combodate"></a></td> 
+                                        <td id="r_days"><a href="#" class="r_days" data-type="checklist"></a></td> 
+                                        <td id="r_stime"><a href="#" class="r_stime" data-type="combodate" data-template="hh:mm a" data-format="hh:mm a" data-viewformat="hh:mm a" data-value=""></a></td>
+                                        <td id="r_etime"><a href="#" class="r_etime" data-type="combodate" data-template="hh:mm a" data-format="hh:mm a" data-viewformat="hh:mm a"></a></td> 
+                                        <td id="r_repeat"><a href="#" class="r_repeat" data-type="select"></a></td> 
+                                        <td id="r_edate"><a href="#" class="r_edate" data-type="combodate"></a></td>
+                                        <td><a href="#" id="del_rest"><span class="glyphicon glyphicon-minus"></span></a></td>
+                                    </tr>
+                                </tbody> 
+                            </table> 
+                     </div>
+                </div>
+            </div>
+            <div class="text-right mr-20">
+                <button type="button" class="btn btn-danger cancle_new_user_advisor">Cancel</button> &nbsp; 
+                <button type="submit" class="btn btn-success new_user_advisor">Save New User or Advisor</button>
+            </div>
+        </form>
+    </div>
+</div> 
+<div class="clear pad-5"></div>
+
+<div class="modal fade" id="addfavorites" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Favorites</h4>
+      		</div>
+      		<div class="modal-body">
+        		<div class="col-sm-6"><input type="text" class="form-control" placeholder="Search"></div>
+                <div class="clear pad-10"></div>
+                <div class="col-sm-7">
+                	<select class="form-control">
+                    	<option>Add Favorites</option>
+                        <option>Appointments</option>
+                        <option>Customers</option>
+                        <option>Dealership Hours</option>
+                        <option>Dealership Advisor</option>
+                        <option>Dealership Capacity</option>
+                        <option>Dealership Vahicles</option>
+                        <option>Services</option>
+                        <option>Repair</option>
+                        <option>Customers Portal</option>
+                        <option>Marketing Portal</option>
+                        <option>etc</option>
+                    </select>
+                </div>
+                <div class="clear pad-10"></div>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> &nbsp; 
+                <button type="button" class="btn btn-success">Add</button>
+      		</div>
+    	</div>
+  	</div>
+</div>

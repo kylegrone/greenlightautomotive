@@ -1,0 +1,272 @@
+{% extends "customer/layouts/appointment_base.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+		{%if appointment %}
+	<ul id="myTabs" class="service_menu "> 
+	        	<li role="dropdown" class="dropdown dropdown-hover ">
+		            	<a href="{% url 'customer:vehicle_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}" id="vehicles-tab">Vehicles</a>
+		            	<ul class="dropdown-menu" style="display: none;width:100%">
+		           			 <li>
+		           			 		{%if appointment.vehicle%}
+		           			 			{{appointment.vehicle.vehicle.make.name}} {{appointment.vehicle.vehicle.model.name}} 
+		           			 		{%else%}
+		           			 			Please select a vehcile
+		           			 		{%endif%}
+		           			 </li>
+		     		   </ul>
+          		  </li> 
+          		  
+	            <li role="dropdown"  class="dropdown dropdown-hover ">
+	          	  
+	            	  <a href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Service and Repair </a>
+            		<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="service_repair_top_bar" >
+	            						
+	            						{%if services_list  %}
+	            							Services and Repairs Added
+	            						{%else%}
+	            							No Service or Repair Added
+	            						{%endif%}
+		           			 		
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            
+	            <li role="dropdown" class="dropdown dropdown-hover active">
+	            	
+	            	 <a href="{% url 'customer:date_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Appointment</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="date_adv_top_bar" >
+		           			 		{%if appointment.advisor or appointment.start_time  or appointment.way_away %}
+		           			 			{%if appointment.start_time%}
+		           			 				Date time{%if appointment.start_time or appointment.way_away%},
+		           			 				{%endif%}
+		           			 			{%endif%}
+		           			 			{%if appointment.advisor%}
+		           			 				&nbsp;Advisor
+		           			 				{%if appointment.way_away%},
+		           			 				{%endif%}
+		           			 			{%endif%}
+		           			 			{%if appointment.way_away%}
+		           			 			&nbsp;Way away 
+		           			 			{%endif%}
+		           			 			selected
+		           			 		{%else%}
+		           			 			Select Date, Advisor, Way away
+		           			 		{%endif%}
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	            <li role="dropdown" class="dropdown dropdown-hover">
+	            	
+	            	 <a href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">Review and Book</a>
+	            	<ul class="dropdown-menu" style="display: none;width:100%">
+	            		<li>
+	            				<div id="book_top_bar" >
+		           			 		Complete Previous Steps
+		           			 	</div>
+		           			 </li>
+		           	</ul>
+	            </li>
+	</ul>
+	<div class="pad-10"></div>
+	
+{%endif%}
+	 <ul class="pager">
+		 		<li class="previous pointer">
+		 					 <a data-href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}&accordion=repairs" >
+		 						<span aria-hidden="true">←</span> Previous</a>
+		 						</li>
+		   		<li class="next pointer" id="submit_btn">
+		   				<a data-href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">
+		   				
+		   				Next <span aria-hidden="true">→</span></a>
+		   		</li>
+  	</ul>
+      <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+      				{%include 'customer/appointment/partials/advisor_selection.html' %}
+      				{%include 'customer/appointment/partials/way_away.html' %}
+      				{%include 'customer/appointment/partials/date_selection.htm' %}
+          		  
+	</div>
+ 	 <ul class="pager">
+    		
+    		
+ 		<li class="previous pointer">
+ 					 <a data-href="{% url 'customer:service_selection_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}&accordion=repairs" >
+ 						<span aria-hidden="true">←</span> Previous</a>
+ 						</li>
+   		<li class="next pointer" id="submit_btn">
+   				<a data-href="{% url 'customer:book_appointment' %}?dealer_code={{dealer_code}}&appointment_id={{appointment.id}}">
+   				
+   				Next <span aria-hidden="true">→</span></a>
+   		</li>
+  	</ul>
+{% endblock %}
+{% block js %}
+{{block.super}}
+ 
+		<script src="{% static "customer/js/settings.js" %}"></script>
+		<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+		<script src="{% static "customer/js/snapshot.js" %}"></script>
+		<script src="{% static "customer/js/bootstrap_dialog.js" %}"></script>
+		<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+		<script>
+		var url_appt_update_time_template = "{% url 'dealership:appointment_update_time' %}";
+		var url_appointment_create_update = "{% url 'dealership:appointment_create_update' %}";
+		var url_appointment_wayaway_save = "{% url 'dealership:appointment_wayaway_save'%}";
+		var url_appointment_wayaway = "{% url 'dealership:appointment_wayaway'%}";
+		var url_appointment_account_info = "{% url 'dealership:appointment_accountinfo'%}";
+ 		
+ 			
+ 		
+		$(document).ready(function(){
+			var accordion = "{{accordion}}"
+			if(accordion=="advisor" || accordion ==""){
+				openContainer($("#advisor_selection_from"));
+			}
+			else if(accordion == "wayaway"){
+				openContainer($("#wayaway_selection_form"));
+			}else if(accordion == "date"){
+				openContainer($("#date_selection_form"));
+			}
+			
+			
+			$("body").on("click",".next",function(){
+				if($("#advisor_selection_from").find(".collapsable_div").css("display")=="block"){
+					openContainer($("#wayaway_selection_form"));
+				}else if($("#wayaway_selection_form").find(".collapsable_div").css("display")=="block"){
+					var way_away_len = $(".wayaway-btn").find(".glyphicon-ok").length
+					if (way_away_len ==0){
+						BootstrapDialog.show({
+				            title: 'Error',
+				            message: 'Please select a wayaway'
+				        });
+					}
+					else{
+						openContainer($("#date_selection_form"));
+					}
+				}else{
+					if($("body").find(".start-time.btn-success").length == 0){
+						BootstrapDialog.show({
+				            title: 'Error',
+				            message: 'Please select a datetime'
+				        });
+					}else{
+						window.location = $(this).find("a").data("href");
+					}
+					
+						
+				}
+			});
+			
+			$("body").on("click",".previous",function(){
+				if($("#date_selection_form").find(".collapsable_div").css("display")=="block"){
+					openContainer($("#wayaway_selection_form"));
+				}
+				else if($("#wayaway_selection_form").find(".collapsable_div").css("display")=="block"){
+					openContainer($("#advisor_selection_from"));
+				}else {
+					window.location = $(this).find("a").data("href");
+				}
+			});
+			
+			var search = "";
+			var criteria = "";
+			var panel = "{{ qstring.panel }}";
+			var cust_id = 12;
+			var appt_id = {{appointment.id}};	
+			
+			window.dealershipAppointment = new DealershipAppointment();
+			var panel_id = "#date-appointment";
+	    	 window.dealershipAppointment.switchAccordian(panel_id);	
+	    	window.dealershipAppointment.save_time_on_selection =  true;
+	      	window.dealershipAppointment.
+	      	getTimeForAppointment(url_appt_update_time_template, appt_id,
+	      			{'panel_id':panel_id, 'callback':window.dealershipAppointment.saveAppointmentTime});
+				        
+	      	window.dealershipAppointment.date_save_callback	 = 	resetadvisor;
+	      	
+	      	var advisor_selection = new AdvisorSelection();
+			advisor_selection.panel = "#advisor-appointment";
+			advisor_selection.dealer_code = "{{dealer_code}}"
+			advisor_selection.pagination_container = "#advisor_pagination"
+			advisor_selection.appointment_id = "{{appointment.id}}"
+			advisor_selection.select_listener = advisor_selection.selectAdvisor;
+			advisor_selection.advisor_fetch_url = "{% url 'customer:get_all_advisors_ajax'%}"
+			advisor_selection.advisor_save_url = "{% url 'customer:save_advisor_ajax'%}"
+			advisor_selection.setAdvisors();
+			advisor_selection.save_success_callback = reload_timegrid;
+			advisor_selection.default_image = "noimage.gif";
+			
+			/* way away start*/
+			var dealershipAppointment= new DealershipAppointment();
+ 			var appt_id = {{appointment.id}}
+ 			var panel_id_wy = "#wayaway-appointment";
+	    	var panelObject = {'cust_id':0, 'panel_id':panel_id_wy,"dealer_code":"{{dealer_code}}" ,
+	    			'callback':wayawaycallback};
+	    	{%if appointment.customer %}
+	    		panelObject.cust_id = {{appointment.customer.id}}
+	    	{%endif%}
+	        dealershipAppointment.getWayAwayForAppointment(url_appointment_wayaway, appt_id, panelObject);
+	     
+	        
+	        
+			function wayawaycallback(param1,param2){
+	        	dealershipAppointment.saveWayAwayForAppointmentCallback(param1,param2)
+	        	fillrollup()
+	        }
+	        
+	        
+			function resetadvisor(param1,param2){
+				advisor_selection.setAdvisors()
+				fillrollup()
+			}
+				
+			function reload_timegrid(){
+				
+				window.dealershipAppointment.
+		      	getTimeForAppointment(url_appt_update_time_template, appt_id,
+		      			{'panel_id':panel_id, 'callback':window.dealershipAppointment.saveAppointmentTime});
+				fillrollup()
+			}
+			
+			function fillrollup(){
+				
+				var dt_len = $("#date-appointment").find(".btn-success").length;
+				var way_away_len = $(".wayaway-btn").find(".glyphicon-ok").length
+				if(advisor_selection.selected_advisor_id != null || dt_len > 0 ||way_away_len >0   ){
+					console.info(advisor_selection.selected_advisor_id)
+					var text= "";
+					if(advisor_selection.selected_advisor_id!=null ){
+						text += "Advisor"
+					}
+					if(dt_len > 0 ){
+						if(text!=""){
+							text+=", "
+						}
+						text += "Date"
+					}
+					if(way_away_len > 0 ){
+						if(text!=""){
+							text+=", "
+						}
+						text += "Way Away"
+					}
+					text += " selected";
+					$("#date_adv_top_bar").html(text)
+					
+				}
+			}
+		})
+		
+		</script>
+		
+	{% endblock%}
+	{% block extra %}
+		
+{%endblock%}

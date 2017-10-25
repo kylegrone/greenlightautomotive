@@ -1,0 +1,11 @@
+<div class="bg_wht pad-10">
+	{% block filters %}
+		{% include "overview/filters.html" %} 
+	{% endblock %}
+	
+	{% block data %}
+		<div id="main_content">
+			{% include "overview/time_daily.html" %}  
+		</div>
+	{% endblock %}
+</div>

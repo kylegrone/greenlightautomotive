@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>BMWSF</title>
+
+</head>
+<body>
+	<header>	
+			<div style="float:left;width:50%">
+						{{appointment.dealer.name}}
+			</div>
+			<div style="float:right;width:49%;text-align:right">
+						<img src="{{appointment.dealer.logo.url}}" width="50px" height="50px" />
+			</div>
+			<div style='clear:both'></div>
+	</header>
+	<div>	
+			<p></p>
+			<h4>Dear {{advisor.userprofile.first_name}} {{advisor.userprofile.last_name}},</h4>
+			<p>There is a comment from customer</p>
+			<p>" {{comment}} "</p>
+			<p>
+				{% if phoneno %}
+					Please call at {{phoneno}} for more detail.
+				{% endif %}
+			</p>
+			 
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,312 @@
+{% load staticfiles %}
+ <form class="form-horizontal" action=""{% url 'customer:main' %}"" method="POST">
+ {% csrf_token %}
+<div id="add_vehicle_form">
+	{%if vehicle_form.errors%}
+		<script>
+			$(document).ready(function(){
+				showAdd();	
+			});
+			
+		</script>
+	{%endif%}
+   	{% if  vehicle_form.non_field_errors %}
+						                <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ vehicle_form.non_field_errors }}
+										</div>
+				               		 
+               					 {%endif%}
+               					<!--  {% if vehicle_form.errors %}
+							    {% for field in vehicle_form %}
+							        {% for error in vehicle_form.errors %}
+							            <div class="alert alert-error">
+							                <strong>{{ error|escape }}</strong>
+							            </div>
+							        {% endfor %}
+							    {% endfor %}
+							    {% for error in vehicle_form.non_field_errors %}
+							        <div class="alert alert-error">
+							            <strong>{{ error|escape }}</strong>
+							        </div>
+							    {% endfor %}
+							{% endif %} -->
+		<div class="row" >
+		                	<div class="col-sm-4 col-sm-offset-2">
+		                	
+		                    	<div class="text-center">
+		                    			<img data-altsrc = "{% static "images/noimage.gif" %}" src="{% static "images/noimage.gif" %}" id="vehichle_image" class="img-center mb-20">
+		                    			
+		                    			</div>
+		                        <h4>Select Make, Model , Year </h4>
+		                       
+		                        	
+		                             <div class="form-group">
+		                            	<label for="make" class="col-sm-2 control-label">Make*</label>
+		                                	<div class="col-sm-10">
+		                                		<select class="form-control vehichle_selectbox" data-name="Make" data-key="make" id="make" name="make" required="required">
+		                                			<option value="">Select Make</option>
+		                                	</select>
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                            	<label for="model" class="col-sm-2 control-label">Model*</label>
+		                                <div class="col-sm-10">
+		                                	<select class="form-control vehichle_selectbox"  data-name="Model" name="model" data-key="model" required="required" id="model">
+		                                		<option value="">Select Model</option></select>
+		                                </div>
+		                            </div>
+		                          
+		                            <div class="form-group">
+		                            	<label for="year" class="col-sm-2 control-label">Year*</label>
+		                                <div class="col-sm-10">
+		                                	<select class="form-control vehichle_selectbox" data-name="Year" name="year" data-key="year" required="required" id="year">
+		                                		<option value="">Select Year</option></select>
+		                                </div>
+		                            </div>
+		                         <!--    <div class="form-group">
+		                            	<label for="make" class="col-sm-2 control-label">Trim*</label>
+		                                <div class="col-sm-10">
+		                                	<select class="form-control" disabled="disabled"  required="required" id="trim"><option>Select Trim</option></select>
+		                                </div>
+		                            </div> -->
+		                            
+		                            <div class="form-group" style="display:none">
+		                            	<label for="make" class="col-sm-2 control-label">Trim</label>
+		                                <div class="col-sm-10">
+		                                	{% if  vehicle_form.trim.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ vehicle_form.trim.errors }}
+											</div>
+											{%endif%}
+					                    	{{ vehicle_form.trim }}
+		                                </div>
+		                            </div>
+		                             <div class="form-group">
+		                            	<label for="make" class="col-sm-2 control-label">Milage*</label>
+		                                <div class="col-sm-10">
+		                                	{% if  vehicle_form.milage.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ vehicle_form.milage.errors }}
+											</div>
+											{%endif%}
+					                    	{{ vehicle_form.milage }}
+		                                </div>
+		                            </div>
+		                             <div class="form-group">
+		                            	<label for="make" class="col-sm-2 control-label">Liscnece Number*</label>
+		                                <div class="col-sm-10">
+		                                		{% if  vehicle_form.lisence_number.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ vehicle_form.lisence_number.errors }}
+											</div>
+											{%endif%}
+					                    	{{ vehicle_form.lisence_number }}
+		                                </div>
+		                            </div>
+		                             <div class="form-group">
+		                            	<label for="make" class="col-sm-2 control-label">Color*</label>
+		                                <div class="col-sm-10">
+		                                	{% if  vehicle_form.color.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ vehicle_form.color.errors }}
+											</div>
+											{%endif%}
+					                    	{{ vehicle_form.color }}
+		                                </div>
+		                            </div>
+		                            
+					                    	  <textarea id="vin_data" name="vin_data"></textarea>
+					                    	{% if vehicle_form.vin_data.value != "" %}
+										  		<img id="vin_image_preview" src="{{vehicle_form.vin_data.value}}" style="display:block;height:100px;width:100px" />
+											{% else %}
+										   		<img id="vin_image_preview"  style="display:none;height:100px;width:100px" />
+											{% endif %}
+								
+		                    </div>
+		                    <div class="col-sm-5">
+		                    	<h4>Enter VIN# (Optional)</h4>
+		                        <p>The VIN# can be found on the driver side door. 
+		                        		You can either manually enter VIN# OR Take a snapshot of it.</p>
+		                        <div class="row mb-20">
+		                        	<div class="col-xs-4 mt-10"><label for="make" class="control-label">Manually Enter VIN#</label></div>
+		                            <div class="col-xs-8">
+		                            	{% if  vehicle_form.vin_number.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ vehicle_form.vin_number.errors }}
+											</div>
+											{%endif%}
+					                    	{{ vehicle_form.vin_number }}
+		                            	
+		                            </div>
+		                        </div>
+		                        <div class="row mb-20">
+					                        	<div class="col-xs-4" id="video_source_label">Select your camera  :</div>
+					                            <div class="col-xs-8">
+					                            	 <select id="video_source" class="form-control"></select>
+					                            	 <input type="file" id="snap_image_sf" style="display:none" />
+					                            </div>
+					           </div>
+		                        <div class="row mb-20">
+		                        	<div class="col-xs-4">Activate Camera:</div>
+		                            <div class="col-xs-8"><a>
+		                            		<span class="glyphicon glyphicon-camera text_40 pointer" id="snap_enable_button"></span>
+		                            	</a></div>
+		                        </div>
+		                        <div class="well" style="position:relative" >
+		                        	<h4 class="font_regular text-center mt-0">Take a VIN Snapshot</h4>
+		                        		<div class="video_main_container" id="camera_main_container">
+		                           			<!--   <textarea class="form-control mb-15" rows="5" placeholder="Position by VIN# within the box"></textarea>-->
+		                            		
+		                            	</div>
+		                            	
+		                            
+		                            <p class="text-center">To reduce reflection turn off auto flash.<br>When ready click SNAP</p>
+		                            <div class="clear pad-5"></div>
+		                            <div class="row" id="canvas_and_button_container">
+		                            	<div class="col-sm-offset-3 col-sm-6">
+		                                	<!-- <div class="row">
+		                                    	<div class="col-xs-5 text-center mt-10">Auto Flash</div>
+		                                        <div class="col-xs-7">
+		                                        	<div class="btn-group btn-group-justified" role="group"> 
+		                                            	<button  class="btn btn-success text-left" id="snap_flash_on_button" role="button" type="button">ON</button> 
+		                                                <button  class="btn btn-grey text-left" id="snap_flash_off_button" role="button" type="button">&nbsp;</button> 
+		                                            </div>
+		                                        </div>
+		                                    </div> -->
+		                                    <div class="clear pad-5"></div>
+		                                    <div class="row">
+					                                    	<div class="col-xs-6">
+					                                    		<button  id="snap_main_button" class="btn btn-info btn-block" disabled="disabled" type="button">SNAP</button>
+					                                    		
+					                                    	</div>
+					                                    	<div class="col-xs-6">
+					                                    		<button  id="snap_cancel_button" class="btn btn-danger btn-block" disabled="disabled" type="button">Cancel</button>
+					                                    	</div>
+					                                       <!--   <div class="col-xs-6"><a href="#" class="btn btn-danger btn-block">CANCEL</a></div>-->
+					                         </div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="clear pad-10"></div>
+		                <div class="text-center">
+		                	<button type="submit" id="add_vehichle" class="btn btn-primary">Confirm Add Vehicle</button>
+		                	
+		                </div>
+		                {{ vehicle_form.user }}
+		                {{ vehicle_form.vehicle }}
+		         </div>       
+		        </form>   
+		        <img src='' id="test_image" style="display:none"/>     
+
+<script>
+$(document).ready(function(){
+	function fillVehicleImage(vehicles){
+		var image_control = $('#vehichle_image');
+		if (Object.keys(vehicles).length == 1){
+			var query_url = "{{vehichle_widget_url}}";
+			var image_main_url = "{{media_url}}"
+			$.each(vehicles,function(k,v){
+				image_control.prop("src",image_main_url+vehicles[k]["mainimage"])
+			});
+		}else{
+			image_control.prop("src",image_control.data("altsrc"))
+		}
+	}
+	
+	
+	function setVehicleId(vehicles){
+		if (Object.keys(vehicles).length == 1){
+			var vehichle_id_control = $("#vehicle_id_field");
+			$.each(vehicles,function(k,v){
+				vehichle_id_control.val(vehicles[k]["id"])
+			});
+			
+		}
+	}
+	
+	
+	var vehicle_add_widget = new VehicleWidget();
+	vehicle_add_widget.vehicles = {{vehicles|safe}}
+	vehicle_add_widget.vin_text_input = $("#vin_vehicle");
+	vehicle_add_widget.dropdownobj = ".vehichle_selectbox";
+	vehicle_add_widget.chosen = false;
+	vehicle_add_widget.attachVehicleFound(fillVehicleImage);
+	vehicle_add_widget.attachVehicleFound(setVehicleId);
+	
+	vehicle_add_widget.initialize();
+	
+	var camera =  new SnapShot();
+	camera.video = "#snap_video";
+	camera.snap_button = $("#snap_main_button");
+	camera.image_div = $("#snap_container");
+	camera.auto_flash_on_button  = $("#snap_flash_on_button");
+	camera.auto_flash_off_button  = $("#snap_flash_off_button");
+	camera.snap_enable_button = $("#snap_enable_button");
+	camera.snap_process_url = null;
+	camera.crop_selector = $("#snap_selector");
+	camera.canvas = "#snap_container";
+	camera.canvas_2 = "#snap_container_2";
+	camera.snap_process_url = "{%url 'customer:ocr_snap' %}";
+	camera.clip_y = 100;
+	camera.attachObservers(vehicle_add_widget.receiveOcr);
+	camera.cancel_button = $("#snap_cancel_button")
+	camera.initiate()
+	{% if request.POST.make %}
+		{% if request.POST.make %}
+				$("#make").val("{{request.POST.make}}")
+		{%endif%}	
+		{% if request.POST.model %}
+				$("#model").val("{{request.POST.model}}")
+		{%endif%}	
+		{% if request.POST.year %}
+				$("#year").val("{{request.POST.year}}")
+		{%endif%}
+				$("#year").trigger("change")
+	{%endif%}
+	
+	
+
+		
+})
+</script>		     
+<style>
+#snap_selector{
+	position:absolute;
+	border:dotted 3px black;
+	width:100%;
+	height:100px;
+	display:none;
+	top:100px;
+	
+}
+/* #snap_container,#snap_container_2{
+	width:100%;
+} */
+#snap_video{
+	position:absolute;
+	
+}
+.video_main_container{
+	width:100%;
+	position:relative;
+	height:350px
+}
+#snap_container{
+	display:none
+
+}
+#snap_flash_on_button,#snap_flash_off_button{
+width:45%;
+}
+#snap_enable_button{
+1;
+}
+</style>           

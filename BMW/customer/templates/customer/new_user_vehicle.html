@@ -1,0 +1,278 @@
+{% extends "customer/layouts/index.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+
+<!--  data-initial="{{bmw_make_settings}}"-->
+			<form class="form-horizontal" id="main_form" action=""{% url 'customer:new_customer_vehicle' %}"" method="POST">
+			 {% csrf_token %}
+			
+			<div>
+			
+					<div class="row" >
+					                	<div class="col-sm-4 col-sm-offset-1">
+					                	
+					                    	
+					                        <h5>Please tell us more about your vehicle </h5>
+					                       
+					                       <div class="pad-20"></div>
+					                        	
+					                            <div class="form-group" style="display:block">
+					                            	<label for="make" class="col-sm-2 control-label">Make*</label>
+					                                <div class="col-sm-10">
+					                                	<select class="form-control vehichle_selectbox"  data-decodenumber= "0" id="make" name="make" data-name="Make" data-key="make" required="required" >
+					                                		<option value="">Select Make</option>
+					                                	</select>
+					                                </div>
+					                            </div>
+					                           
+					                          
+					                            <div class="form-group">
+					                            	<label for="year" class="col-sm-2 control-label">Year*</label>
+					                                <div class="col-sm-10">
+					                                	<select class="form-control vehichle_selectbox" data-decodenumber= "3" data-name="Year" data-key="year" name="year" required="required" id="year">
+					                                		<option value="">Select Year</option>
+					                                		</select>
+					                                </div>
+					                            </div>
+					                             <div class="form-group">
+					                            	<label for="model" class="col-sm-2 control-label">Model*</label>
+					                                <div class="col-sm-10">
+					                                	<select class="form-control vehichle_selectbox" data-decodenumber= "0" id="model" name="model" data-name="Model" data-key="model" required="required" >
+					                                		<option value="">Select Model</option>
+					                                	</select>
+					                                </div>
+					                            </div>
+					                            <div class="pad-10"></div>
+					                            <h4>Enter VIN# (Optional)</h4>
+					                        		<p>The VIN# can be found on the driver side door. 
+					                        		You can either manually enter VIN# OR Take a snapshot of it.</p>
+					                   		
+					                   			
+					                   		<div class="row mb-20">
+					                        		<div class="col-xs-4 mt-10"><label for="make" class="control-label">Manually Enter VIN#</label></div>
+						                           	 <div class="col-xs-8">
+						                            	{% if  vin_number_errors %}
+									                    	 <div class="alert error alert-danger fade in">
+														    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+														    	<strong>Error!</strong>{{ vin_number_errors }}
+															</div>
+															{%endif%}
+									                    	<input type="text" id="vin_vehicle" name="vin_vehicle" class="form-control" />
+						                            		<textarea id="vin_data" name="vin_data"></textarea>
+						                            		<img id="vin_image_preview" style="display:none;height:100px;width:100px" />
+						                            </div>
+					                        </div>
+					                        <div class="row mb-20">
+					                        		<div class="col-xs-4 mt-10"><label for="make" class="control-label">Vehicle Description</label></div>
+						                           	 <div class="col-xs-8">
+									                    	<textarea  id="desc_vehicle" name="desc_vehicle" class="form-control" /></textarea>
+						                            </div>
+					                        </div>		
+											
+					                    </div>
+					                    
+					                    
+					                    
+					                    <div class="col-sm-6 col-sm-offset-1">
+					                    	<div class="row mb-20">
+					                        	<div class="col-xs-4" id="video_source_label">Select your camera :</div>
+					                            <div class="col-xs-8">
+					                            	 <select id="video_source" class="form-control"></select>
+					                            	 <input type="file" id="snap_image_sf" style="display:none" />
+					                            </div>
+					                        </div>
+					                    	
+					                        <div class="row mb-20">
+					                        	<div class="col-xs-4"><br/>Activate Camera:</div>
+					                            <div class="col-xs-8"><a  >
+					                            		<span class="glyphicon glyphicon-camera text_40 pointer" id="snap_enable_button" ></span>
+					                            	</a>
+					                            	
+					                            	</div>
+					                            	
+					                        </div>
+					                        <p>Select Camera Icon to take a snapshot of
+VIN #</p>
+					                        <div class="well" style="position:relative" >
+					                        	<h4 class="font_regular text-center mt-0">Take a VIN Snapshot</h4>
+					                        		<div class="video_main_container" id="camera_main_container">
+					                           			<!--   <textarea class="form-control mb-15" rows="5" placeholder="Position by VIN# within the box"></textarea>-->
+					                            		
+					                            		
+					                            		
+					                            	</div>
+					                            	<!-- <canvas id="snap_container"  height="335" style="display:none;"></canvas>
+					                            	<canvas id="snap_container_2" height="100" style="display:none;"></canvas> -->
+					                            <div>
+					                            <p class="text-center"><br>When ready click SNAP</p>
+					                            <div class="clear pad-5"></div>
+					                            <div class="row" id="canvas_and_button_container">
+					                            	<div class="col-sm-offset-3 col-sm-6">
+					                                	<!-- <div class="row">
+					                                    	<div class="col-xs-5 text-center mt-10">Auto Flash</div>
+					                                        <div class="col-xs-7">
+					                                        	<div class="btn-group btn-group-justified" role="group"> 
+					                                            	<button  class="btn btn-success text-left" id="snap_flash_on_button" role="button" type="button">ON</button> 
+					                                                <button  class="btn btn-grey text-left" id="snap_flash_off_button" role="button" type="button">&nbsp;</button> 
+					                                            </div>
+					                                        </div>
+					                                    </div> -->
+					                                    <div class="clear pad-5"></div>
+					                                    <div class="row">
+					                                    	<div class="col-xs-6">
+					                                    		<button  id="snap_main_button" class="btn btn-info btn-block" disabled="disabled" type="button">SNAP</button>
+					                                    		
+					                                    	</div>
+					                                    	<div class="col-xs-6">
+					                                    		<button  id="snap_cancel_button" class="btn btn-danger btn-block" disabled="disabled" type="button">Cancel</button>
+					                                    	</div>
+					                                       <!--   <div class="col-xs-6"><a href="#" class="btn btn-danger btn-block">CANCEL</a></div>-->
+					                                    </div>
+					                                </div>
+					                            </div>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="clear pad-10"></div>
+					                <div class="text-center">
+					                	<button type="submit" class="btn  btn-info " id="start_appointment" disabled="disabled">Get Started making appointment</button>
+					                	<input type="hidden" name="dealer_code" value="{{dealer_code}}"/>
+					                	<input type="hidden" name="vehicle_id" id="vehicle_id" value=""/>
+					                </div>
+					                {{ vehicle_form.user }}
+					                {{ vehicle_form.vehicle }}
+					         </div>       
+					        </form>   
+					       <!--  <img src='' id="test_image"/>   -->   
+			
+			<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+			<script src="{% static "customer/js/snapshot.js" %}"></script>
+			
+			<link rel="stylesheet" href="{% static "customer/css/settings_login.css" %}" />
+			<script>
+			
+			function enableButton(){
+				
+				if(($.trim($("#model").val())!="" && $.trim($("#year").val())!="") || ($.trim($("vin_vehicle").val())!="")){
+					$("#start_appointment").removeProp("disabled")
+				}else{
+					$("#start_appointment").prop("disabled","disabled")
+				}	
+			}
+			
+			function fill_vehicle_id(vehicles){
+				console.info(vehicles);
+				if (vehicles.length == 1){
+					//$("#vehicle_id")
+				}
+			}
+			
+			function setVehicleId(vehicles){
+				
+				if (Object.keys(vehicles).length == 1){
+					var vehichle_id_control = $("#vehicle_id");
+					$.each(vehicles,function(k,v){
+						vehichle_id_control.val(vehicles[k]["id"])
+					});
+					
+				}
+			}
+			
+			$(document).ready(function(){
+				
+				$("#main_form").submit(function(e){//adding a delay to submit
+					$("#loading_page").show();
+					var formId = this.id,
+		            $this = $(this);
+					e.preventDefault();
+					$this.unbind("submit");
+				    setTimeout( $.proxy( $.fn.submit, $this ), 3000);
+					/* $("#start_appointment").delay(2000).trigger("click") */
+				})
+				$("select").change(function(){
+					enableButton();
+				})
+			
+				$("#vin_vehicle").focusout(function(){
+					enableButton();
+				});
+				$("#vin_vehicle").change(function(){
+					enableButton();
+				});
+				
+				var vehicle_add_widget = new VehicleWidget();
+				vehicle_add_widget.chosen =true;
+				vehicle_add_widget.vehicles = {{vehichles|safe}}
+				
+				vehicle_add_widget.dropdownobj = ".vehichle_selectbox";
+				vehicle_add_widget.vin_number_control = "#vin_vehicle"
+				vehicle_add_widget.attachVehicleFound(fill_vehicle_id)
+				vehicle_add_widget.after_intial_fill = function(){
+					
+					if($("#make option").length==2){
+						
+						$("#make").val($("#make option:eq(1)").val())
+						$("#make").closest(".form-group").hide();
+					}
+					
+				}
+				vehicle_add_widget.initialize();
+				vehicle_add_widget.attachVehicleFound(setVehicleId);
+				var camera =  new SnapShot();
+				//camera.video = "#snap_video";
+				camera.snap_button = $("#snap_main_button");
+				camera.image_div = $("#snap_container");
+				camera.snap_enable_button = $("#snap_enable_button")
+				camera.cancel_button = $("#snap_cancel_button")
+				camera.auto_flash_on_button  = $("#snap_flash_on_button");
+				camera.auto_flash_off_button  = $("#snap_flash_off_button");
+			
+				//camera.crop_selector = $("#snap_selector");
+				
+				camera.snap_process_url = "{%url 'customer:ocr_snap' %}";
+				camera.clip_y = 100;
+				camera.attachObservers(vehicle_add_widget.receiveOcr);
+				camera.initiate()
+				
+			})
+			</script>		     
+			<style>
+			#snap_selector{
+			position:absolute;
+			
+				
+			}
+			/* #snap_container,#snap_container_2{
+				width:100%;
+			} */
+			#snap_video{
+				position:absolute;
+				
+			}
+			.video_main_container{
+				width:100%;
+				position:relative;
+				height:350px
+			}
+			#snap_container{
+				/*  display:none*/
+			
+			}
+			#snap_flash_on_button,#snap_flash_off_button{
+				width:45%;
+			}
+			#snap_enable_button{
+				1;
+			}
+			</style>           
+			
+			         
+			  	
+			
+
+{% endblock %}
+{% block js %}
+		{{block.super}}
+{% endblock%}
+                              		
+                              		

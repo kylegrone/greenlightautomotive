@@ -1,0 +1,58 @@
+{% extends 'dealership/subbase.html' %}
+{% load staticfiles %}
+{% block operations %}
+{% endblock %}
+
+{% block content %}
+	<div class="clear pad-10"></div>
+	<div class="container-fluid">
+		<h4>Manage Services & Repairs</h4>
+	    <div class="clear pad-10"></div>
+	    <div class="pull-right col-sm-3">
+	    	<label class="col-xs-2 mt-10">Search</label>
+	        <div class="col-xs-10">
+	        	<input id="dealer-search-service" type="search" class="form-control" placeholder="Enter services or repair name">        	
+	        </div>
+	    </div>
+		<ul class="nav nav-tabs" role="tablist">
+	        <li role="presentation" class="active">
+	            <a href="#srvc_tab" aria-controls="srvc_tab" role="tab" data-toggle="tab">Services</a>
+	        </li>
+	        <li role="presentation"><a href="#repair_tab" aria-controls="repair" role="tab" data-toggle="tab">Repairs</a></li>
+	    </ul>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div class="tab-pane active" id="srvc_tab">
+				{% include "rservices/partials/rservices_services.html" %} 
+			</div>
+			<div class="tab-pane" id="repair_tab">
+				{% include "rservices/partials/rservices_repairs.html" %} 
+			</div>
+		</div>
+	</div>
+	<div class="clear pad-5"></div>
+	{% include "rservices/partials/rservices_add_modal.html" %} 
+	{% include "rservices/partials/rservices_delete_modal.html" %} 
+{% endblock %}
+
+{% block script %}
+
+	{{ block.super }}
+	<script src="{% static "js/dealership_repair.js" %}"></script>
+	<script>	
+		var search = "{{ qstring.search }}";
+		var criteria = "{{ qstring.criteria }}";
+		var panel = "{{ qstring.panel }}";
+	
+		
+		$(document).ready(function() {	
+			window.dealership = new Dealership();
+			window.dealershipRepair = new DealershipRepair();
+			window.dealershipRepair.dealer_code = "{{ config.dealer_code }}";
+			window.dealershipRepair.dealer_id = "{{ config.dealer_id }}";				
+			window.dealershipRepair.setEventListener();
+			window.dealershipRepair.getServicesList();		
+		});	
+			  
+	</script>
+{% endblock %}

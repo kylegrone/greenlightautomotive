@@ -1,0 +1,215 @@
+<form  method="POST" action="{% url 'customer:book_appointment_now_new' %}?dealer_code={{dealer_code}}" id="form_submit_book">
+              {% csrf_token %}
+                <div class="text-center">
+                    <a href="{%url 'customer:book_appointment_now_new'%}?dealer_code={{dealer_code}}" class="btn btn-info disabled">I'm a New Customer</a> 
+                    <a href="{%url 'customer:book_appointment_now_ext'%}?dealer_code={{dealer_code}}" class="btn btn-default "> I'm a Existing Customer</a>
+                </div>
+                <div class="clear pad-10"></div>
+                <p>Please select how you plan to leave after dropping off your car (A Way Away). If you need a loaner, please select Loaner from the list.</p>
+                <div class="clear pad-10"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <select class="form-control" id="way_away" name="way_away" required="required">
+                        		<option value="">*Select A Way Away</option>
+                        		{%for way in way_away%}
+                        			{% if way.dealer %}
+                        				<option value="{{way.dealer.id}}">{{way.dealer.name}}</option>
+                        			{% else %}
+                        				<option value="{{way.default.id}}">{{way.default.name}}</option>
+                        			{%endif%}
+                        		{%endfor%}
+                        </select>
+                        <div class="clear pad-10"></div>
+                        <p><strong>The Next Available Appointment is:</strong></p>
+                        <div class="input-group ">                        
+                            <input  class="form-control slab_date_field" type="text" id="slab_date"  required="required" readonly="readonly">
+							<input type="hidden" value="" name="slab_time" id="slab_time" required="required">                          
+                            <span class="input-group-btn">
+                                <a href="#" class="btn btn-default">
+                                	<span class="glyphicon glyphicon-calendar" id='datepicker_main'></span>
+                                </a>
+                            </span>          			
+                        </div>
+                        <a class="pointer prev_date_btn">Back</a>
+                        <a  class="pointer pull-right next_date_btn">Next</a>
+                    </div>
+                    <div class="col-sm-6">
+                    	
+	                	            {{customer_form.user}}
+				                    
+				                    {% if  customer_form.non_field_errors %}
+						                <div class="alert error alert-danger fade in">
+									    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+									    	<strong>Error!</strong>{{ customer_form.non_field_errors }}
+										</div>
+				               		 
+				               		 {%endif%}
+				                 
+					                       <div class="row">
+					                                <div class="form-group col-xs-10">
+					                                    
+					                                    {{customer_form.first_name}}
+					                                    {% if  customer_form.first_name.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.first_name.errors }}
+														</div>
+														{%endif%}
+					                     			 </div>
+					                     </div>
+					                     <div class="pad-5"></div>
+					                      <div class="row">
+					                                <div class="form-group col-xs-10">
+					                                  
+					                                    {{customer_form.last_name}}
+					                                    {% if  customer_form.last_name.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.last_name.errors }}
+														</div>
+														{%endif%}
+					                                </div>
+					                       </div>
+				                           <div class="pad-5"></div>
+				                           
+					                     	<div class="row">
+					                        	<div class="col-sm-10">
+					                        		
+					                                  	{{customer_form.phone_number_1}}
+					                                  	{% if  customer_form.phone_number_1.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.phone_number_1.errors }}
+														</div>
+														{%endif%}
+					                                
+					                       		 </div>
+					                        </div>  <div class="pad-5"></div>   
+					                        <div class="row">
+					                        	<div class="col-sm-10">
+						                            <div class="form-group">
+						                               
+						                                {{customer_form.email_1}}
+						                                {% if  customer_form.email_1.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.email_1.errors }}
+														</div>
+														{%endif%}
+													
+						                            </div>
+						                         </div>
+						                    </div><div class="pad-5"></div>
+						                   
+							  				<div class="pad-5"></div>
+							  				
+							  				 <div class="form-group"  >
+							    				<label class="checkbox">
+							      					 <span>
+							      					 How would you like us to contact you regarding this appointment?
+							      					</span>
+							      					
+							    				</label>
+							  				</div>
+							  			
+					                      <div class=" form-group">
+					                               
+					                                
+					                                    {{customer_form.method_of_contact}}
+					                                    {% if  customer_form.method_of_contact.errors %}
+								                    	 <div class="alert error alert-danger fade in">
+													    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+													    	<strong>Error!</strong>{{ customer_form.method_of_contact.errors }}
+														</div>
+														{%endif%}
+					                                
+					                      </div>
+					                      <p class="checkbox"><label><input type="checkbox" checked="" id='contact_me'>
+                        						<span>BMW may contact me about this appointment</span></label>
+                      					  </p> 
+					                       <p class="checkbox"><label>
+                        						<input type="checkbox" checked="" id="email_copy" name="email_copy"><span>
+                        						Please email me a copy of this confirmation</span></label>
+                       					 </p>   
+				                        
+				                          
+				                </div>
+				             
+	        
+                    </div>
+                
+                <div class="clear pad-10"></div>
+                <p>Add additional comments (optional)</p>
+                <textarea class="form-control mb-10" name="comments" placeholder="Add Comments" id="comments"></textarea>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-info" id="book_button">Book It</button>
+                </div>
+  			<input type="hidden" name="dealer_code" value="{{dealer_code}}"/>      
+  </form>               
+ <script>
+ 	
+ 	
+ 
+ 	$(document).ready(function(){
+ 		
+ 		$("#book_button").click(function(){
+ 			$("#slab_time").val($("#slab_date").data("value"))
+ 			
+ 			$("#way_away").removeClass("error");
+ 			$("#email_1").removeClass("error");
+ 			$("#phone_number_1").removeClass("error");
+ 			$("#slab_date").removeClass("error");
+ 			
+ 			if($("#way_away").val()==""){
+ 				$("#way_away").addClass("error");
+ 				error  = true;
+ 				
+ 			}
+ 			if($("#email_1").val()==""){
+ 				$("#email").addClass("error");
+ 				error  = true
+ 				
+ 			}
+ 			if($("#phone_number_1").val()==""){
+ 				$("#phone_number_1").addClass("error");
+ 				error  = true
+ 				
+ 			}
+ 			if($("#slab_date").val()==""){
+ 				$("#slab_date").addClass("error");
+ 				error  = true
+ 			}
+ 			
+ 			if(error == false){
+ 				alert("Here")
+ 				$("#loading_page").show();
+ 					$.ajax({
+ 						url:"{%url 'customer:save_appointment_now_ext'%}",
+ 						data:{"slab_time":$("#slab_date").data("value"),
+ 							"dealer_code":dealer_code,"advisor":$("#appointment_advisor").val(),
+ 							"way_away":$("#way_away").val(),"profile_id":$("#profile").val()
+ 							,"contact_me":$("#contact_me").is(":checked"),
+ 							"email_copy":$("#email_copy").is(":checked"),"comments":$("#comments").val()
+ 						}
+ 						,success:function(resp){
+ 							if(resp["success"]==false){
+ 								alert("Unable to save")
+ 							}else{
+ 								window.location = resp["redirect"]
+ 							}
+ 							$("#loading_page").hide();
+ 						},error:function(){
+ 							alert("There was an error saving result.Please try later")
+ 							$("#loading_page").hide();
+ 						}
+ 					})
+ 			}
+ 			
+ 		});
+ 		
+ 		
+ 		
+ 	})
+ 
+ </script>
+     

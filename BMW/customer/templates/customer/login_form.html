@@ -1,0 +1,40 @@
+{% extends "customer/layouts/index.html" %}
+{% load staticfiles i18n %}
+{% block submain%}
+<div class="row">
+                              			{%if  form.username.errors %}
+                              		   		 <div class="alert error alert-danger fade in">
+					    						<a href="#" class="close" data-dismiss="alert">&times;</a>
+					    						<strong>Error!</strong>{{ form.username.errors }}
+											</div>
+										{%endif%}
+                                		<form action="{% url 'customer:login' %}?dealer_code={{dealer_code}}" method="post">
+                                		{% csrf_token %}
+                                            <div class="col-sm-3">
+                                                <!--input type="text" class="form-control" placeholder="Usernam"-->
+                                                
+                    							{{ form.username }}
+                                                <div class="clear pad-5"></div>
+                                                <a href="{% url 'customer:userreset' %}?dealer_code={{dealer_code}}" class="TxtForget">Forgot my Username</a>
+                                            </div>
+                                            <div class="col-sm-3">
+                                            	{{ form.password }}
+                                                <!-- input type="password" class="form-control" placeholder="Password"-->
+                                                <div class="clear pad-5"></div>
+                                                <a href="{% url 'customer:passreset' %}?dealer_code={{dealer_code}}" class="TxtForget">Forgot my Password</a>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button value="Login" class="btn btn-info btn-block" type="submit">Login  <span class="glyphicon glyphicon-arrow-right ml-5" aria-hidden="true"></span></button>
+                                                
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label><input type="checkbox"> Remember me</label>
+                                            </div>
+                                            <input type="hidden" name="dealer_code" value="{{dealer_code}}"/>
+                                            <input type="hidden" name="referrer" value="{{request.referrer}}"/>
+                                        </form>
+                              		</div>
+                              		
+{% endblock %}
+                              		
+                              		

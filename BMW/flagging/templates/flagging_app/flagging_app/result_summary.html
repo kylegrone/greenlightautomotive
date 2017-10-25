@@ -1,0 +1,63 @@
+
+{% if not summary == None %}
+<div class="table-responsive"> 
+                            	<table class="table table-bordered"> 
+                                	<thead> 
+                                    	<tr> 
+                                        	<th>Inspection Item</th> 
+                                            <th>Findings</th> 
+                                            <th>Recommendations</th> 
+                                            <th>Specs</th> 
+                                        </tr> 
+                                    </thead> 
+                                    <tbody> 
+                                    	<tr> 
+                                        	 
+                                            <td colspan="4" class="bg_red"><strong>FAIL</strong></td>
+                                        </tr>
+                                        {% for s in summary %}
+                                        {% if s.status == "fail" %}
+                                        <tr> 
+                                        	<td>{{ s.inspection.item.item}}</td> 
+                                            <td>{{ s.observation }}</td> 
+                                            <td>{{ s.recommendations }}</td> 
+                                            <td>{{ s.specs }}</td> 
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                        
+                                        <tr> 
+                                        
+                                            <td colspan="4" class="bg_ylw"><strong>WARN</strong></td>
+                                        </tr>
+                                        {% for s in summary %}
+                                        {% if s.status == "warning" %}
+                                        <tr> 
+                                        	<td>{{ s.inspection.item.item}}</td> 
+                                            <td>{{ s.observation }}</td> 
+                                            <td>{{ s.recommendations }}</td> 
+                                            <td>{{ s.specs }}</td> 
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                       
+                                        <tr> 
+                                        	
+                                            <td colspan="4" class="bg_grn"><strong>PASS</strong></td>
+                                           
+                                        </tr>
+                                        {% for s in summary %}
+                                        {% if s.status == "pass" %}
+                                        <tr> 
+                                        	<td>{{ s.inspection.item.item}}</td> 
+                                            <td>{{ s.observation }}</td> 
+                                            <td>{{ s.recommendations }}</td> 
+                                            <td>{{ s.specs }}</td> 
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                      
+                                    </tbody> 
+                                </table> 
+                            </div>
+{% endif %}                            

@@ -1,0 +1,134 @@
+{% load staticfiles %}
+<link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+<link href="{% static "css/custom_chat.css" %}" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="{% static "css/style.css" %}" rel="stylesheet">
+<script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/sock.js" %}"></script>
+<script src="{% static "js/sha.js" %}"></script>
+
+<script src="{% static "js/centrifuge.js" %}"></script>
+<script src="{% static "js/livechat.js" %}"></script>
+
+
+	{% if advisor %}
+
+		<div class="chatbox" style="display:block">
+		     <div id="flip">
+		    					<div id="contact-button" class=""></div>Chat with Guest
+		  			  </div>
+		    <div id="panel">
+		           <div class="chat_box_main">
+		         	
+					        <div id="chat" >
+					        	<div class="media">
+					                <div class="media-left">
+					                    <a href="#"><img src="{% static "images/noimage.gif" %}" width="50" class="media-object img-circle" alt=""></a>
+					                </div>
+					                <div class="media-body">Now chatting with {{channel.guest_user}}</div>
+					                <div>  
+					                 	
+        							</div> 					
+					            </div>
+					            
+					            <div class="chat-erea clearfix chat_box_inner">
+					                
+					            </div>
+					            <div class="loading_chatbox">Loading...</div>
+					                <div class="extra_details_chatbox">Loading...</div>
+					            <div class="media">
+					                <div class="media-left">
+					                    <a href="#"><span src="{% static "images/noimage.gif" %}" width="50" class="glyphicon glyphicon-camera image_upload media-object img-circle" alt=""></span></a>
+					                </div>
+					                <div class="media-body">
+					                		<textarea class="form-control message_box"  id="messagebox" disabled="disabled"></textarea>
+					                </div>
+					                <div class="media-right">
+					                    <input type="button" disabled="disabled" href="#" class="btn btn-sm btn-info sendchat_button" value="send"/>
+					                </div>    					
+					            </div>
+					        </div>
+					   
+		        
+				           
+		           
+		           
+		        </div>
+		    </div>
+		</div>
+		<div class="hdn_form">
+					<form action="{% url 'livechat:upload' %}"" method="post" id="upload_form" enctype="multipart/form-data">
+										        {% csrf_token %} {{form}} 
+										        <input type="submit" value="Upload" id="submit_btn"/>
+					</form>
+		</div>
+		 {% endif %}
+		<script> 
+			$(document).ready(function(){
+				
+				var livechat = new liveChat()	;
+				livechat.centrifuge_url ="{{CENTRIFUGE_URL}}";
+				livechat.secret = "{{CENTRIFUGE_SECRET}}";
+				livechat.user = "{{advisor.username}}";
+				livechat.user_nick = "{{advisor.username}}";
+				livechat.chat_box = $(".chat_box_inner");
+				livechat.chat_message_box = $("#messagebox");
+				livechat.send_button = $(".sendchat_button")
+				livechat.channel = "{{channel.channel}}" 
+				livechat.setCentrifuge();
+				livechat.loading_el = $(".loading_chatbox");
+				livechat.extra_detials_el = $(".extra_details_chatbox");
+				livechat.setEvents();
+				livechat.connect();
+				
+				$("#contact-button").click(function(){	  
+						$("#contact-button").toggleClass("button-open");
+						$("#panel").slideToggle("slow");	
+						$('.chat_box_main').show();
+				
+			  });
+				  $('#upload_form').submit(upload);
+				    $('.image_upload').click(function(){
+				    	$("#id_pic").trigger("click")
+				    });
+				    $("#id_pic").change(function(){
+				    	$("#submit_btn").trigger("click");
+				    })
+				    $(".close_chat").click(function(){
+				    	$('.chat_box_main').hide();
+						$('.live_support_main').show();
+						
+				    })
+				function showloader(){
+					$('.loading_chatbox').show();
+				}
+				function hideloader(){
+					$('.loading_chatbox').hide();
+				}
+				function upload(event) {
+					event.preventDefault();
+					var data = new FormData($('#upload_form').get(0));
+					showloader()
+					$.ajax({
+					    url: $(this).attr('action'),
+					    type: $(this).attr('method'),
+					    data: data,
+					    cache: false,
+					    processData: false,
+					    contentType: false,
+					    success: function(data) {
+					    	livechat.sendImage(data["imgurl"])
+					        //livechat.uploadImage(data["/*  */imgurl"]);
+					    	hideloader()
+					    }
+					});
+					return false;
+				}
+
+				
+				
+			
+			});
+		</script>
+

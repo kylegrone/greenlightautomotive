@@ -1,0 +1,117 @@
+{% load staticfiles i18n %}
+<form method="POST" url="{% url 'customer:accountsettings' %}">
+{% csrf_token %}
+{{cc_form.user}}
+<input type="hidden" name="type" value="cc"/>
+			<div class="well collaps_main_container">
+                	<h5 class="mt-0">
+                    	<a href="#" class="text_blck"><i class="fa fa-minus-square-o fa-lg mr-10 collapse_button"></i></a> 
+                        Add Credit or Debit Card
+                    </h5>
+                   <div class="collapsable_div">
+	                    <div class="clear pad-10"></div>
+	                    
+	                    <div class="row form-horizontal">
+	                    	<div class="col-sm-4">
+	                        	<div class="form-group">
+	                            	<label class="col-xs-3 mt-10">First Name:</label>
+	                                <div class="col-xs-9">
+	                                     {{cc_form.first_name}}
+		                                    {% if  cc_form.first_name.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ cc_form.first_name.errors }}
+											</div>
+											{%endif%}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                            	<label class="col-xs-3 mt-10">Last Name:</label>
+	                            	<div class="col-xs-9">
+	                                {{cc_form.last_name}}
+		                                    {% if  cc_form.last_name.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ cc_form.last_name.errors }}
+											</div>
+											{%endif%}
+									</div>
+	                            </div>
+	                        </div>
+	                        <div class="col-sm-4">
+	                        	<div class="form-group">
+	                            	<label class="col-xs-3 mt-10">Card Type:</label>
+	                                <div class="col-xs-9">
+	                                    {{cc_form.card_type}}
+		                                    {% if  cc_form.card_type.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ cc_form.card_type.errors }}
+											</div>
+											{%endif%}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                            	<label class="col-xs-3 mt-10">Card #:</label>
+	                                <div class="col-xs-9">
+	                                    {{cc_form.card_number}}
+		                                    {% if  cc_form.card_number.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ cc_form.card_number.errors }}
+											</div>
+											{%endif%}
+											<div class='pad-5'></div>
+	                                    <img src="{% static 'customer/images/cards.png' %}" class="img-responsive">
+	                                </div>                                
+	                            </div>
+	                        </div>
+	                        <div class="col-sm-4">
+	                        	<div class="form-group">
+	                            	<label class="col-xs-3">Expiration Date:</label>
+	                                <div class="col-xs-5">
+	                                    {{cc_form.card_exp_year}}
+		                                    {% if  cc_form.card_exp_year.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ cc_form.card_exp_year.errors }}
+											</div>
+											{%endif%}
+	                                </div>
+	                                <div class="col-xs-4">
+	                                    {{cc_form.card_exp_month}}
+		                                    {% if  cc_form.card_exp_month.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ cc_form.card_exp_month.errors }}
+											</div>
+											{%endif%}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                            	<label class="col-xs-3">Card Varification Code #:</label>
+	                                <div class="col-xs-9">
+	                                    {{cc_form.card_ver_number}}
+		                                    {% if  cc_form.card_ver_number.errors %}
+					                    	 <div class="alert error alert-danger fade in">
+										    	<a href="#" class="close" data-dismiss="alert">&times;</a>
+										    	<strong>Error!</strong>{{ cc_form.card_ver_number.errors }}
+											</div>
+											{%endif%}
+											<div class='pad-5'></div>
+	                                    <i class="fa fa-credit-card mr-5"></i> On the back of your card, find 3 digits
+	                                </div>                                
+	                            </div>
+	                        </div>
+	                    </div>
+		                      <div class="row">
+			                          		   <div class="col-xs-6">
+			                        	  			<button type="submit" class="btn btn-info">Save </button>
+			                        	  		</div>
+			                  </div>
+		                    
+		            </div>
+	            </div>
+               
+                
+    </form>

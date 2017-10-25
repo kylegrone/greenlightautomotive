@@ -1,0 +1,153 @@
+{% extends 'mobilecheckin/base.html' %}
+{% load staticfiles %}
+{% block main %}
+<div class="clear pad-15"></div>
+<div class="container-fluid">
+{% include 'mobilecheckin/appointments/filters.html' %} 
+{% include 'mobilecheckin/appointments/daily_time.html' %}
+
+{% include "dealership/app/dropdown-menu.html" %}
+</div>
+<div class="clear pad-5"></div>
+{% include "mobilecheckin/appointments/walkin.html"%}
+
+{% endblock %}
+{% block js %}
+{{ block.super }}
+<script src="{% static "js/walkin.js" %}"></script>
+	<script>
+	var walkin_appointment ="{% url 'mobilecheckin:walkin_appointment' %}"
+	var walkin_search ="{% url 'mobilecheckin:walkin_search' %}"
+	var advisor_id = "{{ request.user.id }}" 
+		$(document).ready(function() {			
+			var date = moment();
+			window.mobilecheckinAppointment = new MobileCheckinAppointment();
+			window.mobilecheckinAppointment.setEventListeners();	
+			//window.mobilecheckinAppointment.loadAppointmentSlots(date, advisor_id);
+			window.mobilecheckinAppointment.loadAppointmentSlots(date, null);
+			
+			window.puller = new messagePuller();
+			window.puller.centrifuge_url ="{{config.CENTRIFUGE_URL}}";
+			window.puller.secret = "{{config.CENTRIFUGE_SECRET}}";
+			window.puller.channel = "{{config.dealer_id}}";
+			window.puller.user = "demo";
+			window.puller.addWidgets(
+					{"name":"update","callback":window.mobilecheckinAppointment.setupRealTimeUpdates,
+					"services_listening_to":["appointments"]
+					}								
+			);			
+			window.puller.setCentrifuge();
+			window.puller.connect();
+			
+		});
+		
+		function getdetails(id){
+			 showAppointmentDetail(id);
+		}
+		
+		function MobileCheckinAppointment(){
+			var self = this;
+			this.template = 'mobilecheckin/appointments/time_daily_slab.html';
+				window.dealershipOverview = new DealershipOverview();
+				
+				this.setEventListeners = function(){
+					/*
+					$('.input-group.date').datepicker({
+						format: 'DD M dd, yyyy',
+						todayHighlight: true,
+					}).on('hide', function(e) {
+						var date = moment();
+				        self.loadAppointmentSlots(date);
+				    });
+				    */
+				   
+				   
+				    $(document.body).on('submit', '.search_form_checkin', function(event) {
+					    event.preventDefault();
+					    var data = $(this).serializeArray();
+					    window.dealershipOverview.overviewTimeDailySearch(data[0].value, data[1].value);
+			       		return false;
+					}); 
+		
+				    $('.date-appt').datepicker({
+				    	todayHighlight: true,
+				    }).on('changeDate', function(e){
+				    	var selected_date = $('.date-appt').datepicker('getDate');
+				    	
+				    	//self.loadAppointmentSlots(moment(selected_date),advisor_id);
+				    	self.loadAppointmentSlots(moment(selected_date),null);
+				    });
+		    
+					$(document.body).on('click', '.appointment_row .customer', function(event) {	
+			    		window.dealershipOverview.showAppointmentDetail($(this).attr('vehicle_id'), $(this).attr('customer_id'), $(this).attr('rel'), true,$(this).attr('appt_status'));
+					}); 
+				
+					$(document.body).on('mouseover', '.dd_status_title', function(event) {
+						//$(this).closest('.dropdown').append("<div></div>");		
+						$(this).siblings().html($("#dd_status_menu").html());				
+					});  
+					
+					$(document.body).on('mouseover', '.dd_wayaway_title', function(event) {	
+						$(this).siblings().html($("#dd_wayaway_menu").html());				
+					}); 
+					
+					$(document.body).on('click', '.dropdown-menu a', function(event) {	
+						$(this).changeAppointment();			
+					});	
+					
+					$(document.body).on('click', '.HeadRow', function(event) {		
+						$(this).next().slideToggle();
+			            $(this).find(".glyphicon-chevron-down").toggleClass("hide");
+			            $(this).find(".glyphicon-chevron-up").toggleClass("hide");
+					});
+			};
+			
+			this.loadAppointmentSlots = function(date, advisor_id){
+				$('#mobilecheckin-date').html(date.format('dddd MMMM DD, YYYY').toUpperCase());
+				var url = "{% url 'dealership:ov_time_daily' %}?date="+date.format('YYYY-MM-DD HH:mm')+"&q=time";
+	    
+				$.ajax({
+		            url: url,
+		            type: "get",
+		            success: function(response) { 
+		            	
+		            	$('#overview_time_daily .daily_view_table').remove();
+					
+						//var result =  $($.parseHTML(response)).filter("#ajax_main_content");  
+	            		window.dealershipOverview.shopOpenTime = moment($($.parseHTML(response)).filter(".open-time")[0].innerHTML);
+						window.dealershipOverview.shopCloseTime = moment($($.parseHTML(response)).filter(".close-time")[0].innerHTML);
+						window.dealershipOverview.timeSlot = $($.parseHTML(response)).filter(".slot-duration")[0].innerHTML;
+						console.info(window.dealershipOverview.shopOpenTime);
+						console.info(window.dealershipOverview.shopCloseTime);
+	                	//$('#main_content').html(result[0].innerHTML);
+						
+						window.dealershipOverview.overviewTimeDaily('#overview_time_daily', self.template, advisor_id);
+					}
+				});
+			};
+			
+			
+			this.setupRealTimeUpdates = function(obj)
+			{
+				var new_data = eval("(" + obj['data']["new_data"] + ')');
+				var old_data = eval("(" + obj['data']["old_data"] + ')');
+				
+				var old_date = moment(old_data[0]["fields"]["start_time"], "YYYY-MM-DD[T]HH:mm:ss[Z]");
+				var old_slab_id = old_date.format("[#time_daily_slab_]YYYY_MM_DD_HH_mm");
+				if($(old_slab_id).length) {
+					window.dealershipOverview.getTimeDailySlab(null, old_date, old_slab_id, self.template);					 
+				}
+				
+				var new_date = moment(new_data[0]["fields"]["start_time"], "YYYY-MM-DD[T]HH:mm:ss[Z]");
+				var new_slab_id = new_date.format("[#time_daily_slab_]YYYY_MM_DD_HH_mm");			
+				if($(new_slab_id).length && new_slab_id != old_slab_id) 
+				{
+					window.dealershipOverview.getTimeDailySlab(null, new_date, new_slab_id, self.template);					 
+				}
+			};
+			
+			
+		}
+		
+	</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+<div class="row">
+                <div class="InspectionAccordionAdd mt-20">
+                    <div class="col-sm-3">
+                        <div class="InspectionAccordionAvalaible">
+                            <p class="InspectionListHead"><b>Available Inspection Items</b></p>
+                            <form>
+                                <select multiple="multiple" class="form-control CustListCont itemslist" style="">
+                                {% for obj in items %}
+                                    <option value="{{obj.id}}">{{obj.item}}</option>
+                                {% endfor %}    
+                                </select>
+                            </form>
+                            <a href="#" class="btn btn-default" data-toggle="modal" data-target=".addnewitem"><span class="glyphicon glyphicon-plus mr-10" aria-hidden="true"></span>Add New Inspection Item to List</a>
+                        </div>
+                    </div>
+                    <div style="" class="col-sm-2 InspectionAccordionAddRemove">
+                        <button type="button" class="btn btn-info BtnAddInspection addcatitems">
+                            <span class="AddListBtnTxt">Add</span>
+                            <span class="AddListBtnArrows"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+
+                        </button>
+                        <button class="btn btn-info mt-10 BtnRemoveInspection removecatitems" type="button">
+                            <span class="RemoveListBtnArrows"><span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span><span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span></span><span class="RemoveListBtnTxt">Remove</span>
+                        </button>
+                        <button class="btn btn-info mt-10 BtnRemoveInspection deletecatitems" type="button">
+                            <span class="RemoveListBtnTxt">Delete Item</span>
+                        </button>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="InspectionAccordionSelected">
+                            <p class="InspectionListHead"><b>Selected Inspection Items</b></p>
+                            <form>
+                                <select multiple="multiple" class="form-control CustListCont catitemlist">
+                                    {% for obj in cat_items %}
+                                    <option value="{{obj.id}}">{{obj.item.item}}</option>
+                                    {% endfor%}
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>

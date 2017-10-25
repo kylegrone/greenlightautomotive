@@ -1,0 +1,184 @@
+{% extends 'dealership/subbase.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="appointment-page">
+	{% block operations %}
+		{% include "dealership/app/operations.html" %}  
+	{% endblock %}
+
+	<div class="container-fluid pad-0 ">
+	    <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+	        <div id="appointment" class="panel panel-default">
+	            <div class="panel-heading wht-heading" role="tab" id="appointments">
+	                <h6 class="panel-title">
+	                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#appointment1" 
+	                    aria-expanded="false" aria-controls="appointment">Appointments <i class="fa fa-plus-circle text_blue pull-right"></i></a>
+	                </h6>
+	            </div>
+	            <div  id="appointment1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="appointments">
+	                <div class="panel-body ajax-content">
+	                    {% include "appointment/appointments.html" %}  
+	                </div>
+	            </div>
+	        </div>
+	        <div id="customer-appointment" class="panel panel-default">
+	            <div class="panel-heading wht-heading" role="tab" id="details">
+	                <h5 class="panel-title">
+	                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#appointment2" 
+	                    aria-expanded="false" aria-controls="vehicles">Customer Detail & Vehicles <i class="fa fa-plus-circle text_blue pull-right"></i></i></a>
+	                </h5>
+	            </div>
+	            <div id="appointment2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="details">
+	                <div class="panel-body ajax-content">
+	                    
+	                </div>
+	            </div>
+	        </div>
+	        <div id="repair-appointment" class="panel panel-default">
+	            <div class="panel-heading wht-heading" role="tab" id="services">
+	                <h5 class="panel-title">
+	                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#appointment3" 
+	                    aria-expanded="false" aria-controls="repair">Select Services or Repair <i class="fa fa-plus-circle text_blue pull-right"></i></i></a>
+	                </h5>
+	            </div>
+	            <div  id="appointment3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="services">
+	                <div class="panel-body ajax-content">
+	                	{% include "appointment/rservices.html" %} 
+	                </div>
+	                <div class="text-right mr-15 mb-15"><a class="btn btn-info servicesdone" id="servicesdone">Done</a></div>
+	            </div>
+	        </div>
+	        <div id="wayaway-appointment" class="panel panel-default">
+	            <div class="panel-heading wht-heading" role="tab" id="way">
+	                <h5 class="panel-title">
+	                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#appointment4" 
+	                    aria-expanded="false" aria-controls="away">Select A Way Away <i class="fa fa-plus-circle text_blue pull-right"></i></i></a>
+	                </h5>
+	            </div>
+	            <div id="appointment4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="way">
+	                <div class="panel-body ajax-content"> 
+	                </div>
+	            </div>
+	        </div>
+	        <div id="time-appointment" class="panel panel-default">
+	            <div class="panel-heading wht-heading" role="tab" id="date">
+	                <h5 class="panel-title">
+	                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#appointment5" 
+	                    aria-expanded="false" aria-controls="time">Select Date & Time <i class="fa fa-plus-circle text_blue pull-right"></i></i></a>
+	                </h5>
+	            </div>
+	            <div id="appointment5"  class="panel-collapse collapse" role="tabpanel" aria-labelledby="date">
+	                <div class="panel-body ajax-content">
+	                </div>
+	            </div>
+	        </div>    
+	    </div>
+	    <div class="text-right mt-15"><a id="btn_create_appointment" class="btn btn-info disabled hidden">Create Appointment</a></div>
+	</div>
+	<div class="clear pad-5"></div>
+	
+	{% include "customers/partials/customers_add_modal.html" %} 
+	{% include "customers/partials/customers_advisor_modal.html" %} 
+	{% include "appointment/partials/confirmation_modal.html" %} 
+	{% include "overview/carryover_time.html" %}
+
+</div>
+{% endblock %}
+
+{% block script %}
+
+	{{ block.super }}
+	
+	<script src="{% static "js/dealership_customer.js" %}"></script>
+	<script src="{% static "js/dealership_appointment.js" %}"></script>
+	<script src="{% static "js/dealership_overview.js" %}"></script>
+	<script src="{% static "customer/js/vehicle_selection.js" %}"></script>
+	<script src="{% static "customer/js/ServiceSelection.js" %}"></script>
+	<script src="{% static "customer/js/advisor_selection.js" %}"></script>
+	
+	<script>		
+		$(document).ready(function() {	
+			var dealer_code = "{{ config.dealer_code }}";
+			
+			window.dealershipAppointment = new DealershipAppointment();
+			window.dealershipAppointment.search = "{{ qstring.search }}";
+			window.dealershipAppointment.criteria = "{{ qstring.criteria }}";
+			window.dealershipAppointment.panel = "{{ qstring.panel }}";
+			window.dealershipAppointment.flow = "{{ qstring.flow }}";
+			window.dealershipAppointment.cust_id = "{{ qstring.customer_id }}";
+			window.dealershipAppointment.appt_id = "{{ qstring.appointment_id }}";
+			window.dealershipAppointment.vehicle_id = "{{ qstring.vehicle_id }}";
+			//window.dealershipAppointment.book_id = "{{ qstring.book_id }}";
+			window.dealershipAppointment.dealer_id = "{{ config.dealer_id }}";
+			window.dealershipAppointment.dealer_code = "{{ config.dealer_code }}";
+			
+			window.dealershipOverview = new DealershipOverview();	
+			window.dealershipOverview.appt_id = "{{ qstring.appointment_id }}";		
+			window.dealershipOverview.search = "{{ qstring.search }}";
+			window.dealershipOverview.criteria = "{{ qstring.criteria }}";
+			window.dealershipOverview.cust_id = "{{ qstring.customer_id }}";
+			window.dealershipOverview.dealer_code = "{{ config.dealer_code }}";
+	
+			window.dealershipOverview.setEventListeners();	
+			window.dealershipAppointment.setEventListeners();	
+			
+			window.dealershipCustomer = new DealershipCustomer();
+			window.dealershipCustomer.dealer_code = "{{ config.dealer_code }}";
+			window.dealershipCustomer.setEventListeners();
+			window.dealershipCustomer.getVehicleWidget({{vehicles|safe}});
+			
+			
+			window.puller = new messagePuller();
+			window.puller.centrifuge_url ="{{config.CENTRIFUGE_URL}}";
+			window.puller.secret = "{{config.CENTRIFUGE_SECRET}}";
+			window.puller.channel = "{{config.dealer_id}}";
+			window.puller.user = "demo";
+			window.puller.addWidgets(
+					{"name":"update","callback":window.dealershipOverview.setupRealTimeUpdates,
+					"services_listening_to":["appointments"]
+					}								
+			);			
+			window.puller.setCentrifuge();
+			window.puller.connect();
+				
+			switch(window.dealershipAppointment.panel) {
+			    case "customer":
+			    	var panel_id = "#customer-appointment";
+			    	window.dealershipAppointment.switchAccordian(panel_id);			    	
+			        window.dealershipAppointment.getCustomerForAppointment(panel_id, window.dealershipAppointment.cust_id);
+			        break;
+			    case "service":
+			    	var panel_id = "#repair-appointment";
+			    	window.dealershipAppointment.switchAccordian(panel_id);			
+			    	//window.dealershipAppointment.getServicesForAppointment(url_appointment_services, panel_id, appt_id);    	
+			        window.dealershipAppointment.getServicesForAppointment(window.dealershipAppointment.appt_id);
+			        break;
+			    case "wayaway":
+			    	var panel_id = "#wayaway-appointment";
+			    	window.dealershipAppointment.switchAccordian(panel_id);
+			    	var panelObject = {'cust_id':window.dealershipAppointment.cust_id,
+			    					   'panel_id':panel_id, 
+			    					   'callback':window.dealershipAppointment.saveWayAwayForAppointmentCallback};
+			        window.dealershipAppointment.getWayAwayForAppointment(url_appointment_wayaway, 
+			        														window.dealershipAppointment.appt_id, 
+			        														panelObject);
+			        break;
+			    case "time":
+			    	var panel_id = "#time-appointment";
+			    	window.dealershipAppointment.switchAccordian(panel_id);
+			    	window.dealershipAppointment.getTimeForAppointment(url_appt_update_time_template, 
+			    													   window.dealershipAppointment.appt_id, 
+			    													   {'panel_id':panel_id, 'callback':window.dealershipAppointment.timeSelectionCallback});
+			    	break;
+			    default:
+			    	var panel_id = "#appointment";
+			    	window.dealershipAppointment.switchAccordian(panel_id);			    	
+			    	window.dealershipOverview.setOverviewFilters();
+			        break;
+			}	
+						
+		});	
+			  
+	</script>
+{% endblock %}

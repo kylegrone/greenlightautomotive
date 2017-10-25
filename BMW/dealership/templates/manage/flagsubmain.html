@@ -1,0 +1,20 @@
+<div class="row">
+            <div class="col-sm-4">
+                <div class="EditFlagCont clearfix">
+                    <div class="list-group FlagList">
+                    {% for obj in flags %}
+                        <a class="list-group-item" id="flagtype{{obj.type}}" value="{{obj.data}}"> Flag {{obj.type}}</a>
+                    {% endfor %}
+                    </div>
+                    <div class="FlagListItemsCont">
+                        <input id="FlagItemSearchField" class="FlagItemAutoSearch" placeholder="Search">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <button class="btn btn-default"  data-toggle="modal" data-target=".addflag">Add to List</button>
+            </div>
+        </div>
+        
+        {% include "manage/editflag.html" %}
